@@ -1,0 +1,369 @@
+﻿@{
+	DateTime date = DateTime.TryParse("01." + Request.QueryString.Get("date")?.Replace('_', '.'), out DateTime d)
+		? d
+		: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+	int i = 0;
+
+	ViewBag.Title = "ОБЩИЙ_ОТПУСК_ТЕПЛА";
+	ViewBag.Date = date;
+	Layout = "~/Views/Shared/_ПарLayout.cshtml";
+
+	string[] H = new[] {
+		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+		"AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ",
+		"BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ",
+	};
+
+	byte k = 0;
+}
+
+<table>
+	<thead>
+		<tr class="numbers">
+			<th rowspan="4" class="bR"></th>
+			@for (int o = 0; o < 19; o++)
+			{
+				<th row="@H[k]">@H[k++]</th>
+			}
+		</tr>
+		@{ k = 0; }
+		<tr>
+			<th row="@H[k++]" rowspan="2" class="bR bB">Дата</th>
+			<th row="@H[k++]" class="header">G<sub>пар</sub></th>
+			<th row="@H[k++]" class="header">Gм<sub>пар</sub></th>
+			<th row="@H[k++]" class="header">Q<sub>пар</sub></th>
+			<th row="@H[k++]" class="header">Qм<sub>пар</sub></th>
+			<th row="@H[k++]" class="header">G<sub>кон</sub></th>
+			<th row="@H[k++]" class="header">Gм<sub>кон</sub></th>
+			<th row="@H[k++]" class="header">Q<sub>кон</sub></th>
+			<th row="@H[k++]" class="header">Qм<sub>кон</sub></th>
+			<th row="@H[k++]" class="header">Q<sub>пол</sub></th>
+			<th row="@H[k++]" class="header">Qм<sub>пол</sub></th>
+			<th row="@H[k++]" class="header">Q<sub>гв</sub></th>
+			<th row="@H[k++]" class="header">Qм<sub>гв</sub></th>
+			<th row="@H[k++]" class="header">Q<sub>общ</sub></th>
+			<th row="@H[k++]" class="bR header">Qм<sub>общ</sub></th>
+			<th row="@H[k++]" class="header">tХИ<sub>ДОК</sub></th>
+			<th row="@H[k++]" class="header">tХИ<sub>пртп КИМ</sub></th>
+			<th row="@H[k++]" class="header">tист<sub>св</sub></th>
+			<th row="@H[k++]" class="header">tист<sub>ср</sub></th>
+		</tr>
+		@{ k = 0; }
+		<tr class="metrica">
+			<th row="@H[k++]">Тонн</th>
+			<th row="@H[k++]">Тонн</th>
+			<th row="@H[k++]">ГКал</th>
+			<th row="@H[k++]">ГКал</th>
+			<th row="@H[k++]">Тонн</th>
+			<th row="@H[k++]">Тонн</th>
+			<th row="@H[k++]">ГКал</th>
+			<th row="@H[k++]">ГКал</th>
+			<th row="@H[k++]">ГКал</th>
+			<th row="@H[k++]">ГКал</th>
+			<th row="@H[k++]">ГКал</th>
+			<th row="@H[k++]">ГКал</th>
+			<th row="@H[k++]">ГКал</th>
+			<th row="@H[k++]" class="bR">ГКал</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+		</tr>
+	</thead>
+	<tbody>
+		@using (var db = new DatabaseContext())
+		{
+			var model = from ОБЩИЙ_ОТПУСК_ТЕПЛА in db.ОБЩИЙ_ОТПУСК_ТЕПЛА
+						from ДОК in db.ДОК.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+						from ПаротрассаКИМ in db.ПаротрассаКИМ.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+						from НОВАЯ_ГОРВДОК in db.НОВАЯ_ГОРВДОК.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+						from НОВАЯ_ГОРВОТЧЕТ in db.НОВАЯ_ГОРВОТЧЕТ.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+						from НОВАЯ_ГОРВЛУЧЕСА in db.НОВАЯ_ГОРВЛУЧЕСА.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+						from НОВАЯ_ГОРВМОНОЛИТ in db.НОВАЯ_ГОРВМОНОЛИТ.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+						from НОВАЯ_ГОРВЗАПАДНАЯ in db.НОВАЯ_ГОРВЗАПАДНАЯ.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+						from НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ in db.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+						where ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec >= date && ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec < date.AddMonths(1)
+						orderby ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec
+						select new
+						{
+							DateRec = ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec,
+							Gпар = Math.Round(ДОК.GkП22 ?? 0) + Math.Round(ДОК.GkП33 ?? 0) + Math.Round(ПаротрассаКИМ.GkП ?? 0),
+							Qпар = Math.Round(ДОК.QП22 ?? 0, 1) + Math.Round(ДОК.QП33 ?? 0, 1) + Math.Round(ПаротрассаКИМ.QП ?? 0, 1),
+							Gкон = Math.Round(ДОК.GK ?? 0) + Math.Round(ПаротрассаКИМ.GK ?? 0),
+							Qкон = Math.Round(ДОК.QK ?? 0, 1) + Math.Round(ПаротрассаКИМ.QK ?? 0, 1),
+							Qпол = Math.Round(ДОК.QПОЛ ?? 0, 1) + Math.Round(ПаротрассаКИМ.QПОЛ ?? 0, 1),
+							Qгв = Math.Round(НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.xQ ?? 0, 1) + Math.Round(НОВАЯ_ГОРВЗАПАДНАЯ.xQ ?? 0, 1) + Math.Round(НОВАЯ_ГОРВМОНОЛИТ.xQ ?? 0, 1) + Math.Round(НОВАЯ_ГОРВДОК.xQ ?? 0, 1) + Math.Round(НОВАЯ_ГОРВЛУЧЕСА.xQ ?? 0, 1) + Math.Round(НОВАЯ_ГОРВОТЧЕТ.Qподп ?? 0, 1),
+							tmp = ОБЩИЙ_ОТПУСК_ТЕПЛА.tmp ?? 0,
+							tХИ_док = ДОК.tХИ ?? 0,
+							tХИ_пртр_ким = ПаротрассаКИМ.tХИ ?? 0,
+							xTист_св = НОВАЯ_ГОРВОТЧЕТ.xТист_св ?? 0,
+						};
+
+			foreach (var x in model)
+			{
+				i++;
+				k = 0;
+
+		<tr>
+			<td class="numbers">@i</td>
+			<td row="@H[k++]" class="bR date">@x.DateRec.ToString("dd.MM.yyyy")</td>
+
+			<td row="@H[k++]">
+				<input data-id="B@(i)"
+					   class="calculated"
+					   value="@x.Gпар" />
+			</td>
+			<td row="@H[k++]">
+				@if (i == 1)
+				{
+					<input data-id="C@(i)"
+						   class="calculated"
+						   ondrag="B@(i)" />
+				}
+				else
+				{
+					<input data-id="C@(i)"
+						   class="calculated"
+						   ondrag="B@(i) + C@(i - 1)" />
+				}
+			</td>
+			<td row="@H[k++]">
+				<input data-id="D@(i)"
+					   class="calculated"
+					   value="@x.Qпар" />
+			</td>
+			<td row="@H[k++]">
+				@if (i == 1)
+				{
+					<input data-id="E@(i)"
+						   class="calculated"
+						   ondrag="D@(i)" />
+				}
+				else
+				{
+					<input data-id="E@(i)"
+						   class="calculated"
+						   ondrag="D@(i) + E@(i - 1)" />
+				}
+			</td>
+			<td row="@H[k++]">
+				<input data-id="F@(i)"
+					   class="calculated"
+					   value="@x.Gкон" />
+			</td>
+			<td row="@H[k++]">
+				@if (i == 1)
+				{
+					<input data-id="G@(i)"
+						   class="calculated"
+						   ondrag="F@(i)" />
+				}
+				else
+				{
+					<input data-id="G@(i)"
+						   class="calculated"
+						   ondrag="F@(i) + G@(i - 1)" />
+				}
+			</td>
+			<td row="@H[k++]">
+				<input data-id="H@(i)"
+					   class="calculated"
+					   value="@x.Qкон" />
+			</td>
+			<td row="@H[k++]">
+				@if (i == 1)
+				{
+					<input data-id="I@(i)"
+						   class="calculated"
+						   ondrag="H@(i)" />
+				}
+				else
+				{
+					<input data-id="I@(i)"
+						   class="calculated"
+						   ondrag="H@(i) + I@(i - 1)" />
+				}
+			</td>
+			<td row="@H[k++]">
+				<input data-id="J@(i)"
+					   class="marked"
+					   value="@x.Qпол" />
+			</td>
+			<td row="@H[k++]">
+				@if (i == 1)
+				{
+					<input data-id="K@(i)"
+						   class="marked"
+						   ondrag="J@(i)" />
+				}
+				else
+				{
+					<input data-id="K@(i)"
+						   class="marked"
+						   ondrag="J@(i) + K@(i - 1)" />
+				}
+			</td>
+			<td row="@H[k++]">
+				<input data-id="L@(i)"
+					   class="marked"
+					   value="@x.Qгв" />
+			</td>
+			<td row="@H[k++]">
+				@if (i == 1)
+				{
+					<input data-id="M@(i)"
+						   class="marked"
+						   ondrag="L@(i)" />
+				}
+				else
+				{
+					<input data-id="M@(i)"
+						   class="marked"
+						   ondrag="L@(i) + M@(i - 1)" />
+				}
+			</td>
+			<td row="@H[k++]">
+				<input data-id="N@(i)"
+					   class="calculated"
+					   ondrag="J@(i) + L@(i)" />
+			</td>
+			<td row="@H[k++]" class="bR">
+				@if (i == 1)
+				{
+					<input data-id="O@(i)"
+						   class="calculated"
+						   ondrag="N@(i)" />
+				}
+				else
+				{
+					<input data-id="O@(i)"
+						   class="calculated"
+						   ondrag="N@(i) + O@(i - 1)" />
+				}
+			</td>
+			<td row="@H[k++]">
+				<input data-id="R@(i)"
+					   class="calculated"
+					   value="@x.tХИ_док" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="S@(i)"
+					   class="calculated"
+					   value="@x.tХИ_пртр_ким" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="T@(i)"
+					   class="calculated"
+					   value="@x.xTист_св" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="U@(i)"
+					   class="calculated"
+					   ondrag="(R@(i) + S@(i) + T@(i)) / 3" />
+			</td>
+		</tr>
+
+			}
+		}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="2" class="bR">Суммарное</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="bR"></td>
+			<td>
+				<input data-id="R_1"
+					   class="calculated"
+					   ondrag="СУММ('R')" />
+			</td>
+			<td>
+				<input data-id="S_1"
+					   class="calculated"
+					   ondrag="СУММ('S')" />
+			</td>
+			<td>
+				<input data-id="T_1"
+					   class="calculated"
+					   ondrag="СУММ('T')" />
+			</td>
+			<td>
+				<input data-id="U_1"
+					   class="calculated"
+					   ondrag="СУММ('U')" />
+			</td>
+		</tr>
+		@{ 
+			int days = date.AddMonths(1) > DateTime.Now ? (int)((DateTime.Now - date).TotalDays) : DateTime.DaysInMonth(date.Year, date.Month);
+		}
+		<tr>
+			<td colspan="2" class="bR">Среднее</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="bR"></td>
+			<td>
+				<input data-id="R_2"
+					   class="calculated"
+					   ondrag="R_1 / @days" />
+			</td>
+			<td>
+				<input data-id="S_2"
+					   class="calculated"
+					   ondrag="S_1 / @days" />
+			</td>
+			<td>
+				<input data-id="T_2"
+					   class="calculated"
+					   ondrag="T_1 / @days" />
+			</td>
+			<td>
+				<input data-id="U_2"
+					   class="calculated"
+					   ondrag="U_1 / @days" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="bR">Средневзв.</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="bR"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tfoot>
+</table>

@@ -1,0 +1,315 @@
+﻿@{
+	DateTime date = DateTime.TryParse("01." + Request.QueryString.Get("date")?.Replace('_', '.'), out DateTime d)
+		? d
+		: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+	int i = 0;
+
+	ViewBag.Title = "СВОДНЫЙ_ЖУРНАЛ";
+	ViewBag.Date = date;
+	Layout = "~/Views/Shared/_ПарLayout.cshtml";
+
+	string[] H = new[] {
+		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+		"AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ",
+		"BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ",
+	};
+
+	byte k = 0;
+}
+
+<table>
+	<thead>
+		<tr class="numbers">
+			<th rowspan="4" class="bR"></th>
+			@for (int o = 0; o < 22; o++)
+			{
+				<th row="@H[k]">@H[k++]</th>
+			}
+		</tr>
+		<tr>
+			<th rowspan="2" class="bR bB">Дата</th>
+			<th rowspan="2" class="bR bB"></th>
+			<th class="header" colspan="2">Паратрасса "КИМ" (счетчик ТЭЦ)</th>
+			<th class="header" colspan="2">ВКШТ(зачтенные)</th>
+			<th class="header" colspan="2">КОВРЫ(зачтенные)</th>
+			<th class="header bR" colspan="2">РУБИКОН(зачтенные)</th>
+			<th class="header bR" colspan="2">потери с паром</th>
+			<th class="header" colspan="2">Паратрасса "КИМ" (счетчик ТЭЦ)</th>
+			<th class="header" colspan="2">ВКШТ</th>
+			<th class="header" colspan="2">КОВРЫ</th>
+			<th class="header bR" colspan="2">РУБИКОН</th>
+			<th class="header" colspan="2">потери с конденсатом</th>
+		</tr>
+		@{ k = 2; }
+		<tr class="metrica">
+			<th row="@H[k++]">Gпара, тонн</th>
+			<th row="@H[k++]">Qпара, Гкал</th>
+			<th row="@H[k++]">Gпара, тонн</th>
+			<th row="@H[k++]">Qпара, Гкал</th>
+			<th row="@H[k++]">Gпара, тонн</th>
+			<th row="@H[k++]">Qпара, Гкал</th>
+			<th row="@H[k++]">Gпара, тонн</th>
+			<th row="@H[k++]" class="bR">Qпара, Гкал</th>
+			<th row="@H[k++]">Gпара, тонн</th>
+			<th row="@H[k++]" class="bR">Qпара, Гкал</th>
+			<th row="@H[k++]">Gконд, тонн</th>
+			<th row="@H[k++]">Qконд, Гкал</th>
+			<th row="@H[k++]">Gконд, тонн</th>
+			<th row="@H[k++]">Qконд, Гкал</th>
+			<th row="@H[k++]">Gконд, тонн</th>
+			<th row="@H[k++]">Qконд, Гкал</th>
+			<th row="@H[k++]">Gконд, тонн</th>
+			<th row="@H[k++]" class="bR">Qконд, Гкал</th>
+			<th row="@H[k++]">Gконд, тонн</th>
+			<th row="@H[k++]">Qконд, Гкал</th>
+		</tr>
+	</thead>
+	<tbody>
+		@using (var db = new DatabaseContext())
+		{
+			var model = from ОБЩИЙ_ОТПУСК_ТЕПЛА in db.ОБЩИЙ_ОТПУСК_ТЕПЛА
+						from ВКШТ in db.ВКШТ.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+						from КОВРЫ in db.КОВРЫ.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+						from РУБИКОН in db.РУБИКОН.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+						from ПаротрассаКИМ in db.ПаротрассаКИМ.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+						where ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec >= date && ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec < date.AddMonths(1)
+						orderby ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec
+						select new
+						{
+							DateRec = ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec,
+							ПаротрассаКИМ,
+							ВКШТ,
+							КОВРЫ,
+							РУБИКОН,
+						};
+
+			foreach (var x in model)
+			{
+				i++;
+				k = 0;
+
+		<tr>
+			<td class="numbers">@i</td>
+			<td row="@H[k++]" class="bR date">@x.DateRec.ToString("dd.MM.yyyy")</td>
+
+			<td row="@H[k++]" class="bR">
+				<input data-type="text"
+					   class="calculated"
+					   style="color: @(x.DateRec.DayOfWeek == DayOfWeek.Sunday || x.DateRec.DayOfWeek == DayOfWeek.Saturday ? "red" : "initial")"
+					   value="@(x.DateRec.DayOfWeek == DayOfWeek.Sunday || x.DateRec.DayOfWeek == DayOfWeek.Saturday ? "Выходной" : "Рабочий")" 
+					   disabled />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="C@(i)"
+					   class="calculated"
+					   value="@x.ПаротрассаКИМ.GkП.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="D@(i)"
+					   class="calculated"
+					   value="@x.ПаротрассаКИМ.QП.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="E@(i)"
+					   class="calculated"
+					   value="@x.ВКШТ.GПкор.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="F@(i)"
+					   class="calculated"
+					   value="@x.ВКШТ.QПКОМ.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="G@(i)"
+					   class="calculated"
+					   value="@x.КОВРЫ.GПкор.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="H@(i)"
+					   class="calculated"
+					   value="@x.КОВРЫ.QПКОМ.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="I@(i)"
+					   class="calculated"
+					   value="@x.РУБИКОН.GПкор.Pretty()" />
+			</td>
+			<td row="@H[k++]" class="bR">
+				<input data-id="J@(i)"
+					   class="calculated"
+					   value="@x.РУБИКОН.QПКОМ.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="K@(i)"
+					   class="calculated"
+					   ondrag="C@(i) - E@(i) - G@(i) - I@(i)" />
+			</td>
+			<td row="@H[k++]" class="bR">
+				<input data-id="L@(i)"
+					   class="calculated"
+					   ondrag="D@(i) - F@(i) - H@(i) - J@(i)" />
+			</td>
+
+			<td row="@H[k++]">
+				<input data-id="M@(i)"
+					   class="calculated"
+					   value="@x.ПаротрассаКИМ.GK.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="N@(i)"
+					   class="calculated"
+					   value="@x.ПаротрассаКИМ.QK.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="O@(i)"
+					   class="calculated"
+					   value="@x.ВКШТ.GKкор.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="P@(i)"
+					   class="calculated"
+					   value="@x.ВКШТ.QККОМ.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="Q@(i)"
+					   class="calculated"
+					   value="@x.КОВРЫ.GKкор.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="R@(i)"
+					   class="calculated"
+					   value="@x.КОВРЫ.QККОМ.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="S@(i)"
+					   class="calculated"
+					   value="@x.РУБИКОН.GKкор.Pretty()" />
+			</td>
+			<td row="@H[k++]" class="bR">
+				<input data-id="T@(i)"
+					   class="calculated"
+					   value="@x.РУБИКОН.QККОМ.Pretty()" />
+			</td>
+
+			<td row="@H[k++]">
+				<input data-id="U@(i)"
+					   class="calculated"
+					   ondrag="O@(i) + Q@(i) + S@(i) - M@(i)" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="V@(i)"
+					   class="calculated"
+					   ondrag="P@(i) + R@(i) + T@(i) - N@(i)" />
+			</td>
+		</tr>
+
+			}
+		}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="2" class="bR">Суммарное</td>
+			<td class="bR"></td>
+			<td>
+				<input data-id="C_1"
+					   class="calculated"
+					   ondrag="СУММ('C')" />
+			</td>
+			<td>
+				<input data-id="D_1"
+					   class="calculated"
+					   ondrag="СУММ('D')" />
+			</td>
+			<td>
+				<input data-id="E_1"
+					   class="calculated"
+					   ondrag="СУММ('E')" />
+			</td>
+			<td>
+				<input data-id="F_1"
+					   class="calculated"
+					   ondrag="СУММ('F')" />
+			</td>
+			<td>
+				<input data-id="G_1"
+					   class="calculated"
+					   ondrag="СУММ('G')" />
+			</td>
+			<td>
+				<input data-id="H_1"
+					   class="calculated"
+					   ondrag="СУММ('H')" />
+			</td>
+			<td>
+				<input data-id="I_1"
+					   class="calculated"
+					   ondrag="СУММ('I')" />
+			</td>
+			<td>
+				<input data-id="J_1"
+					   class="calculated"
+					   ondrag="СУММ('J')" />
+			</td>
+			<td>
+				<input data-id="K_1"
+					   class="calculated"
+					   ondrag="СУММ('K')" />
+			</td>
+			<td class="bR">
+				<input data-id="L_1"
+					   class="calculated"
+					   ondrag="СУММ('L')" />
+			</td>
+			<td>
+				<input data-id="M_1"
+					   class="calculated"
+					   ondrag="СУММ('M')" />
+			</td>
+			<td class="bR">
+				<input data-id="N_1"
+					   class="calculated"
+					   ondrag="СУММ('N')" />
+			</td>
+			<td>
+				<input data-id="O_1"
+					   class="calculated"
+					   ondrag="СУММ('O')" />
+			</td>
+			<td>
+				<input data-id="P_1"
+					   class="calculated"
+					   ondrag="СУММ('P')" />
+			</td>
+			<td>
+				<input data-id="Q_1"
+					   class="calculated"
+					   ondrag="СУММ('Q')" />
+			</td>
+			<td>
+				<input data-id="R_1"
+					   class="calculated"
+					   ondrag="СУММ('R')" />
+			</td>
+			<td>
+				<input data-id="S_1"
+					   class="calculated"
+					   ondrag="СУММ('S')" />
+			</td>
+			<td>
+				<input data-id="T_1"
+					   class="calculated"
+					   ondrag="СУММ('T')" />
+			</td>
+			<td>
+				<input data-id="U_1"
+					   class="calculated"
+					   ondrag="СУММ('U')" />
+			</td>
+			<td>
+				<input data-id="V_1"
+					   class="calculated"
+					   ondrag="СУММ('V')" />
+			</td>
+		</tr>
+	</tfoot>
+</table>

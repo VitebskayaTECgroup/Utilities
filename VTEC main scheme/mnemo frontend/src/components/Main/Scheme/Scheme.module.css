@@ -1,0 +1,57 @@
+.fon {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.kotel,
+.roy,
+.nasos,
+.regulator,
+.turbina {
+  position: absolute;
+  transition: 0.2s all ease;
+  cursor: pointer;
+}
+
+.kotel:hover,
+.roy:hover,
+.nasos:hover,
+.regulator:hover,
+.turbina:hover {
+  box-shadow: 0 0 10px 2px #239cca;
+}
+
+.kotel {
+  width: 4vw;
+  height: 5vh;
+}
+
+.roy {
+  width: 1.5vw;
+  height: 5vh;
+}
+
+.nasos {
+  width: 1.9vw;
+  height: 4vh;
+}
+
+.regulator {
+  width: 3vw;
+  height: 4vh;
+}
+
+.turbina {
+  width: 8vw;
+  height: 12vh;
+}
+
+.schemeImg {
+  width: 70vw;
+  height: 90vh;
+}

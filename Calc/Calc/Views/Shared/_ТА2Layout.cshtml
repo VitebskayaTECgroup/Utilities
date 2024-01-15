@@ -1,0 +1,63 @@
+﻿@{ 
+	long ms = DateTime.Now.Ticks;
+	DateTime date = ViewBag.Date;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>ТА2 | @ViewBag.Title.Replace('_', ' ')</title>
+	<link rel="stylesheet" href="~/Content/css/index.css?@ms" />
+	<link rel="shortcut icon" href="~/Content/images/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+	<div class="panel">
+		<div class="caption">
+			<span>Параметры турбогенератора №2</span>
+		</div>
+
+		<div class="nav">
+			<a href="~/">Главная</a>
+			&emsp;
+			<a href="~/ТА2/ТГ2?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "ТГ2" ? "active" : "")">ТГ2</a>
+			<a href="~/ТА2/ТГ2_РОУ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "ТГ2_РОУ" ? "active" : "") s">ТГ2_РОУ</a>
+		</div>
+
+		<div class="operative">
+			<button onclick="location.href = '?date=@date.AddMonths(-1).ToString("MM_yyyy")'">Раньше</button>
+			<span>@date.ToString("MMMM yyyy")</span>
+			<button onclick="location.href = '?date=@date.AddMonths(1).ToString("MM_yyyy")'">Позже</button>
+			<button onclick="location.href = '?date=@DateTime.Today.ToString("MM_yyyy")'" class="s">Текущий месяц</button>
+			<button onclick="location.reload()">Обновить</button>
+			<button onclick="show('import')">Импорт</button>
+		</div>
+	</div>
+
+	<div class="sheet">
+		@RenderBody()
+	</div>
+
+	<div id="modal"></div>
+
+	<div id="import" class="modal">
+		<div>Начальная дата:</div>
+		<input name="start" value="" />
+
+		<br /><br />
+		<div>Конечная дата:</div>
+		<input name="end" value="" />
+
+		<br /><br />
+		<input name="name" type="hidden" value="@ViewBag.Title" />
+		<div>
+			<button onclick="fromASU('@Url.Action("import", "ТА2")')">Импортировать</button>
+		</div>
+	</div>
+
+	<script>const committer = '@Url.Action("", "")'</script>
+	<script src="~/Content/js/index.js?@ms"></script>
+</body>
+
+</html>

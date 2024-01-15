@@ -1,0 +1,57 @@
+﻿<style>
+	body {background: #eee;}
+	.header {
+		background: #fff;
+		border-collapse: collapse;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	}
+	.header td {
+		padding: 2px 4px;
+		border: 1px solid #ddd;
+		text-align: center;
+	}
+</style>
+
+<table class="header">
+	<tr>
+		<td rowspan="2" width="60px">Расход пара потребителям, тонн</td>
+		<td rowspan="2" width="80px">Возврат конденсата от потребителей, тонн</td>
+		<td rowspan="2" width="80px">Невозврат конденсата от потребителей, тонн</td>
+		<td rowspan="2" width="80px">Расход обессоленной воды, тонн</td>
+		<td colspan="6">Расход пара на</td>
+		<td colspan="3">Потери пара и конденсата, тонн</td>
+		<td rowspan="2">факт. % от пит. воды</td>
+		<td rowspan="2">% возврата к-та от потреб.</td>
+		<td rowspan="2">Т дек. воды перед подпиточным Д</td>
+		<td rowspan="2">Небаланс по теплосети</td>
+		<td rowspan="2">Фактический возврат</td>
+		<td rowspan="2">Фактические потери</td>
+		<td rowspan="2">Факт сверх норм</td>
+	</tr>
+	<tr>
+		<td>К/а №1</td>
+		<td>К/а №2</td>
+		<td>К/а №3</td>
+		<td>К/а №4</td>
+		<td>К/а №5 пв</td>
+		<td>Всего</td>
+		<td>Всего</td>
+		<td>В пред. нормы</td>
+		<td>Сверх нормы</td>
+	</tr>
+	@using (var db = new DatabaseContext())
+	{
+		//var model = from a1 in db.K1_ГАЗ
+		//			from ДОК           in db.ДОК.LeftJoin(x => x.DateRec == a1.DateRec)
+		//			from ПаротрассаКИМ in db.ПаротрассаКИМ.LeftJoin(x => x.DateRec == a1.DateRec)
+		//			from 
+		//			select new
+		//			{
+		//				Gпар = Math.Round(ДОК.GkП22 ?? 0) + Math.Round(ДОК.GkП33 ?? 0) + Math.Round(ПаротрассаКИМ.GkП ?? 0),
+		//				Gкон = Math.Round(ДОК.GK ?? 0) + Math.Round(ПаротрассаКИМ.GK ?? 0),
+		//				Gов = 
+		//			};
+	}
+
+
+</table>

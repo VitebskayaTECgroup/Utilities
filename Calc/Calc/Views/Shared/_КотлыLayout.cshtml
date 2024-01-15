@@ -1,0 +1,71 @@
+﻿@{ 
+	long ms = DateTime.Now.Ticks;
+	DateTime date = ViewBag.Date;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Котлы | @ViewBag.Title.Replace('_', ' ')</title>
+	<link rel="stylesheet" href="~/Content/css/index.css?@ms" />
+	<link rel="shortcut icon" href="~/Content/images/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+	<div class="panel">
+		<div class="caption">
+			<span>Параметры работы котлоагрегатов</span>
+		</div>
+
+		<div class="nav">
+			<a href="~/">Главная</a>
+			&emsp;
+			<a href="~/Котлы/К1_ГАЗ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "К1_ГАЗ" ? "active" : "")">К1 Газ</a>
+			<a href="~/Котлы/К1_МАЗУТ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "К1_МАЗУТ" ? "active" : "") s">К1 Мазут</a>
+			<a href="~/Котлы/К2_ГАЗ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "К2_ГАЗ" ? "active" : "")">К2 Газ</a>
+			<a href="~/Котлы/К2_МАЗУТ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "К2_МАЗУТ" ? "active" : "") s">К2 Мазут</a>
+			<a href="~/Котлы/К3_ГАЗ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "К3_ГАЗ" ? "active" : "")">К3 Газ</a>
+			<a href="~/Котлы/К3_МАЗУТ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "К3_МАЗУТ" ? "active" : "") s">К3 Мазут</a>
+			<a href="~/Котлы/К4_ГАЗ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "К4_ГАЗ" ? "active" : "")">К4 Газ</a>
+			<a href="~/Котлы/К4_МАЗУТ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "К4_МАЗУТ" ? "active" : "") s">К4 Мазут</a>
+			<a href="~/Котлы/К5_ГАЗ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "К5_ГАЗ" ? "active" : "")">К5 Газ</a>
+			<a href="~/Котлы/К5_МАЗУТ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "К5_МАЗУТ" ? "active" : "")">К5 Мазут</a>
+		</div>
+
+		<div class="operative">
+			<button onclick="location.href = '?date=@date.AddMonths(-1).ToString("MM_yyyy")'">Раньше</button>
+			<span>@date.ToString("MMMM yyyy")</span>
+			<button onclick="location.href = '?date=@date.AddMonths(1).ToString("MM_yyyy")'">Позже</button>
+			<button onclick="location.href = '?date=@DateTime.Today.ToString("MM_yyyy")'" class="s">Текущий месяц</button>
+			<button onclick="location.reload()">Обновить</button>
+			<button onclick="show('import')">Импорт</button>
+		</div>
+	</div>
+
+	<div class="sheet">
+		@RenderBody()
+	</div>
+
+	<div id="modal"></div>
+
+	<div id="import" class="modal">
+		<div>Начальная дата:</div>
+		<input id="start" name="start" value="" />
+
+		<br /><br />
+		<div>Конечная дата:</div>
+		<input id="end" name="end" value="" />
+
+		<br /><br />
+		<input name="name" type="hidden" value="@ViewBag.Title" />
+		<div>
+			<button onclick="fromASU('@Url.Action("import", "Котлы")')">Импортировать</button>
+		</div>
+	</div>
+
+	<script>const committer = '@Url.Action("", "")'</script>
+	<script src="~/Content/js/index.js?@ms"></script>
+</body>
+
+</html>

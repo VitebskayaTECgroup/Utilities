@@ -1,0 +1,62 @@
+﻿@{ 
+	long ms = DateTime.Now.Ticks;
+	DateTime date = ViewBag.Date;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Вода | @ViewBag.Title</title>
+	<link rel="stylesheet" href="~/Content/css/index.css?@ms" />
+	<link rel="shortcut icon" href="~/Content/images/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+	<div class="panel">
+		<div class="nav">
+			<a href="~/">Главная</a>
+			&emsp;
+			<a href="~/Вода/Речная?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "Речная" ? "active" : "")">Речная</a>
+			<a href="~/Вода/Горвода?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "Горвода" ? "active" : "")">Горвода</a>
+			<a href="~/Вода/Техническая?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "Техническая" ? "active" : "")">Техническая</a>
+			<a href="~/Вода/Сырая?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "Сырая" ? "active" : "")">Сырая</a>
+			<a href="~/Вода/Содержание_О2?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "Содержание_О2" ? "active" : "")">Содержание О<sup>2</sup></a>
+		</div>
+
+		<div class="operative">
+			<button onclick="location.href = '?date=@date.AddMonths(-1).ToString("MM_yyyy")'">Раньше</button>
+			<span>@date.ToString("MMMM yyyy")</span>
+			<button onclick="location.href = '?date=@date.AddMonths(1).ToString("MM_yyyy")'">Позже</button>
+			<button onclick="location.href = '?date=@DateTime.Today.ToString("MM_yyyy")'" class="s">Текущий месяц</button>
+			<button onclick="location.reload()">Обновить</button>
+			<button onclick="show('import')" disabled>Импорт</button>
+		</div>
+	</div>
+
+	<div class="sheet">
+		@RenderBody()
+	</div>
+
+	<div id="modal"></div>
+
+	<div id="import" class="modal">
+		<div>Начальная дата:</div>
+		<input id="start" name="start" value="" />
+
+		<br /><br />
+		<div>Конечная дата:</div>
+		<input id="end" name="end" value="" />
+
+		<br /><br />
+		<input name="name" type="hidden" value="@ViewBag.Title" />
+		<div>
+			<button onclick="fromASU('@Url.Action("import", "Вода")')">Импортировать</button>
+		</div>
+	</div>
+
+	<script>const committer = '@Url.Action("", "")'</script>
+	@*<script src="~/Content/js/index.js?@ms"></script>*@
+</body>
+
+</html>

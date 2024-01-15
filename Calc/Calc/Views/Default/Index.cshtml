@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Учёт параметров</title>
+	<link rel="shortcut icon" href="~/Content/images/favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" href="~/Content/css/main.css" />
+</head>
+
+<body>
+	<h3>Учёт параметров</h3>
+
+	@{ 
+		DateTime date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+	}
+
+	<div>
+		<h4>Горячая вода</h4>
+		<ul>
+			<li><a href="~/ГорячаяВода/Центральная?date=@date.ToString("MM_yyyy")">Центральная</a></li>
+			<li><a href="~/ГорячаяВода/Западная?date=@date.ToString("MM_yyyy")">Западная</a></li>
+			<li><a href="~/ГорячаяВода/Монолит?date=@date.ToString("MM_yyyy")">Монолит</a></li>
+			<li><a href="~/ГорячаяВода/Док?date=@date.ToString("MM_yyyy")">ДОК</a></li>
+			<li><a href="~/ГорячаяВода/Лучёса?date=@date.ToString("MM_yyyy")">Лучеса</a></li>
+			<li><a href="~/ГорячаяВода/Баланс?date=@date.ToString("MM_yyyy")">Сведение баланса</a></li>
+			<li><a href="~/ГорячаяВода/Отчёт?date=@date.ToString("MM_yyyy")">Отчёт</a></li>
+		</ul>
+	</div>
+
+	<div>
+		<h4>Вода</h4>
+		<ul>
+			<li><a href="~/Вода/Речная?date=@date.ToString("MM_yyyy")">Речная</a></li>
+			<li><a href="~/Вода/Горвода?date=@date.ToString("MM_yyyy")">Горвода</a></li>
+			<li><a href="~/Вода/Техническая?date=@date.ToString("MM_yyyy")">Техническая</a></li>
+			<li><a href="~/Вода/Сырая?date=@date.ToString("MM_yyyy")">Сырая</a></li>
+			<li><a href="~/Вода/Содержание_О2?date=@date.ToString("MM_yyyy")">Содержание О<sub>2</sub></a></li>
+		</ul>
+	</div>
+
+	<div>
+		<h4>Котлы</h4>
+		<ul>
+			<li><a href="~/Котлы/К1_ГАЗ?date=@date.ToString("MM_yyyy")">К1 Газ</a></li>
+			<li><a href="~/Котлы/К1_МАЗУТ?date=@date.ToString("MM_yyyy")">К1 Мазут</a></li>
+			<li><a href="~/Котлы/К2_ГАЗ?date=@date.ToString("MM_yyyy")">К2 Газ</a></li>
+			<li><a href="~/Котлы/К2_МАЗУТ?date=@date.ToString("MM_yyyy")">К2 Мазут</a></li>
+			<li><a href="~/Котлы/К3_ГАЗ?date=@date.ToString("MM_yyyy")">К3 Газ</a></li>
+			<li><a href="~/Котлы/К3_МАЗУТ?date=@date.ToString("MM_yyyy")">К3 Мазут</a></li>
+			<li><a href="~/Котлы/К4_ГАЗ?date=@date.ToString("MM_yyyy")">К4 Газ</a></li>
+			<li><a href="~/Котлы/К4_МАЗУТ?date=@date.ToString("MM_yyyy")">К4 Мазут</a></li>
+			<li><a href="~/Котлы/К5_ГАЗ?date=@date.ToString("MM_yyyy")">К5 Газ</a></li>
+			<li><a href="~/Котлы/К5_МАЗУТ?date=@date.ToString("MM_yyyy")">К5 Мазут</a></li>
+		</ul>
+	</div>
+
+	<div>
+		<h4>Пар</h4>
+		<ul>
+			<li><a href="~/Пар/ДОК?date=@date.ToString("MM_yyyy")">ДОК</a></li>
+			<li><a href="~/Пар/КОВРЫ?date=@date.ToString("MM_yyyy")">Ковры</a></li>
+			<li><a href="~/Пар/ВКШТ?date=@date.ToString("MM_yyyy")">ВКШТ</a></li>
+			<li><a href="~/Пар/РУБИКОН?date=@date.ToString("MM_yyyy")">Рубикон</a></li>
+			<li><a href="~/Пар/ПаротрассаКИМ?date=@date.ToString("MM_yyyy")">Паротрасса КИМ</a></li>
+			<li><a href="~/Пар/ОБЩИЙ_ОТПУСК_ТЕПЛА?date=@date.ToString("MM_yyyy")">Общий отпуск тепла</a></li>
+			<li><a href="~/Пар/СВОДНЫЙ_ЖУРНАЛ?date=@date.ToString("MM_yyyy")">Сводный журнал</a></li>
+			<li><a href="~/Пар/Диагностика?date=@date.ToString("MM_yyyy")">Диагностика</a></li>
+		</ul>
+	</div>
+
+	<div>
+		<h4>ТА2</h4>
+		<ul>
+			<li><a href="~/ТА2/ТГ2?date=@date.ToString("MM_yyyy")">ТГ2</a></li>
+			<li><a href="~/ТА2/ТГ2_РОУ?date=@date.ToString("MM_yyyy")">ТГ2 РОУ</a></li>
+		</ul>
+	</div>
+</body>
+
+</html>

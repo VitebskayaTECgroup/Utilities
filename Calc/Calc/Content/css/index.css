@@ -1,0 +1,294 @@
+* {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	box-sizing: border-box;
+}
+
+body {
+	font-size: 10pt;
+	margin: 0;
+	padding: 1em;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #eee;
+}
+
+.panel {
+	position: fixed;
+	left: .5em;
+	top: .5em;
+	background-color: #eee;
+}
+
+.caption {
+	margin-bottom: 1em;
+	padding: .4em;
+}
+
+	.caption span {
+		font-size: 1.3em;
+		font-weight: 500;
+	}
+
+/* NAVIGATION */
+
+.nav {
+	display: table;
+	margin-bottom: 1em;
+	border-collapse: collapse;
+}
+
+	.nav a {
+		display: table-cell;
+		min-width: 10em;
+		padding: .4em;
+		border: 1px solid #ccc;
+		text-align: center;
+		text-decoration: none;
+		background-color: #fff;
+		color: #000;
+		font-size: 1.1em;
+	}
+
+		.nav a:first-child {
+			min-width: 6em;
+		}
+
+		.nav a:hover {
+			background: #f5f5f5;
+		}
+
+		.nav a.active {
+			background: #fff4a4;
+		}
+
+/* OPERATIVE */
+
+.operative {
+	margin-bottom: 1em;
+}
+
+	.operative span {
+		padding: 0 .5em;
+		font-weight: 500;
+		font-size: 1.3em;
+		display: inline-block;
+		width: 8em;
+		text-align: center;
+	}
+
+		.operative span:hover {
+			cursor: pointer;
+			background-color: #f5f5f5;
+		}
+
+	.operative button {
+		border: 1px solid #ccc;
+		background-color: #fff;
+		padding: .4em .8em;
+	}
+
+		.operative button:hover {
+			cursor: pointer;
+			background-color: #f5f5f5;
+		}
+
+		.operative button:active {
+			background-color: #fff4a4;
+		}
+
+	.operative .s {
+		margin-right: 1em;
+	}
+
+/* TABLE */
+
+.sheet {
+	margin-top: 10em;
+}
+
+.sheet table {
+	border-collapse: collapse;
+	background-color: #fff;
+}
+
+.sheet .numbers th,
+.sheet .numbers {
+	background: #eee;
+	font-weight: 300;
+	min-width: 0;
+}
+
+	.sheet .numbers th {
+		border-bottom: 1px solid #000;
+	}
+
+.sheet td.numbers {
+	border-right: 1px solid #000;
+}
+
+.sheet td.hover,
+.sheet .hover input {
+	background: #eee;
+}
+
+.sheet th.hover {
+	background: #fff7c5;
+}
+
+	.sheet thead tr:first-child th {
+		border-top: 1px solid #000;
+	}
+
+.sheet thead tr:last-child th,
+.sheet tbody tr:last-child td,
+.sheet tfoot tr:last-child td {
+	border-bottom: 1px solid #000;
+}
+
+.sheet tbody tr:hover td,
+.sheet tbody tr:hover input {
+	background: #eee;
+}
+
+.sheet .numbers th.hover,
+.sheet tbody tr:hover .numbers {
+	background: #fff;
+}
+
+.sheet tr td:first-child,
+.sheet tr th:first-child {
+	border-left: 1px solid #000;
+}
+
+.sheet tr td:last-child,
+.sheet tr th:last-child {
+	border-right: 1px solid #000;
+}
+
+.sheet th {
+	border: 1px solid #ccc;
+	font-weight: 500;
+	font-size: 1.05em;
+	padding: 0 .2em;
+	background: #fffadf;
+	vertical-align: top;
+}
+
+	.sheet th.header {
+		background-color: #fff4a4;
+	}
+
+.sheet .metrica th {
+	font-size: .9em;
+	font-weight: 400;
+}
+
+.sheet td {
+	min-width: 6em;
+	text-align: center;
+	border: 1px solid #ccc;
+	padding: .2em;
+}
+
+.sheet .bL {
+	border-left: 1px solid #000;
+}
+
+.sheet .bR {
+	border-right: 1px solid #000;
+}
+
+.sheet .bT {
+	border-top: 1px solid #000;
+}
+
+.sheet .bB {
+	border-bottom: 1px solid #000;
+}
+
+.sheet td input {
+	width: 100%;
+	border: 0;
+	border-radius: 0;
+	font-size: 1em;
+	margin: -.3em -.2em;
+	text-align: center;
+}
+
+	.sheet td input.editable {
+		font-weight: 500;
+		color: #008a24;
+	}
+
+	.sheet td input.calculated {
+		font-weight: 500;
+		color: #0300d4;
+	}
+
+	.sheet td input.marked {
+		background-color: #fff9d1;
+		color: #008a24;
+		font-weight: 500;
+	}
+
+	.sheet td input:focus {
+		background: #fff4a4 !important;
+		color: #000;
+	}
+
+.green {
+	color: green;
+}
+.blue {
+	color: blue;
+}
+
+
+/* MODAL */
+
+#modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #ccc;
+	opacity: .5;
+	display: none;
+}
+
+.modal {
+	position: fixed;
+	top: 20%;
+	left: 20%;
+	margin: 0 auto;
+	display: none;
+	background: #fff;
+	border: 1px solid #333;
+	padding: 1em;
+}
+
+/* CONTEXT */
+
+#menu {
+	position: absolute;
+	background: #333;
+	color: #fff;
+}
+
+#menu span {
+	display: block;
+	padding: .5em;
+	cursor: pointer;
+	max-width: 20em;
+}
+
+#menu span:hover {
+	background: #666;
+}
+
+.label {
+	font-weight: 500;
+	font-size: 1.2em;
+}

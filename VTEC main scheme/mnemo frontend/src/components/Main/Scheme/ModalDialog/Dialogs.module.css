@@ -1,0 +1,46 @@
+.dialogsTableData {
+  padding-left: 25px;
+  display: flex;
+  justify-content: space-evenly;
+  font-size: .9em;
+}
+
+.dialogsTableData:hover {
+  color: #36b3da;
+}
+
+.dialogsTitleTableData {
+  margin-bottom: 5px;
+  padding-left: 25px;
+  display: flex;
+  justify-content: space-evenly;
+  border-bottom: 1px solid #c4c4c4;
+  font-weight: 700;
+  font-size: .9em;
+}
+
+.dialogsTitleTableData > div:nth-child(1), 
+.dialogsTableData > div:nth-child(1) {
+  width: 30%
+}
+
+.dialogsTitleTableData > div:nth-child(2), 
+.dialogsTableData > div:nth-child(2) {
+  width: 20%
+}
+
+.dialogsTitleTableData > div, 
+.dialogsTableData > div {
+  width: 25%
+}
+
+.dialogsTableData {
+  padding-left: 25px;
+  display: flex;
+  justify-content: space-evenly;
+  font-size: .9em;
+}
+
+.dialogsTableData:hover {
+  color: #36b3da;
+}

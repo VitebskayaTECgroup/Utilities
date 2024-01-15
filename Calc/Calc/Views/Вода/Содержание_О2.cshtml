@@ -1,0 +1,177 @@
+﻿@{
+	DateTime date = DateTime.TryParse("01." + Request.QueryString.Get("date")?.Replace('_', '.'), out DateTime d)
+		? d
+		: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+	int i = 0;
+
+	ViewBag.Title = "Содержание О2";
+	ViewBag.Date = date;
+	Layout = "~/Views/Shared/_ВодаLayout.cshtml";
+
+	string[] H = new[] {
+		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+		"AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ",
+		"BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ",
+	};
+
+	byte k = 0;
+}
+
+<table>
+	<thead>
+		<tr class="numbers">
+			<th rowspan="4" class="bR"></th>
+			@for (int o = 0; o < 7; o++)
+			{
+				<th row="@H[k]">@H[k++]</th>
+			}
+		</tr>
+		@{ k = 0; }
+		<tr>
+			<th row="@H[k++]" rowspan="2" class="bR bB">Дата</th>
+			<th row="@H[k++]" class="bR header">ТА2-117</th>
+			<th row="@H[k++]" class="bR header">ТА3-118</th>
+			<th row="@H[k++]" class="bR header">Др12-320</th>
+			<th row="@H[k++]" class="bR header">Др6N1-321</th>
+			<th row="@H[k++]" class="bR header">Др6N2-52</th>
+			<th row="@H[k++]" class="bR header">Др6N3-57</th>
+		</tr>
+		@{ k = 1; }
+		<tr class="metrica">
+			<th row="@H[k++]" class="bR">%</th>
+			<th row="@H[k++]" class="bR">%</th>
+			<th row="@H[k++]" class="bR">%</th>
+			<th row="@H[k++]" class="bR">%</th>
+			<th row="@H[k++]" class="bR">%</th>
+			<th row="@H[k++]" class="bR">%</th>
+		</tr>
+	</thead>
+	<tbody>
+	@using (var db = new DatabaseContext())
+	{
+		var model = db.СодержаниеO2
+			.Where(x => x.DateRec >= date && x.DateRec < date.AddMonths(1))
+			.OrderBy(x => x.DateRec)
+			.ToList();
+
+		foreach (var x in model)
+		{
+			i++;
+			k = 0;
+
+		<tr>
+			<td class="numbers">@i</td>
+			<td row="@H[k++]" class="bR date">@x.DateRec.ToString("dd.MM.yyyy")</td>
+			<td row="@H[k++]" class="bR">
+				<input data-id="B@(i)"
+					   data-name="@nameof(db.СодержаниеO2).@nameof(x.ТА2)"
+					   class="editable"
+					   value="@x.ТА2" />
+			</td>
+			<td row="@H[k++]" class="bR">
+				<input data-id="C@(i)"
+					   data-name="@nameof(db.СодержаниеO2).@nameof(x.ТА3)"
+					   class="editable"
+					   value="@x.ТА3" />
+			</td>
+			<td row="@H[k++]" class="bR">
+				<input data-id="D@(i)"
+					   data-name="@nameof(db.СодержаниеO2).@nameof(x.Др12)"
+					   class="editable"
+					   value="@x.Др12" />
+			</td>
+			<td row="@H[k++]" class="bR">
+				<input data-id="E@(i)"
+					   data-name="@nameof(db.СодержаниеO2).@nameof(x.Др6N1)"
+					   class="editable"
+					   value="@x.Др6N1" />
+			</td>
+			<td row="@H[k++]" class="bR">
+				<input data-id="F@(i)"
+					   data-name="@nameof(db.СодержаниеO2).@nameof(x.Др6N2)"
+					   class="editable"
+					   value="@x.Др6N2" />
+			</td>
+			<td row="@H[k++]" class="bR">
+				<input data-id="G@(i)"
+					   data-name="@nameof(db.СодержаниеO2).@nameof(x.Др6N3)"
+					   class="editable"
+					   value="@x.Др6N3" />
+			</td>
+		</tr>
+
+		}
+	}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="2" class="bR">Суммарное</td>
+			<td class="bR">
+				<input data-id="B_1"
+					   class="calculated"
+					   ondrag="СУММ('B')" />
+			</td>
+			<td class="bR">
+				<input data-id="C_1"
+					   class="calculated"
+					   ondrag="СУММ('C')" />
+			</td>
+			<td class="bR">
+				<input data-id="D_1"
+					   class="calculated"
+					   ondrag="СУММ('D')" />
+			</td>
+			<td class="bR">
+				<input data-id="E_1"
+					   class="calculated"
+					   ondrag="СУММ('E')" />
+			</td>
+			<td class="bR">
+				<input data-id="F_1"
+					   class="calculated"
+					   ondrag="СУММ('F')" />
+			</td>
+			<td class="bR">
+				<input data-id="G_1"
+					   class="calculated"
+					   ondrag="СУММ('G')" />
+			</td>
+		</tr>
+		@{
+			int days = date.AddMonths(1) > DateTime.Now ? (int)((DateTime.Now - date).TotalDays) : DateTime.DaysInMonth(date.Year, date.Month);
+		}
+		<tr>
+			<td colspan="2" class="bR">Среднее</td>
+			<td class="bR">
+				<input data-id="B_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(ДЕЛ(B_1, @days), 2)" />
+			</td>
+			<td class="bR">
+				<input data-id="C_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(ДЕЛ(C_1, @days), 2)" />
+			</td>
+			<td class="bR">
+				<input data-id="D_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(ДЕЛ(D_1, @days), 2)" />
+			</td>
+			<td class="bR">
+				<input data-id="E_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(ДЕЛ(E_1, @days), 2)" />
+			</td>
+			<td class="bR">
+				<input data-id="F_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(ДЕЛ(F_1, @days), 2)" />
+			</td>
+			<td class="bR">
+				<input data-id="G_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(ДЕЛ(G_1, @days), 2)" />
+			</td>
+		</tr>
+	</tfoot>
+</table>

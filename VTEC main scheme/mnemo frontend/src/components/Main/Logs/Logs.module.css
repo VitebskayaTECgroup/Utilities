@@ -1,0 +1,74 @@
+
+.logs {
+  position: absolute;
+  top: 10%;
+  left: 7%;
+  width: 85vw; 
+  height: 80vh;
+ z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #47009a;
+  border-radius: 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.logsTitleTable {
+  padding: 5px 0;
+  display: flex;
+  width: inherit;
+  justify-content: space-between;
+  font-size: 9pt;
+  cursor: pointer;
+  border-bottom: 1px solid #c4c4c4;
+  font-weight: 700;
+  font-size: .9em;
+}
+
+
+
+.logsTitleTable > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blocks {
+  display: flex;
+  width: inherit;
+  justify-content: space-between;
+  font-size: .9em;
+  padding: 3px 0;
+}
+
+.blocks:hover {
+  color: #36b3da;
+}
+
+.blocks > .blockData {
+  text-align: center;
+}
+
+.blocks > .blockOperator {
+  text-align: center;
+}
+
+.blocks > .blockEvent {
+}
+
+.blockData { 
+  width: 20%;
+  max-width: 20%;
+}
+
+.blockOperator {
+  width: 10%;
+  max-width: 10%;
+}
+
+.blockEvent {
+  width: 65%;
+  max-width: 65%;
+}

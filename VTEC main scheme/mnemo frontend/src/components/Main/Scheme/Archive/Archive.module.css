@@ -1,0 +1,40 @@
+.archive {
+  position: absolute;
+  width: -webkit-fill-available;
+  min-width: 100wv;
+  min-height: 100vh;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.archiveBlock {
+  display: flex;
+  gap: 10px;
+}
+
+.archiveForm {
+  margin: 20px 20px 10px 20px;
+  padding: 20px 20px 10px 20px;
+  border: 1px solid #666;
+  display: flex;
+  justify-content: space-between;
+  width: -webkit-fill-available;
+}
+
+.archiveTypes {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.archiveView {
+  margin: 0 20px 10px 20px;
+  padding: 20px;
+  border: 1px solid #666;
+  overflow: hidden;
+  width: -webkit-fill-available;
+  max-height: 55vh;
+}

@@ -1,0 +1,77 @@
+﻿@{ 
+	long ms = DateTime.Now.Ticks;
+	DateTime date = ViewBag.Date;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Горячая вода | @ViewBag.Title</title>
+	<link rel="shortcut icon" href="~/Content/images/favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" href="~/Content/css/index.css?@ms" />
+	<link rel="stylesheet" href="~/Content/widgets/datepicker/datepicker.css" />
+</head>
+
+<body>
+	<div class="panel">
+		<div class="caption">
+			<span>Ведомость параметров горячей воды, отпускаемой потребителям</span>
+		</div>
+
+		<div class="nav">
+			<a href="~/">Главная</a>
+			&emsp;
+			<a href="~/ГорячаяВода/Центральная?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "Центральная" ? "active" : "")">Центральная</a>
+			<a href="~/ГорячаяВода/Западная?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "Западная" ? "active" : "")">Западная</a>
+			<a href="~/ГорячаяВода/Монолит?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "Монолит" ? "active" : "")">Монолит</a>
+			<a href="~/ГорячаяВода/Док?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "Док" ? "active" : "")">ДОК</a>
+			<a href="~/ГорячаяВода/Лучёса?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "Лучёса" ? "active" : "")">Лучёса</a>
+			<a href="~/ГорячаяВода/Баланс?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "Баланс" ? "active" : "")">Сведение баланса</a>
+			<a href="~/ГорячаяВода/Отчёт?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "Отчёт" ? "active" : "")">Отчёт</a>
+		</div>
+
+		<div class="operative">
+			<button onclick="location.href = '?date=@date.AddMonths(-1).ToString("MM_yyyy")'">Раньше</button>
+			<span>@date.ToString("MMMM yyyy")</span>
+			<button onclick="location.href = '?date=@date.AddMonths(1).ToString("MM_yyyy")'">Позже</button>
+			<button onclick="location.href = '?date=@DateTime.Today.ToString("MM_yyyy")'" class="s">Текущий месяц</button>
+			<button onclick="eraseField()">Пересчитать</button>
+			<button onclick="location.reload()">Обновить</button>
+			<button onclick="show('import')">Импорт</button>
+		</div>
+	</div>
+
+	<div class="sheet">
+		@RenderBody()
+	</div>
+
+	<div id="modal"></div>
+
+	<div id="import" class="modal">
+		<span style="display: inline-block; width: 10em;">Начальная дата:</span><input id="start" name="start" value="" autocomplete="off" />
+		<br /><br />
+		<span style="display: inline-block; width: 10em;">Конечная дата:</span><input id="end" name="end" value="" autocomplete="off" />
+		<br /><br />
+		<input name="name" type="hidden" value="@ViewBag.Title" />
+		<div>
+			<button onclick="fromASU('@Url.Action("import", "ГорячаяВода")')">Импортировать</button>
+			&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+			<button onclick="closeModal()">Закрыть</button>
+		</div>
+	</div>
+
+	<script>const committer = '@Url.Action("", "")'</script>
+	<script src="~/Content/widgets/datepicker/datepicker.js"></script>
+	<script src="~/Content/js/index.js?@ms"></script>
+	<script>
+		new DatePicker({
+			el: '#start'
+		})
+		new DatePicker({
+			el: '#end'
+		})
+	</script>
+</body>
+
+</html>

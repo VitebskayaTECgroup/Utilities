@@ -1,0 +1,261 @@
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{95447393-F485-4D8C-97DF-7336207CB638}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Calc</RootNamespace>
+    <AssemblyName>Calc</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.35\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="linq2db, Version=3.1.1.0, Culture=neutral, PublicKeyToken=e41013125f9e410a, processorArchitecture=MSIL">
+      <HintPath>..\packages\linq2db.3.1.1\lib\net46\linq2db.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=3.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.7\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.7\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.7\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\Extensions.cs" />
+    <Compile Include="Controllers\ПотериController.cs" />
+    <Compile Include="Controllers\ТА2Controller.cs" />
+    <Compile Include="Controllers\ПарController.cs" />
+    <Compile Include="Controllers\КотлыController.cs" />
+    <Compile Include="Controllers\ВодаController.cs" />
+    <Compile Include="Models\KA3_Aggregated.cs" />
+    <Compile Include="Models\KA_Fuel.cs" />
+    <Compile Include="Models\ВЗРД.cs" />
+    <Compile Include="Models\ВКШТ.cs" />
+    <Compile Include="Models\ГОРВБАЛАНС.cs" />
+    <Compile Include="Models\ГОРВДОК.cs" />
+    <Compile Include="Models\ГОРВЗАПАДНАЯ.cs" />
+    <Compile Include="Models\ГОРВЛУЧЕСА.cs" />
+    <Compile Include="Models\ГОРВМОНОЛИТ.cs" />
+    <Compile Include="Models\Горвода.cs" />
+    <Compile Include="Models\ГОРВОТЧЕТ.cs" />
+    <Compile Include="Models\ГОРВЦЕНТРАЛЬНАЯ.cs" />
+    <Compile Include="Models\ДОК.cs" />
+    <Compile Include="Models\К1_ГАЗ.cs" />
+    <Compile Include="Models\К1_МАЗУТ.cs" />
+    <Compile Include="Models\К2_ГАЗ.cs" />
+    <Compile Include="Models\К2_МАЗУТ.cs" />
+    <Compile Include="Models\К3_ГАЗ.cs" />
+    <Compile Include="Models\К3_МАЗУТ.cs" />
+    <Compile Include="Models\К4_ГАЗ.cs" />
+    <Compile Include="Models\К4_МАЗУТ.cs" />
+    <Compile Include="Models\К5_ГАЗ.cs" />
+    <Compile Include="Models\К5_МАЗУТ.cs" />
+    <Compile Include="Models\КИМ2.cs" />
+    <Compile Include="Models\КИМ.cs" />
+    <Compile Include="Models\КК.cs" />
+    <Compile Include="Models\КОВРЫ.cs" />
+    <Compile Include="Models\НОВАЯ_ГОРВБАЛАНС.cs" />
+    <Compile Include="Models\НОВАЯ_ГОРВДОК.cs" />
+    <Compile Include="Models\НОВАЯ_ГОРВЗАПАДНАЯ.cs" />
+    <Compile Include="Models\НОВАЯ_ГОРВЛУЧЕСА.cs" />
+    <Compile Include="Models\НОВАЯ_ГОРВМОНОЛИТ.cs" />
+    <Compile Include="Models\НОВАЯ_ГОРВОТЧЕТ.cs" />
+    <Compile Include="Models\НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.cs" />
+    <Compile Include="Models\ОБЩИЙ_ОТПУСК_ТЕПЛА.cs" />
+    <Compile Include="Models\ОБЩИЙ_ПО_КОТЛАМ_ГАЗ.cs" />
+    <Compile Include="Models\ОБЩИЙ_ПО_КОТЛАМ_МАЗУТ.cs" />
+    <Compile Include="Models\ПаротрассаКИМ.cs" />
+    <Compile Include="Models\Речная.cs" />
+    <Compile Include="Models\РУБИКОН.cs" />
+    <Compile Include="Models\СведениеБаланса.cs" />
+    <Compile Include="Models\СодержаниеО2.cs" />
+    <Compile Include="Models\Сырая.cs" />
+    <Compile Include="Models\ТГ2.cs" />
+    <Compile Include="Models\ТГ2_РОУ.cs" />
+    <Compile Include="Models\Техническая.cs" />
+    <Content Include="Content\css\index.css" />
+    <Content Include="Content\css\main.css" />
+    <Content Include="Content\images\favicon.ico" />
+    <Content Include="Content\js\index.js" />
+    <Content Include="Content\widgets\datepicker\datepicker.css" />
+    <Content Include="Content\widgets\datepicker\datepicker.dark.css" />
+    <Content Include="Content\widgets\datepicker\datepicker.js" />
+    <Content Include="Global.asax" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\ГорячаяВодаController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\_DatabaseContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <None Include="packages.config" />
+    <Content Include="Views\ГорячаяВода\Центральная.cshtml" />
+    <Content Include="Views\Default\Index.cshtml" />
+    <Content Include="Views\ГорячаяВода\Западная.cshtml" />
+    <Content Include="Views\ГорячаяВода\Отчёт.cshtml" />
+    <Content Include="Views\ГорячаяВода\Баланс.cshtml" />
+    <Content Include="Views\ГорячаяВода\Лучёса.cshtml" />
+    <Content Include="Views\ГорячаяВода\Док.cshtml" />
+    <Content Include="Views\ГорячаяВода\Монолит.cshtml" />
+    <Content Include="Views\Shared\_ГорячаяВодаLayout.cshtml" />
+    <Content Include="Views\Shared\_ВодаLayout.cshtml" />
+    <Content Include="Views\Вода\Речная.cshtml" />
+    <Content Include="Views\Вода\Техническая.cshtml" />
+    <Content Include="Views\Вода\Сырая.cshtml" />
+    <Content Include="Views\Вода\Содержание_О2.cshtml" />
+    <Content Include="Views\Shared\_КотлыLayout.cshtml" />
+    <Content Include="Views\Котлы\К1_ГАЗ.cshtml" />
+    <Content Include="Views\Котлы\К2_ГАЗ.cshtml" />
+    <Content Include="Views\Котлы\К5_ГАЗ.cshtml" />
+    <Content Include="Views\Котлы\К4_ГАЗ.cshtml" />
+    <Content Include="Views\Котлы\К3_ГАЗ.cshtml" />
+    <Content Include="Views\Котлы\К1_МАЗУТ.cshtml" />
+    <Content Include="Views\Котлы\К2_МАЗУТ.cshtml" />
+    <Content Include="Views\Котлы\К3_МАЗУТ.cshtml" />
+    <Content Include="Views\Котлы\К4_МАЗУТ.cshtml" />
+    <Content Include="Views\Котлы\К5_МАЗУТ.cshtml" />
+    <Content Include="Views\Shared\_ПарLayout.cshtml" />
+    <Content Include="Views\Пар\ПаротрассаКИМ.cshtml" />
+    <Content Include="Views\Пар\ДОК.cshtml" />
+    <Content Include="Views\Пар\КОВРЫ.cshtml" />
+    <Content Include="Views\Пар\ВКШТ.cshtml" />
+    <Content Include="Views\Пар\РУБИКОН.cshtml" />
+    <Content Include="Views\Пар\ОБЩИЙ_ОТПУСК_ТЕПЛА.cshtml" />
+    <Content Include="Views\Пар\СВОДНЫЙ_ЖУРНАЛ.cshtml" />
+    <Content Include="Views\ТА2\ТГ2.cshtml" />
+    <Content Include="Views\Shared\_ТА2Layout.cshtml" />
+    <Content Include="Views\ТА2\ТГ2_РОУ.cshtml" />
+    <None Include="Properties\PublishProfiles\WEB.pubxml" />
+    <Content Include="Views\Пар\Диагностика.cshtml" />
+    <Content Include="Views\Потери\Пар_и_конденсат.cshtml" />
+    <Content Include="Views\Вода\Горвода.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>64890</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:64890/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

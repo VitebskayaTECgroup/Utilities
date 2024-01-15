@@ -1,0 +1,12 @@
+.timepicker { 
+    box-sizing: border-box;
+    border: 1px  solid #ccc;
+    display: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-y: auto;
+    max-height: 10em;
+    cursor: pointer;
+}
+.timepicker > div {padding: 2px 10px;text-align: center;}
+.timepicker > div:hover {background: #eee;}
+.timepicker > .picked {color: #63afff;}

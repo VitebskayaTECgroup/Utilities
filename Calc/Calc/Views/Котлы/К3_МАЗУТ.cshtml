@@ -1,0 +1,503 @@
+﻿@{
+	DateTime date = DateTime.TryParse("01." + Request.QueryString.Get("date")?.Replace('_', '.'), out DateTime d)
+		? d
+		: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+	int i = 0;
+
+	ViewBag.Title = "К3_МАЗУТ";
+	ViewBag.Date = date;
+	Layout = "~/Views/Shared/_КотлыLayout.cshtml";
+}
+
+<table>
+    <thead>
+		<tr>
+			<th rowspan="2" class="bR bB">Дата</th>
+			<th class="bR header">TвремяП</th>
+			<th class="bR header">PП</th>
+			<th class="bR header">Pпв</th>
+			<th class="bR header">tП</th>
+			<th class="bR header">GП</th>
+			<th class="bR header">GП_</th>
+			<th class="bR header">tПв</th>
+			<th class="bR header">GПв</th>
+			<th class="bR header">GПв_</th>
+			<th class="bR header">tуг1</th>
+			<th class="bR header">tуг2</th>
+			<th class="bR header">tугC</th>
+			<th class="bR header">tхв</th>
+			<th class="bR header">КАсл</th>
+			<th class="bR header">КАсп</th>
+			<th class="bR header">КАср</th>
+			<th class="bR header">tкал1</th>
+			<th class="bR header">tкал2</th>
+			<th class="bR header">tкал3</th>
+			<th class="bR header">tкал4</th>
+			<th class="bR header">tкалC</th>
+			<th class="bR header">tгв</th>
+			<th class="bR header">Gн_пр</th>
+		</tr>
+		<tr class="metrica">
+			<th class="bR">кол-во дней</th>
+			<th class="bR">МПа</th>
+			<th class="bR">МПа</th>
+			<th class="bR">°С</th>
+			<th class="bR">Тонн</th>
+			<th class="bR">Тонн</th>
+			<th class="bR">°С</th>
+			<th class="bR">Тонн</th>
+			<th class="bR">Тонн</th>
+			<th class="bR">°С</th>
+			<th class="bR">°С</th>
+			<th class="bR">°С</th>
+			<th class="bR">°С</th>
+			<th class="bR">%</th>
+			<th class="bR">%</th>
+			<th class="bR">%</th>
+			<th class="bR">°С</th>
+			<th class="bR">°С</th>
+			<th class="bR">°С</th>
+			<th class="bR">°С</th>
+			<th class="bR">°С</th>
+			<th class="bR">°С</th>
+			<th class="bR">Тонн</th>
+		</tr>
+    </thead>
+	<tbody>
+	@using (var db = new DatabaseContext())
+	{
+		var model = db.K3_МАЗУТ
+			.Where(x => x.DateRec >= date && x.DateRec < date.AddMonths(1))
+			.OrderBy(x => x.DateRec)
+			.ToList();
+
+		foreach (var x in model)
+		{
+			i++;
+
+		<tr>
+			<td class="bR">@x.DateRec.ToString("dd.MM.yyyy")</td>
+
+			<td class="bR">
+				<input data-id="B@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.TвремяП)"
+					   class="editable"
+					   value="@x.TвремяП" />
+			</td>
+			<td class="bR">
+				<input data-id="C@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.PП)"
+					   class="editable"
+					   value="@x.PП.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="D@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.Pпв)"
+					   class="editable"
+					   value="@x.Pпв.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="E@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.tП)"
+					   class="editable"
+					   value="@x.tП.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="F@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.GП)"
+					   class="editable"
+					   value="@x.GП.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="G@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.GП_)"
+					   class="marked"
+					   ondrag="g@(i) != 0 ? g@(i) : Коэффициент(F@(i), C@(i) * 10.197162, E@(i), 0, 0.08476, 'КоэфРивкин')"
+					   value="@x.GП_.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="H@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.tПв)"
+					   class="editable"
+					   ondrag="h@(i) != 0 ? h@(i) : Коэффициент(G@(i) / 1000, D@(i), E@(i), N@(i), 0.00108725, 'КоэфAlpia')"
+					   value="@x.tПв.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="I@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.GПв)"
+					   class="editable"
+					   value="@x.GПв.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="J@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.GПв_)"
+					   class="marked"
+					   ondrag="j@(i) != 0 ? j@(i) : Коэффициент(I@(i), D@(i) * 10.197162, H@(i), 0, 0.08476, 'КоэфРивкин')"
+					   value="@x.GПв_.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="K@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.tуг1)"
+					   class="editable"
+					   value="@x.tуг1.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="L@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.tуг2)"
+					   class="editable"
+					   ondrag="R(l@(i) != 0 ? l@(i) : (K@(i) * (J@(i) - N@(i)) / 1000))"
+					   value="@x.tуг2.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="M@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.tугC)"
+					   class="editable"
+					   ondrag="m@(i) != 0 ? m@(i) : ((K@(i) + L@(i)) / ЕСЛИ( ЕСЛИ(K@(i) == 0, 0, 1) + ЕСЛИ(L@(i) == 0, 0, 1) == 0, 1, ЕСЛИ(K@(i) == 0, 0, 1) + ЕСЛИ(L@(i) == 0, 0, 1)))"
+					   value="@x.tугC.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="N@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.tхв)"
+					   class="editable"
+					   value="@x.tхв.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="O@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.КАсл)"
+					   class="editable"
+					   value="@x.КАсл.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="P@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.КАсп)"
+					   class="editable"
+					   value="@x.КАсп.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="Q@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.КАср)"
+					   class="editable"
+					   onclick="ЕСЛИ(q@(i) != 0, q@(i), (Q@(i) + P@(i)) / (ЕСЛИ((ЕСЛИ(O@(i) == 0, 0, 1) + ЕСЛИ(P@(i) == 0, 0, 1)) == 0, 1, (ЕСЛИ(O@(i) == 0, 0, 1) + ЕСЛИ(P@(i) == 0, 0, 1)))))"
+					   value="@x.КАср.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="R@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.tкал1)"
+					   class="editable"
+					   value="@x.tкал1.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="S@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.tкал2)"
+					   class="editable"
+					   value="@x.tкал2.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="T@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.tкал3)"
+					   class="editable"
+					   value="@x.tкал3.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="U@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.tкал4)"
+					   class="editable"
+					   value="@x.tкал4.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="V@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.tкалC)"
+					   class="editable"
+					   onclick="ЕСЛИ(v@(i) != 0, v@(i), (R@(i) + S@(i) + T@(i) + U@(i)) / (ЕСЛИ((ЕСЛИ(R@(i) == 0, 0, 1) + ЕСЛИ(S@(i) == 0, 0, 1) + ЕСЛИ(T@(i) == 0, 0, 1) + ЕСЛИ(U@(i) == 0, 0, 1)) == 0, 1, (ЕСЛИ(R@(i) == 0, 0, 1) + ЕСЛИ(S@(i) == 0, 0, 1) + ЕСЛИ(T@(i) == 0, 0, 1) + ЕСЛИ(U@(i) == 0, 0, 1)))))"
+					   value="@x.tкалC.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="W@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.tгв)"
+					   class="editable"
+					   value="@x.tгв.Pretty()" />
+			</td>
+			<td class="bR">
+				<input data-id="X@(i)"
+					   data-name="@nameof(db.K3_МАЗУТ).@nameof(x.Gн_пр)"
+					   class="editable"
+					   value="@x.Gн_пр.Pretty()" />
+			</td>
+		</tr>
+
+		}
+	}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td class="bR">Суммарное</td>
+			<td class="bR">
+				<input data-id="B1"
+					   class="calculated"
+					   ondrag="СУММ('B')" />
+			</td>
+			<td class="bR">
+				<input data-id="C1"
+					   class="calculated"
+					   ondrag="СУММ('C')" />
+			</td>
+			<td class="bR">
+				<input data-id="D1"
+					   class="calculated"
+					   ondrag="СУММ('D')" />
+			</td>
+			<td class="bR">
+				<input data-id="E1"
+					   class="calculated"
+					   ondrag="СУММ('E')" />
+			</td>
+			<td class="bR">
+				<input data-id="F1"
+					   class="calculated"
+					   ondrag="СУММ('F')" />
+			</td>
+			<td class="bR">
+				<input data-id="G1"
+					   class="calculated"
+					   ondrag="СУММ('G')" />
+			</td>
+			<td class="bR">
+				<input data-id="H1"
+					   class="calculated"
+					   ondrag="СУММ('H')" />
+			</td>
+			<td class="bR">
+				<input data-id="I1"
+					   class="calculated"
+					   ondrag="СУММ('I')" />
+			</td>
+			<td class="bR">
+				<input data-id="J1"
+					   class="calculated"
+					   ondrag="СУММ('J')" />
+			</td>
+			<td class="bR">
+				<input data-id="K1"
+					   class="calculated"
+					   ondrag="СУММ('K')" />
+			</td>
+			<td class="bR">
+				<input data-id="L1"
+					   class="calculated"
+					   ondrag="СУММ('L')" />
+			</td>
+			<td class="bR">
+				<input data-id="M1"
+					   class="calculated"
+					   ondrag="СУММ('M')" />
+			</td>
+			<td class="bR">
+				<input data-id="N1"
+					   class="calculated"
+					   ondrag="СУММ('N')" />
+			</td>
+			<td class="bR">
+				<input data-id="O1"
+					   class="calculated"
+					   ondrag="СУММ('O')" />
+			</td>
+			<td class="bR">
+				<input data-id="P1"
+					   class="calculated"
+					   ondrag="СУММ('P')" />
+			</td>
+			<td class="bR">
+				<input data-id="Q1"
+					   class="calculated"
+					   ondrag="СУММ('Q')" />
+			</td>
+			<td class="bR">
+				<input data-id="R1"
+					   class="calculated"
+					   ondrag="СУММ('R')" />
+			</td>
+			<td class="bR">
+				<input data-id="S1"
+					   class="calculated"
+					   ondrag="СУММ('S')" />
+			</td>
+			<td class="bR">
+				<input data-id="T1"
+					   class="calculated"
+					   ondrag="СУММ('T')" />
+			</td>
+			<td class="bR">
+				<input data-id="U1"
+					   class="calculated"
+					   ondrag="СУММ('U')" />
+			</td>
+			<td class="bR">
+				<input data-id="V1"
+					   class="calculated"
+					   ondrag="СУММ('V')" />
+			</td>
+			<td class="bR">
+				<input data-id="W1"
+					   class="calculated"
+					   ondrag="СУММ('W')" />
+			</td>
+			<td class="bR">
+				<input data-id="X1"
+					   class="calculated"
+					   ondrag="СУММ('X')" />
+			</td>
+		</tr>
+		<tr>
+			<td class="bR">Среднее</td>
+			<td class="bR"></td>
+			<td class="bR">
+				<input data-id="С2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, C1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="D2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, D1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="E2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, E1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="F2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, F1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="G2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, G1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="H2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, H1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="I2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, I1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="J2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, J1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="K2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, K1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="L2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, L1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="M2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, M1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="N2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, N1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="O2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, O1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="P2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, P1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="Q2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, Q1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="R2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, R1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="S2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, S1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="T2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, T1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="U2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, U1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="V2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, V1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="W2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, W1 / B1)" />
+			</td>
+			<td class="bR">
+				<input data-id="X2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B1 == 0, 0, X1 / B1)" />
+			</td>
+		</tr>
+		<tr>
+			<td class="bR">Средневзв.</td>
+			<td class="bR"></td>
+			<td class="bR">
+				<input data-id="С3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('C', 'G')" />
+			</td>
+			<td class="bR">
+				<input data-id="D3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('D', 'G')" />
+			</td>
+			<td class="bR">
+				<input data-id="E3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('E', 'G')" />
+			</td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+			<td class="bR"></td>
+		</tr>
+	</tfoot>
+</table>

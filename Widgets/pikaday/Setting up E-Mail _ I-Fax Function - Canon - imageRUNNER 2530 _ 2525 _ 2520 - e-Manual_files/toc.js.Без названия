@@ -1,0 +1,166 @@
+// カテゴリー目次[+][-]開閉処理
+function fncToggle(a) {
+	try {
+
+		var iTargetLevel = 999; // 初期値
+		var strDisplay = "";
+
+		// [-] -> [+]
+		if (a.childNodes[0].className == "toc-sign-1") {
+			a.childNodes[0].className = "toc-sign-2";
+			strDisplay = "none";
+
+		// [+] -> [-]
+		} else if (a.childNodes[0].className == "toc-sign-2") {
+			a.childNodes[0].className = "toc-sign-1";
+			strDisplay = "block";
+
+		} else if (a.childNodes[0].className == "chapter-sign-1") {
+			a.childNodes[0].className = "chapter-sign-2";
+			strDisplay = "none";
+
+		// [+] -> [-]
+		} else if (a.childNodes[0].className == "chapter-sign-2") {
+			a.childNodes[0].className = "chapter-sign-1";
+			strDisplay = "block";
+		}
+
+		var target_li = a.parentNode;
+		var target_level = parseInt(target_li.className.split(" ")[0].split("_")[1]); // class="level_* current"
+
+		// 目次項目ループ
+		var lis = document.getElementById("id_toc").getElementsByTagName('li');
+		var loop = lis.length;
+		for (var i = 0; i < loop; i++) {
+
+			// 表示切替開始位置を探索
+			if (lis[i] === target_li) {
+
+				// 処理対象レベルを取得（クリックされた[+][-]がh2ならば、表示切替対象はh3）
+				iTargetLevel = target_level + 1;
+				continue;
+			}
+			var haystack_level = lis[i].className.split(" ")[0].split("_")[1];
+
+			// [-] -> [+]がクリックされた場合、下階層すべてを非表示にする
+			if (strDisplay == "none") {
+				if (haystack_level >= iTargetLevel) {
+
+					// 表示を切り替え
+					lis[i].style.display = strDisplay;
+
+					// [-][+] -> [+]
+					if (lis[i].childNodes[0].nodeName.toLowerCase() == "a") {
+						//lis[i].childNodes[0]/*(a)*/.childNodes[0]/*(img)*/.src = "../frame_images/toc_sign_2.png";
+						lis[i].childNodes[0]/*(a)*/.childNodes[0]/*(img)*/.className = "toc-sign-2";
+
+					}
+				} else {
+					if (iTargetLevel != 999) {
+						break;
+					}
+					continue;
+				}
+
+			// [+] -> [-]がクリックされた場合、下階層のみを表示する
+			} else {
+				if (haystack_level == iTargetLevel) {
+
+					// 表示を切り替え
+					lis[i].style.display = strDisplay;
+					continue;
+				} else {
+
+					if (	(iTargetLevel != 999)
+						&&	(iTargetLevel > haystack_level)
+					) {
+						break;
+					}
+					continue;
+				}
+			}
+		}
+		if (!fncIsSvgEnabled()) {
+			fncLoadPng();
+		}
+//		$('#id_toc td.outer').css('width', document.getElementById("id_toc").childNodes[0].offsetWidth + "px"); // NOTE: ie以外で内側のテーブル幅が確保されない
+
+		// android 4.1.2 galaxy s3 モバイルレイアウトで目次の[+]を展開しても当初のiframe枠の下に隠れた領域をスクロールで上に持ってくることができない現象を回避するため、[+][-]のたびに目次領域の実質高さを計算しiframeの高さにする 
+		if (device.android()) {
+			$('iframe', parent.document).height(
+				$(document).height()
+			);
+		}
+
+	} catch (e) {
+		//alert(e);
+	}
+}
+
+// カテゴリー目次一括開閉処理
+function fncOpenCloseAllToc(nMethod) {
+	try {
+		var imgs = document.getElementById("id_toc").getElementsByTagName("img");
+		var loop = imgs.length;
+		for (var i = 0; i < loop; i++) {
+			if ((imgs[i].className == "toc-sign-" + nMethod) || (imgs[i].className == "chapter-sign-" + nMethod)) {
+				fncToggle(imgs[i].parentNode);
+			}
+		}
+		if (!fncIsSvgEnabled()) {
+			fncLoadPng();
+		}
+	} catch (e) {
+		//alert(e);
+	}
+}
+
+function fncIsSvgEnabled() {
+	return !!(document.createElementNS && document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect);
+}
+
+function fncLoadPng() {
+	var frame_path = window.parent.frame_path;
+	$('img.chapter-sign-0').css('background-image', 'url(' + frame_path + 'images/toc-sign-0.png)');
+	$('img.chapter-sign-1').css('background-image', 'url(' + frame_path + 'images/chapter-sign-1-24.png)');
+	$('img.chapter-sign-2').css('background-image', 'url(' + frame_path + 'images/chapter-sign-2-24.png)');
+	$('img.toc-sign-0-active').css('background-image', 'url(' + frame_path + 'images/toc-sign-0-active.png)');
+	$('img.toc-sign-0').css('background-image', 'url(' + frame_path + 'images/toc-sign-0.png)');
+	$('img.toc-sign-1').css('background-image', 'url(' + frame_path + 'images/toc-sign-1.png)');
+	$('img.toc-sign-2').css('background-image', 'url(' + frame_path + 'images/toc-sign-2.png)');
+}
+(function(){var a,b,c,d,e,f,g,h,i;window.device={},b=window.document.documentElement,i=window.navigator.userAgent.toLowerCase(),device.ios=function(){return device.iphone()||device.ipod()||device.ipad()},device.iphone=function(){return c("iphone")},device.ipod=function(){return c("ipod")},device.ipad=function(){return c("ipad")},device.android=function(){return c("android")},device.androidPhone=function(){return device.android()&&c("mobile")},device.androidTablet=function(){return device.android()&&!c("mobile")},device.blackberry=function(){return c("blackberry")||c("bb10")||c("rim")},device.blackberryPhone=function(){return device.blackberry()&&!c("tablet")},device.blackberryTablet=function(){return device.blackberry()&&c("tablet")},device.windows=function(){return c("windows")},device.windowsPhone=function(){return device.windows()&&c("phone")},device.windowsTablet=function(){return device.windows()&&c("touch")},device.fxos=function(){return c("(mobile; rv:")||c("(tablet; rv:")},device.fxosPhone=function(){return device.fxos()&&c("mobile")},device.fxosTablet=function(){return device.fxos()&&c("tablet")},device.mobile=function(){return device.androidPhone()||device.iphone()||device.ipod()||device.windowsPhone()||device.blackberryPhone()||device.fxosPhone()},device.tablet=function(){return device.ipad()||device.androidTablet()||device.blackberryTablet()||device.windowsTablet()||device.fxosTablet()},device.portrait=function(){return 90!==Math.abs(window.orientation)},device.landscape=function(){return 90===Math.abs(window.orientation)},c=function(a){return-1!==i.indexOf(a)},e=function(a){var c;return c=new RegExp(a,"i"),b.className.match(c)},a=function(a){return e(a)?void 0:b.className+=" "+a},g=function(a){return e(a)?b.className=b.className.replace(a,""):void 0},device.ios()?device.ipad()?a("ios ipad tablet"):device.iphone()?a("ios iphone mobile"):device.ipod()&&a("ios ipod mobile"):device.android()?device.androidTablet()?a("android tablet"):a("android mobile"):device.blackberry()?device.blackberryTablet()?a("blackberry tablet"):a("blackberry mobile"):device.windows()?device.windowsTablet()?a("windows tablet"):device.windowsPhone()?a("windows mobile"):a("desktop"):device.fxos()?device.fxosTablet()?a("fxos tablet"):a("fxos mobile"):a("desktop"),d=function(){return device.landscape()?(g("portrait"),a("landscape")):(g("landscape"),a("portrait"))},h="onorientationchange"in window,f=h?"orientationchange":"resize",window.addEventListener?window.addEventListener(f,d,!1):window.attachEvent?window.attachEvent(f,d):window[f]=d,d()}).call(this);
+function is_android_ff() {
+	if (device.android() && (navigator.userAgent.indexOf("Firefox") != -1)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+window.onload = function fncOnLoad() {
+	try {
+
+		// svgアイコンの代替
+		if (!fncIsSvgEnabled()) {
+			fncLoadPng();
+		}
+
+		// NOTE: android 4.0.4 firefoxでモバイルレイアウト目次の高さが確保されない問題を解消するため、目次領域の高さをiframeの高さとしてセット（遅延を発生させないと反映されない）
+		if (device.android()) {
+			window.setTimeout(
+				function () {
+
+					// NOTE: ie10ではこれがあるとiframeスクロールができなくなる
+					// NOTE: ff31ではこれがあるとiframeの縦位置がずれる
+					$('iframe', parent.document).height(
+						$(document).height()
+					);
+					document.getElementById('scroll_anchor').scrollIntoView(false);
+				}, 500
+			);
+		}
+	} catch (e) {
+		//alert(e);
+	}
+};

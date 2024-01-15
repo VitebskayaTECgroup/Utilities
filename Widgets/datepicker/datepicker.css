@@ -1,0 +1,67 @@
+.picker {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: none;
+    background: #fff;
+    border: 1px solid #aaa;
+    box-shadow: 0 1px 8px 0 #ccc;
+    padding: 3px;
+    z-index: 100;
+}
+
+.picker_another {
+    color: #bbb;
+}
+
+.picker_today {
+    color: #0093ff;
+}
+
+.picker_picked {
+    background: #63afff;
+    color: #fff;
+}
+
+.picker_title {
+    text-align: center;
+}
+
+.picker_arrow {
+    text-align: center;
+    cursor: pointer;
+    padding: 0 0 5px;
+    font-weight: bold;
+    font-size: 13pt;
+}
+
+.picker_arrow:hover {
+    color: #63afff;
+}
+
+.picker th {
+    font-size: 10pt;
+    font-weight: normal;
+    color: #2196F3;
+}
+
+.picker_select {
+    border: 1px solid #eee;
+    padding: 2px;
+}
+
+.picker tbody td {
+    font-size: .9em;
+    padding: 3px 1px;
+    text-align: center;
+    width: 2em;
+    cursor: default;
+}
+
+.picker tbody td:hover {
+    background: #eee;
+    color: #000;
+}
+
+.picker tbody .picker_picked:hover {
+    background: #63afff;
+    color: #fff;
+}

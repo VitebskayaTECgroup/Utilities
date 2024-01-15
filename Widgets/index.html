@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+
+	<div style="padding: 20px;">
+		<table>
+			<tr>
+				<td style="padding: 20px; vertical-align: top;">
+					<input id="date1" autocomplete="off" />
+				</td>
+				<td style="padding: 20px; vertical-align: top;">
+					<input id="time1" autocomplete="off" />
+				</td>
+				<td style="padding: 20px; vertical-align: top;">
+					<div id="date2"></div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<link rel="stylesheet" href="datepicker/datepicker.css" />
+	<script src="datepicker/datepicker.js"></script>
+	<script>
+		new DatePicker({
+			el: '#date1',
+			onSelect: function () {
+				console.log('date 1')
+			}
+		})
+	</script>
+
+	<!-- <link rel="stylesheet" href="timepicker/timepicker.css" />
+	<script src="timepicker/timepicker.js"></script>
+	<script>
+		new TimePicker({
+			el: '#time1',
+			step: 30
+		})
+	</script> -->
+
+	<!-- <link rel="stylesheet" href="pikaday/pikaday.css" />
+	<script src="pikaday/pikaday.js"></script>
+	<script>
+		new Pikaday({
+			field: document.getElementById('date1'),
+			i18n: {
+				previousMonth : 'Предыдущий месяц',
+				nextMonth     : 'Следующий месяц',
+				months        : ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
+				weekdays      : ['Воскресенье','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+				weekdaysShort : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+			}
+		})
+	</script> -->
+</body>
+</html>

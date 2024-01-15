@@ -1,0 +1,7 @@
+﻿.sort__up:after {
+	content: "↑";
+}
+
+.sort__down:after {
+	content: "↓";
+}

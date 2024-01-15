@@ -1,0 +1,176 @@
+﻿@{
+	DateTime date = DateTime.TryParse("01." + Request.QueryString.Get("date")?.Replace('_', '.'), out DateTime d)
+		? d
+		: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+	int i = 0;
+
+	ViewBag.Title = "Диагностика";
+	ViewBag.Date = date;
+	Layout = "~/Views/Shared/_ПарLayout.cshtml";
+}
+
+@using (var db = new DatabaseContext())
+{
+	var model = from ОБЩИЙ_ОТПУСК_ТЕПЛА in db.ОБЩИЙ_ОТПУСК_ТЕПЛА
+				from ВКШТ in db.ВКШТ.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+				from КОВРЫ in db.КОВРЫ.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+				from РУБИКОН in db.РУБИКОН.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+				from ПаротрассаКИМ in db.ПаротрассаКИМ.LeftJoin(x => x.DateRec == ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec)
+				where ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec >= date && ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec < date.AddMonths(1)
+				orderby ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec
+				select new
+				{
+					DateRec = ОБЩИЙ_ОТПУСК_ТЕПЛА.DateRec,
+					ПаротрассаКИМ,
+					ВКШТ,
+					КОВРЫ,
+					РУБИКОН,
+				};
+
+	var losses = model
+		.Select(x => new
+		{
+			DateRec = x.DateRec,
+			HeatLoss = (x.ПаротрассаКИМ.QП ?? 0) - (x.ВКШТ.QПКОМ ?? 0) - (x.КОВРЫ.QПКОМ ?? 0) - (x.РУБИКОН.QПКОМ ?? 0),
+			CondLoss = (x.ВКШТ.QККОМ ?? 0) + (x.КОВРЫ.QККОМ ?? 0) + (x.РУБИКОН.QККОМ ?? 0) - (x.ПаротрассаКИМ.QK ?? 0),
+		})
+		.ToList();
+
+	<div>
+		<p class="label">Суммарные потери</p>
+		<table>
+			<thead>
+				<tr>
+					<th>Пар</th>
+					<th class="bR">Конденсат</th>
+					<th>Итого</th>
+				</tr>
+			</thead>
+			<tr>
+				<td>
+					<input data-id="HeatLoss" value="@losses.Sum(x => x.HeatLoss)" />
+				</td>
+				<td class="bR">
+					<input data-id="CondLoss" value="@losses.Sum(x => x.CondLoss)" />
+				</td>
+				<td>
+					<input data-id="AllLoss" ondrag="ОКРУГЛ(HeatLoss + CondLoss, 1)" />
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	var balance = model
+		.Select(x => new
+		{
+			DateRec = x.DateRec,
+			All = x.ПаротрассаКИМ.QПОЛ ?? 0,
+			Rubikon = x.РУБИКОН.QПОЛКОМ ?? 0,
+			Kovry = x.КОВРЫ.QПОЛКОМ ?? 0,
+			Vksht = x.ВКШТ.QПОЛКОМ ?? 0,
+		})
+		.ToList();
+
+	<div>
+		<p class="label">Баланс коммерческого отпуска тепла по паротрассе 1МПа</p>
+		<table>
+			<thead>
+				<tr>
+					<th class="bR">Паротрасса</th>
+					<th>Рубикон</th>
+					<th>Ковры</th>
+					<th>Шелковый</th>
+					<th>Потери</th>
+					<th>Баланс</th>
+				</tr>
+			</thead>
+			<tr>
+				<td class="bR">
+					<input data-id="BalanceAll" value="@balance.Sum(x => x.All)" />
+				</td>
+				<td>
+					<input data-id="BalanceRubikon" value="@balance.Sum(x => x.Rubikon)" />
+				</td>
+				<td>
+					<input data-id="BalanceKovry" value="@balance.Sum(x => x.Kovry)" />
+				</td>
+				<td>
+					<input data-id="BalanceVksht" value="@balance.Sum(x => x.Vksht)" />
+				</td>
+				<td>
+					<input data-id="BalanceLoss" ondrag="AllLoss" />
+				</td>
+				<td>
+					<input data-id="Balance" ondrag="BalanceRubikon + BalanceKovry + BalanceVksht + BalanceLoss" />
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	var tons = model
+		.Select(x => new
+		{
+			DateRec = x.DateRec,
+			SteamAll = x.ПаротрассаКИМ.GkП ?? 0,
+			SteamRubikon = x.РУБИКОН.GПкор ?? 0,
+			SteamKovry = x.КОВРЫ.GПкор ?? 0,
+			SteamVksht = x.ВКШТ.GПкор ?? 0,
+			CondAll = x.ПаротрассаКИМ.GK ?? 0,
+			CondRubikon = x.РУБИКОН.GKкор ?? 0,
+			CondKovry = x.КОВРЫ.GKкор ?? 0,
+			CondVksht = x.ВКШТ.GKкор ?? 0,
+		})
+		.ToList();
+
+	<div>
+		<p class="label">Баланс по тоннажу</p>
+		<table>
+			<thead>
+				<tr>
+					<th class="bR"></th>
+					<th class="bR">Паротрасса</th>
+					<th>Рубикон</th>
+					<th>Ковры</th>
+					<th>Шелковый</th>
+					<th>Баланс</th>
+				</tr>
+			</thead>
+			<tr>
+				<td class="bR">Пар</td>
+				<td class="bR">
+					<input data-id="TonsSteamAll" value="@tons.Sum(x => x.SteamAll)" />
+				</td>
+				<td>
+					<input data-id="TonsSteamRubikon" value="@tons.Sum(x => x.SteamRubikon)" />
+				</td>
+				<td>
+					<input data-id="TonsSteamKovry" value="@tons.Sum(x => x.SteamKovry)" />
+				</td>
+				<td>
+					<input data-id="TonsSteamVksht" value="@tons.Sum(x => x.SteamVksht)" />
+				</td>
+				<td>
+					<input data-id="TonsSteamBalance" ondrag="TonsSteamRubikon + TonsSteamKovry + TonsSteamVksht" />
+				</td>
+			</tr>
+			<tr>
+				<td class="bR">Конденсат</td>
+				<td class="bR">
+					<input data-id="TonsCondAll" value="@tons.Sum(x => x.CondAll)" />
+				</td>
+				<td>
+					<input data-id="TonsCondRubikon" value="@tons.Sum(x => x.CondRubikon)" />
+				</td>
+				<td>
+					<input data-id="TonsCondKovry" value="@tons.Sum(x => x.CondKovry)" />
+				</td>
+				<td>
+					<input data-id="TonsCondVksht" value="@tons.Sum(x => x.CondVksht)" />
+				</td>
+				<td>
+					<input data-id="TonsCondBalance" ondrag="TonsCondRubikon + TonsCondKovry + TonsCondVksht" />
+				</td>
+			</tr>
+		</table>
+	</div>
+}

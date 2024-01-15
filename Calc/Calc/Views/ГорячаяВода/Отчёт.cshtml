@@ -1,0 +1,1113 @@
+﻿@{
+	DateTime date = DateTime.TryParse("01." + Request.QueryString.Get("date")?.Replace('_', '.'), out DateTime d)
+		? d
+		: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+	ViewBag.Title = "Отчёт";
+	ViewBag.Date = date;
+	Layout = "~/Views/Shared/_ГорячаяВодаLayout.cshtml";
+
+	string[] H = new[] {
+		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+		"AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ",
+		"BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ",
+	};
+
+	byte k = 1;
+}
+
+<table>
+	<thead>
+		<tr class="numbers">
+			<th rowspan="4" class="bR"></th>
+			<th>A</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+			<th row="@H[k]">@H[k++]</th>
+		</tr>
+		<tr>
+			<th rowspan="3" class="bR bB">Дата</th>
+			<th colspan="7" class="bR header">Центральная</th>
+			<th colspan="7" class="bR header">Западная</th>
+			<th colspan="7" class="bR header">Монолит</th>
+			<th colspan="9" class="bR header">Док</th>
+			<th colspan="7" class="bR header">Лучёса</th>
+			<th colspan="11" class="bR header">Всего по теплосети</th>
+		</tr>
+		@{ k = 1; }
+		<tr>
+			<th row="@H[k++]">xG прямой</th>
+			<th row="@H[k++]">xG обратной</th>
+			<th row="@H[k++]">М подпидки</th>
+			<th row="@H[k++]">Т прямой</th>
+			<th row="@H[k++]">Т обратной</th>
+			<th row="@H[k++]">Т источника</th>
+			<th row="@H[k++]" class="bR">xQ</th>
+			<th row="@H[k++]">xG прямой</th>
+			<th row="@H[k++]">xG обратной</th>
+			<th row="@H[k++]">М подпидки</th>
+			<th row="@H[k++]">Т прямой</th>
+			<th row="@H[k++]">Т обратной</th>
+			<th row="@H[k++]">Т источника</th>
+			<th row="@H[k++]" class="bR">xQ</th>
+			<th row="@H[k++]">xG прямой</th>
+			<th row="@H[k++]">xG обратной</th>
+			<th row="@H[k++]">М подпидки</th>
+			<th row="@H[k++]">Т прямой</th>
+			<th row="@H[k++]">Т обратной</th>
+			<th row="@H[k++]">Т источника</th>
+			<th row="@H[k++]" class="bR">xQ</th>
+			<th row="@H[k++]">xG прямой</th>
+			<th row="@H[k++]">xG обратной 1</th>
+			<th row="@H[k++]">xG обратной 2</th>
+			<th row="@H[k++]">М подпидки</th>
+			<th row="@H[k++]">Т прямой</th>
+			<th row="@H[k++]">Т обратной 1</th>
+			<th row="@H[k++]">Т обратной 2</th>
+			<th row="@H[k++]">Т источника</th>
+			<th row="@H[k++]" class="bR">xQ</th>
+			<th row="@H[k++]">xG прямой</th>
+			<th row="@H[k++]">xG обратной</th>
+			<th row="@H[k++]">М подпидки</th>
+			<th row="@H[k++]">Т прямой</th>
+			<th row="@H[k++]">Т обратной</th>
+			<th row="@H[k++]">Т источника</th>
+			<th row="@H[k++]" class="bR">xQ</th>
+			<th row="@H[k++]">G прямой</th>
+			<th row="@H[k++]">G прямой (часовой расход)</th>
+			<th row="@H[k++]">G обратной</th>
+			<th row="@H[k++]">G обратной (часовой расход)</th>
+			<th row="@H[k++]">T прямой</th>
+			<th row="@H[k++]">T обратной</th>
+			<th row="@H[k++]">T источника</th>
+			<th row="@H[k++]">G подпитки</th>
+			<th row="@H[k++]">G подпитки (часовой расход)</th>
+			<th row="@H[k++]">Q подпитки</th>
+			<th row="@H[k++]"></th>
+		</tr>
+		@{ k = 1; }
+		<tr class="metrica">
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]" class="bR">ГКал</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]" class="bR">ГКал</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]" class="bR">ГКал</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]" class="bR">ГКал</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]" class="bR">ГКал</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">тонн / ч</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">тонн / ч</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">тонн / ч</th>
+			<th row="@H[k++]">ГКал</th>
+			<th row="@H[k++]">ГКал</th>
+		</tr>
+	</thead>
+	<tbody>
+		@using (var db = new DatabaseContext())
+		{
+			var query = from a in db.НОВАЯ_ГОРВОТЧЕТ
+						from b in db.СведениеБаланса.LeftJoin(x => x.DateRec == a.DateRec)
+						from t1 in db.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.LeftJoin(x => x.DateRec == a.DateRec)
+						from t2 in db.НОВАЯ_ГОРВЗАПАДНАЯ.LeftJoin(x => x.DateRec == a.DateRec)
+						from t3 in db.НОВАЯ_ГОРВЛУЧЕСА.LeftJoin(x => x.DateRec == a.DateRec)
+						from t4 in db.НОВАЯ_ГОРВМОНОЛИТ.LeftJoin(x => x.DateRec == a.DateRec)
+						from t5 in db.НОВАЯ_ГОРВДОК.LeftJoin(x => x.DateRec == a.DateRec)
+						where b.DateRec >= date && b.DateRec < date.AddMonths(1)
+						orderby b.DateRec
+						select new
+						{
+							НОВАЯ_ГОРВОТЧЕТ = a,
+							СведениеБаланса = b,
+							НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ = t1,
+							НОВАЯ_ГОРВЗАПАДНАЯ = t2,
+							НОВАЯ_ГОРВЛУЧЕСА = t3,
+							НОВАЯ_ГОРВМОНОЛИТ = t4,
+							НОВАЯ_ГОРВДОК = t5,
+						};
+
+			int i = 0;
+
+			foreach (var day in query.ToList())
+			{
+				i++;
+				k = 1;
+				string date1 = day.НОВАЯ_ГОРВДОК.DateRec.ToString("dd.MM.yyyy");
+
+				<tr>
+					<td class="numbers">@i</td>
+					<td class="bR date">@date1</td>
+
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="B@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Мпр_корр_центральная.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="C@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Моб_корр_центральная.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="D@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Мподп_центр.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="E@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Тпрям.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="F@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Тобр.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="G@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Тист.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]" class="bR">
+						<input data-id="H@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.xQ.Pretty()" />
+					</td>
+
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="I@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Мпр_корр_западная.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="J@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Моб_корр_западная.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="K@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Мподп_запад.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="L@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВЗАПАДНАЯ.Тпрям.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="M@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВЗАПАДНАЯ.Тобр.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="N@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВЗАПАДНАЯ.Тист.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]" class="bR">
+						<input data-id="O@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВЗАПАДНАЯ.xQ.Pretty()" />
+					</td>
+
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="P@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Мпр_корр_монолит.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="Q@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Моб_корр_монолит.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="R@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Мподп_монолит.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="S@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВМОНОЛИТ.Тпрям.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="T@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВМОНОЛИТ.Тобр.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="U@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВМОНОЛИТ.Тист.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]" class="bR">
+						<input data-id="V@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВМОНОЛИТ.xQ.Pretty()" />
+					</td>
+
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="W@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Мпр_корр_док.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="X@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Моб1_корр_док.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="Y@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Моб2_корр_док.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="Z@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Мподп_док.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AA@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВДОК.Тпрям.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AB@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВДОК.Тобр1.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AC@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВДОК.Тобр2.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AD@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВДОК.Тист.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]" class="bR">
+						<input data-id="AE@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВДОК.xQ.Pretty()" />
+					</td>
+
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AF@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Мпр_корр_лучеса.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AG@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Моб_корр_лучеса.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AH@(i)"
+							   class="calculated"
+							   value="@day.СведениеБаланса.Мподп_лучеса.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AI@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВЛУЧЕСА.Тпрям.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AJ@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВЛУЧЕСА.Тобр.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AK@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВЛУЧЕСА.Тист.Pretty(2)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]" class="bR">
+						<input data-id="AL@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВЛУЧЕСА.xQ.Pretty()" />
+					</td>
+
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AM@(i)"
+							   class="calculated"
+							   ondrag="ОКРУГЛ(AF@(i) + W@(i) + P@(i) + I@(i) + B@(i))" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AN@(i)"
+							   class="calculated"
+							   ondrag="ОКРУГЛ(AM@(i) / 24)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AO@(i)"
+							   class="calculated"
+							   ondrag="ОКРУГЛ(AG@(i) + Y@(i) + X@(i) + Q@(i) + J@(i) + C@(i))" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AP@(i)"
+							   class="calculated"
+							   ondrag="ОКРУГЛ(AO@(i) / 24)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AQ@(i)"
+							   class="calculated"
+							   ondrag="ЕСЛИ(AM@(i) == 0, 0, ОКРУГЛ((E@(i) * B@(i) + L@(i) * I@(i) + S@(i) * P@(i) + AA@(i) * W@(i) + AI@(i) * AF@(i)) / AM@(i), 2))" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AR@(i)"
+							   class="calculated"
+							   ondrag="ЕСЛИ(AO@(i) == 0, 0, ОКРУГЛ((F@(i) * C@(i) + M@(i) * J@(i) + T@(i) * Q@(i) + AB@(i) * X@(i) + AC@(i) * Y@(i) + AJ@(i) * AG@(i)) / AO@(i), 2))" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AS@(i)"
+							   class="calculated"
+							   ondrag="ЕСЛИ(AM@(i) == 0, 0, ОКРУГЛ((G@(i) * B@(i) + N@(i) * I@(i) + U@(i) * P@(i) + AD@(i) * W@(i) + AF@(i) * AK@(i)) / AM@(i), 2))" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AT@(i)"
+							   class="calculated"
+							   value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Gподпитки.Pretty()" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AU@(i)"
+							   class="calculated"
+							   ondrag="ОКРУГЛ(AT@(i) / 24)" />
+					</td>
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AV@(i)"
+							   data-name="НОВАЯ_ГОРВОТЧЕТ.Qподп"
+							   class="editable"
+							   value="@day.НОВАЯ_ГОРВОТЧЕТ.Qподп.Pretty()"
+							   ondrag="ОКРУГЛ(ЕСЛИНЕТ(av@(i), (AT@(i) * (AR@(i) - AS@(i)) * 0.001)))" />
+					</td>
+					@{
+						var xQ = (day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.xQ ?? 0)
+							+ (day.НОВАЯ_ГОРВЗАПАДНАЯ.xQ ?? 0)
+							+ (day.НОВАЯ_ГОРВМОНОЛИТ.xQ ?? 0)
+							+ (day.НОВАЯ_ГОРВДОК.xQ ?? 0)
+							+ (day.НОВАЯ_ГОРВЛУЧЕСА.xQ ?? 0);
+					}
+					<td title="@date1 | @H[k]@i" row="@H[k++]">
+						<input data-id="AW@(i)"
+							   class="calculated"
+							   value="@xQ"
+							   ondrag="ОКРУГЛ(aw@(i) + AV@(i))" />
+					</td>
+
+				</tr>
+			}
+		}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="2" class="bR">Суммарное</td>
+			<td>
+				<input data-id="B_1"
+					   class="calculated"
+					   ondrag="СУММ('B')" />
+			</td>
+			<td>
+				<input data-id="C_1"
+					   class="calculated"
+					   ondrag="СУММ('C')" />
+			</td>
+			<td>
+				<input data-id="D_1"
+					   class="calculated"
+					   ondrag="СУММ('D')" />
+			</td>
+			<td>
+				<input data-id="E_1"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="СУММ('E')" />
+			</td>
+			<td>
+				<input data-id="F_1"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="СУММ('F')" />
+			</td>
+			<td>
+				<input data-id="G_1"
+					   class="calculated"
+					   ondrag="СУММ('G')" />
+			</td>
+			<td class="bR">
+				<input data-id="H_1"
+					   class="calculated"
+					   ondrag="СУММ('H')" />
+			</td>
+			<td>
+				<input data-id="I_1"
+					   class="calculated"
+					   ondrag="СУММ('I')" />
+			</td>
+			<td>
+				<input data-id="J_1"
+					   class="calculated"
+					   ondrag="СУММ('J')" />
+			</td>
+			<td>
+				<input data-id="K_1"
+					   class="calculated"
+					   ondrag="СУММ('K')" />
+			</td>
+			<td>
+				<input data-id="L_1"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="СУММ('L')" />
+			</td>
+			<td>
+				<input data-id="M_1"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="СУММ('M')" />
+			</td>
+			<td>
+				<input data-id="N_1"
+					   class="calculated"
+					   ondrag="СУММ('N')" />
+			</td>
+			<td class="bR">
+				<input data-id="O_1"
+					   class="calculated"
+					   ondrag="СУММ('O')" />
+			</td>
+			<td>
+				<input data-id="P_1"
+					   class="calculated"
+					   ondrag="СУММ('P')" />
+			</td>
+			<td>
+				<input data-id="Q_1"
+					   class="calculated"
+					   ondrag="СУММ('Q')" />
+			</td>
+			<td>
+				<input data-id="R_1"
+					   class="calculated"
+					   ondrag="СУММ('R')" />
+			</td>
+			<td>
+				<input data-id="S_1"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="СУММ('S')" />
+			</td>
+			<td>
+				<input data-id="T_1"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="СУММ('T')" />
+			</td>
+			<td>
+				<input data-id="U_1"
+					   class="calculated"
+					   ondrag="СУММ('U')" />
+			</td>
+			<td class="bR">
+				<input data-id="V_1"
+					   class="calculated"
+					   ondrag="СУММ('V')" />
+			</td>
+			<td>
+				<input data-id="W_1"
+					   class="calculated"
+					   ondrag="СУММ('W')" />
+			</td>
+			<td>
+				<input data-id="X_1"
+					   class="calculated"
+					   ondrag="СУММ('X')" />
+			</td>
+			<td>
+				<input data-id="Y_1"
+					   class="calculated"
+					   ondrag="СУММ('Y')" />
+			</td>
+			<td>
+				<input data-id="Z_1"
+					   class="calculated"
+					   ondrag="СУММ('Z')" />
+			</td>
+			<td>
+				<input data-id="AA_1"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="СУММ('AA')" />
+			</td>
+			<td>
+				<input data-id="AB_1"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="СУММ('AB')" />
+			</td>
+			<td>
+				<input data-id="AC_1"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="СУММ('AC')" />
+			</td>
+			<td>
+				<input data-id="AD_1"
+					   class="calculated"
+					   ondrag="СУММ('AD')" />
+			</td>
+			<td class="bR">
+				<input data-id="AE_1"
+					   class="calculated"
+					   ondrag="СУММ('AE')" />
+			</td>
+			<td>
+				<input data-id="AF_1"
+					   class="calculated"
+					   ondrag="СУММ('AF')" />
+			</td>
+			<td>
+				<input data-id="AG_1"
+					   class="calculated"
+					   ondrag="СУММ('AG')" />
+			</td>
+			<td>
+				<input data-id="AH_1"
+					   class="calculated"
+					   ondrag="СУММ('AH')" />
+			</td>
+			<td>
+				<input data-id="AI_1"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="СУММ('AI')" />
+			</td>
+			<td>
+				<input data-id="AJ_1"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="СУММ('AJ')" />
+			</td>
+			<td>
+				<input data-id="AK_1"
+					   class="calculated"
+					   ondrag="СУММ('AK')" />
+			</td>
+			<td class="bR">
+				<input data-id="AL_1"
+					   class="calculated"
+					   ondrag="СУММ('AL')" />
+			</td>
+			<td>
+				<input data-id="AM_1"
+					   class="calculated"
+					   ondrag="СУММ('AM')" />
+			</td>
+			<td>
+				<input data-id="AN_1"
+					   class="calculated"
+					   ondrag="СУММ('AN')" />
+			</td>
+			<td>
+				<input data-id="AO_1"
+					   class="calculated"
+					   ondrag="СУММ('AO')" />
+			</td>
+			<td>
+				<input data-id="AP_1"
+					   class="calculated"
+					   ondrag="СУММ('AP')" />
+			</td>
+			<td>
+				<input data-id="AQ_1"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="СУММ('AQ')" />
+			</td>
+			<td>
+				<input data-id="AR_1"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="СУММ('AR')" />
+			</td>
+			<td>
+				<input data-id="AS_1"
+					   class="calculated"
+					   ondrag="СУММ('AS')" />
+			</td>
+			<td>
+				<input data-id="AT_1"
+					   class="calculated"
+					   ondrag="СУММ('AT')" />
+			</td>
+			<td>
+				<input data-id="AU_1"
+					   class="calculated"
+					   ondrag="СУММ('AU')" />
+			</td>
+			<td>
+				<input data-id="AV_1"
+					   class="calculated"
+					   ondrag="СУММ('AV')" />
+			</td>
+			<td class="bR">
+				<input data-id="AW_1"
+					   class="calculated"
+					   ondrag="СУММ('AW')" />
+			</td>
+		</tr>
+		@{ 
+			int days = date.AddMonths(1) > DateTime.Now ? (int)((DateTime.Now - date).TotalDays) : DateTime.DaysInMonth(date.Year, date.Month);
+		}
+		<tr>
+			<td colspan="2" class="bR" title="Кол-во дней: @days">Среднее</td>
+			<td>
+				<input data-id="B_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(B_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="С_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(C_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="D_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(D_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="E_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(E_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="F_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(F_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="G_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(G_1 / @days, 1)" />
+			</td>
+			<td class="bR">
+				<input data-id="H_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(H_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="I_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(I_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="J_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(J_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="K_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(K_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="L_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(L_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="M_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(M_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="N_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(N_1 / @days, 1)" />
+			</td>
+			<td class="bR">
+				<input data-id="O_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(O_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="P_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(P_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="Q_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(Q_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="R_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(R_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="S_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(S_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="T_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(T_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="U_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(U_1 / @days, 1)" />
+			</td>
+			<td class="bR">
+				<input data-id="V_1"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(V_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="W_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(W_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="X_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(X_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="Y_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(Y_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="Z_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(Z_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AA_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AA_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AB_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AB_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AC_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AC_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AD_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AD_1 / @days, 1)" />
+			</td>
+			<td class="bR">
+				<input data-id="AE_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AE_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AF_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AF_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AG_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AG_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AH_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AH_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AI_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AI_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AJ_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AJ_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AK_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AK_1 / @days, 1)" />
+			</td>
+			<td class="bR">
+				<input data-id="AL_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AL_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AM_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AM_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AN_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AN_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AO_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AO_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AP_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AP_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AQ_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AQ_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AR_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AR_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AS_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AS_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AT_2"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AT_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AU_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AU_1 / @days, 1)" />
+			</td>
+			<td>
+				<input data-id="AV_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AV_1 / @days, 1)" />
+			</td>
+			<td class="bR">
+				<input data-id="AW_2"
+					   style="display: none;"
+					   class="calculated"
+					   ondrag="ОКРУГЛ(AW_1 / @days, 1)" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="bR">Средневзв.</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>
+				<input data-id="E_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('E', 'B')" />
+			</td>
+			<td>
+				<input data-id="F_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('F', 'C')" />
+			</td>
+			<td></td>
+			<td class="bR"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>
+				<input data-id="L_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('L', 'I')" />
+			</td>
+			<td>
+				<input data-id="M_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('M', 'J')" />
+			</td>
+			<td></td>
+			<td class="bR"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>
+				<input data-id="S_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('S', 'P')" />
+			</td>
+			<td>
+				<input data-id="T_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('T', 'Q')" />
+			</td>
+			<td></td>
+			<td class="bR"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>
+				<input data-id="AA_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('AA', 'W')" />
+			</td>
+			<td>
+				<input data-id="AB_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('AB', 'X')" />
+			</td>
+			<td>
+				<input data-id="AC_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('AC', 'Y')" />
+			</td>
+			<td></td>
+			<td class="bR"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>
+				<input data-id="AI_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('AI', 'AF')" />
+			</td>
+			<td>
+				<input data-id="AJ_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('AJ', 'AG')" />
+			</td>
+			<td></td>
+			<td class="bR"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>
+				<input data-id="AQ_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('AQ', 'AM')" />
+			</td>
+			<td>
+				<input data-id="AR_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('AR', 'AN')" />
+			</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tfoot>
+</table>

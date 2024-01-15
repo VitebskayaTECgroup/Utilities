@@ -1,0 +1,77 @@
+﻿@{ 
+	long ms = DateTime.Now.Ticks;
+	DateTime date = ViewBag.Date;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Отпуск пара | @ViewBag.Title.Replace('_', ' ')</title>
+	<link rel="shortcut icon" href="~/Content/images/favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" href="~/Content/css/index.css?@ms" />
+	<link rel="stylesheet" href="~/Content/widgets/datepicker/datepicker.css" />
+</head>
+
+<body>
+	<div class="panel">
+		<div class="caption">
+			<span>Отпуск пара</span>
+		</div>
+
+		<div class="nav">
+			<a href="~/">Главная</a>
+			&emsp;
+			<a href="~/Пар/ДОК?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "ДОК" ? "active" : "")">ДОК</a>
+			<a href="~/Пар/КОВРЫ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "КОВРЫ" ? "active" : "")">Ковры</a>
+			<a href="~/Пар/ВКШТ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "ВКШТ" ? "active" : "") s">ВКШТ</a>
+			<a href="~/Пар/РУБИКОН?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "РУБИКОН" ? "active" : "")">Рубикон</a>
+			<a href="~/Пар/ПаротрассаКИМ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "ПаротрассаКИМ" ? "active" : "") s">Паротрасса КИМ</a>
+			<a href="~/Пар/ОБЩИЙ_ОТПУСК_ТЕПЛА?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "ОБЩИЙ_ОТПУСК_ТЕПЛА" ? "active" : "")">Общий отпуск тепла</a>
+			<a href="~/Пар/СВОДНЫЙ_ЖУРНАЛ?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "СВОДНЫЙ_ЖУРНАЛ" ? "active" : "")">Сводный журнал</a>
+			<a href="~/Пар/Диагностика?date=@date.ToString("MM_yyyy")" class="@(ViewBag.Title == "Диагностика" ? "active" : "")">Диагностика</a>
+		</div>
+
+		<div class="operative">
+			<button onclick="location.href = '?date=@date.AddMonths(-1).ToString("MM_yyyy")'">Раньше</button>
+			<span>@date.ToString("MMMM yyyy")</span>
+			<button onclick="location.href = '?date=@date.AddMonths(1).ToString("MM_yyyy")'">Позже</button>
+			<button onclick="location.href = '?date=@DateTime.Today.ToString("MM_yyyy")'" class="s">Текущий месяц</button>
+			<button onclick="location.reload()">Обновить</button>
+			<button onclick="show('import')">Импорт</button>
+		</div>
+	</div>
+
+	<div class="sheet">
+		@RenderBody()
+	</div>
+
+	<div id="modal"></div>
+
+	<div id="import" class="modal">
+		<span style="display: inline-block; width: 10em;">Начальная дата:</span><input id="start" name="start" value="" autocomplete="off" />
+		<br /><br />
+		<span style="display: inline-block; width: 10em;">Конечная дата:</span><input id="end" name="end" value="" autocomplete="off" />
+		<br /><br />
+		<input name="name" type="hidden" value="@ViewBag.Title" />
+		<div>
+			<button onclick="fromASU('@Url.Action("import", "Пар")')">Импортировать</button>
+			&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+			<button onclick="closeModal()">Закрыть</button>
+		</div>
+	</div>
+
+	<script>const committer = '@Url.Action("", "")'</script>
+	<script src="~/Content/widgets/datepicker/datepicker.js"></script>
+	<script src="~/Content/js/index.js?@ms"></script>
+	<script>
+		new DatePicker({
+			el: '#start'
+		})
+		new DatePicker({
+			el: '#end'
+		})
+	</script>
+</body>
+
+</html>

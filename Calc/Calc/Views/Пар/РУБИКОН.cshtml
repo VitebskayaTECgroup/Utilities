@@ -1,0 +1,525 @@
+﻿@{
+	DateTime date = DateTime.TryParse("01." + Request.QueryString.Get("date")?.Replace('_', '.'), out DateTime d)
+		? d
+		: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+	int i = 0;
+
+	ViewBag.Title = "РУБИКОН";
+	ViewBag.Date = date;
+	Layout = "~/Views/Shared/_ПарLayout.cshtml";
+
+	string[] H = new[] {
+		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+		"AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ",
+		"BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ",
+	};
+
+	byte k = 0;
+}
+
+<table>
+	<thead>
+		<tr class="numbers">
+			<th rowspan="4" class="bR"></th>
+			@for (int o = 0; o < 27; o++)
+			{
+				<th row="@H[k]">@H[k++]</th>
+			}
+		</tr>
+		<tr>
+			<th rowspan="3" class="bR bB">Дата</th>
+			<th colspan="11" class="bR header">Показания приборов учёта</th>
+			<th colspan="4" class="bR header">Зачтённые ТЭЦ объемы отпуска</th>
+			<th colspan="3" class="bR header">Поправки на тепло ХИ</th>
+			<th colspan="8" class="bR header">Коммерческий отпуск</th>
+		</tr>
+		@{ k = 0; }
+		<tr>
+			<th row="@H[k++]" class="header">T<sub>времяП</sub></th>
+			<th row="@H[k++]" class="header">P<sub>П</sub></th>
+			<th row="@H[k++]" class="header">t<sub>П</sub></th>
+			<th row="@H[k++]" class="header">G<sub>П_</sub></th>
+			<th row="@H[k++]" class="header">G<sub>кП_</sub></th>
+			<th row="@H[k++]" class="bR header">Q<sub>П_</sub></th>
+			<th row="@H[k++]" class="header">T<sub>времяК</sub></th>
+			<th row="@H[k++]" class="header">t<sub>К</sub></th>
+			<th row="@H[k++]" class="header">P<sub>П</sub></th>
+			<th row="@H[k++]" class="header">G<sub>К_</sub></th>
+			<th row="@H[k++]" class="bR header">Q<sub>К_</sub></th>
+			<th row="@H[k++]" class="header">G<sub>Пкор</sub></th>
+			<th row="@H[k++]" class="header">Q<sub>Пкор</sub></th>
+			<th row="@H[k++]" class="header">G<sub>Ккор</sub></th>
+			<th row="@H[k++]" class="bR header">Q<sub>Ккор</sub></th>
+			<th row="@H[k++]" class="header">t<sub>ХИ</sub></th>
+			<th row="@H[k++]" class="header">dQ<sub>ХИП</sub></th>
+			<th row="@H[k++]" class="bR header">dQ<sub>ХИК</sub></th>
+			<th row="@H[k++]" class="header">Q<sub>ПКОМ</sub></th>
+			<th row="@H[k++]" class="header">Q<sub>ККОМ</sub></th>
+			<th row="@H[k++]" class="bR header">Q<sub>ПОЛКОМ</sub></th>
+			<th row="@H[k++]" class="header">G<sub>Пкор(М)</sub></th>
+			<th row="@H[k++]" class="header">G<sub>Ккор(М)</sub></th>
+			<th row="@H[k++]" class="header">Q<sub>ПКОМ(М)</sub></th>
+			<th row="@H[k++]" class="header">Q<sub>ККОМ(М)</sub></th>
+			<th row="@H[k++]" class="bR header">Q<sub>ПОЛ(М)</sub></th>
+		</tr>
+		@{ k = 0; }
+		<tr class="metrica">
+			<th row="@H[k++]" class="">кол-во дней</th>
+			<th row="@H[k++]" class="">МПа</th>
+			<th row="@H[k++]" class="">°С</th>
+			<th row="@H[k++]" class="">Тонн</th>
+			<th row="@H[k++]" class="">Тонн</th>
+			<th row="@H[k++]" class="bR">ГКал</th>
+			<th row="@H[k++]" class="">кол-во дней</th>
+			<th row="@H[k++]" class="">°С</th>
+			<th row="@H[k++]" class="">МПа</th>
+			<th row="@H[k++]" class="">Тонн</th>
+			<th row="@H[k++]" class="bR">ГКал</th>
+			<th row="@H[k++]" class="">Тонн</th>
+			<th row="@H[k++]" class="">ГКал</th>
+			<th row="@H[k++]" class="">Тонн</th>
+			<th row="@H[k++]" class="bR">ГКал</th>
+			<th row="@H[k++]" class="">°С</th>
+			<th row="@H[k++]" class="">°С</th>
+			<th row="@H[k++]" class="bR">°С</th>
+			<th row="@H[k++]" class="">ГКал</th>
+			<th row="@H[k++]" class="">ГКал</th>
+			<th row="@H[k++]" class="bR">ГКал</th>
+			<th row="@H[k++]" class="">Тонн</th>
+			<th row="@H[k++]" class="">Тонн</th>
+			<th row="@H[k++]" class="">ГКал</th>
+			<th row="@H[k++]" class="">ГКал</th>
+			<th row="@H[k++]" class="bR">ГКал</th>
+		</tr>
+	</thead>
+	<tbody>
+	@using (var db = new DatabaseContext())
+	{
+		var model = from y in db.РУБИКОН
+					from p in db.ПаротрассаКИМ.LeftJoin(x => x.DateRec == y.DateRec)
+					where y.DateRec >= date && y.DateRec < date.AddMonths(1)
+					orderby y.DateRec
+					select new
+					{
+						РУБИКОН = y,
+						ПаротрассаКИМ = p,
+					};
+
+		foreach (var x in model)
+		{
+			i++;
+			k = 0;
+
+		<tr>
+			<td class="numbers">@i</td>
+			<td row="@H[k++]" class="bR date">@x.РУБИКОН.DateRec.ToString("dd.MM.yyyy")</td>
+
+			<td row="@H[k++]">
+				<input data-id="B@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.TвремяП)"
+					   class="editable"
+					   value="@x.РУБИКОН.TвремяП.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="C@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.PП)"
+					   class="editable"
+					   value="@x.РУБИКОН.PП.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="D@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.tП)"
+					   class="editable"
+					   value="@x.РУБИКОН.tП.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="E@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.GП_)"
+					   class="marked"
+					   value="@x.РУБИКОН.GП_.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="F@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.GkП_)"
+					   class="marked"
+					   value="@x.РУБИКОН.GkП_.Pretty()" />
+			</td>
+			<td row="@H[k++]" class="bR">
+				<input data-id="G@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.QП_)"
+					   class="marked"
+					   value="@x.РУБИКОН.QП_.Pretty()" />
+			</td>
+
+			<td row="@H[k++]">
+				<input data-id="H@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.TвремяК)"
+					   class="editable"
+					   value="@x.РУБИКОН.TвремяК.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="I@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.tK)"
+					   class="editable"
+					   value="@x.РУБИКОН.tK.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="J@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.PК)"
+					   class="marked"
+					   value="@x.РУБИКОН.PК.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="K@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.GK_)"
+					   class="marked"
+					   value="@x.РУБИКОН.GK_.Pretty()" />
+			</td>
+			<td row="@H[k++]" class="bR">
+				<input data-id="L@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.QK_)"
+					   class="marked"
+					   value="@x.РУБИКОН.QK_.Pretty()" />
+			</td>
+
+			<td row="@H[k++]">
+				<input data-id="M@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.GПкор)"
+					   class="charged"
+					   ondrag="ЕСЛИ(m@(i) != 0, m@(i), F@(i))"
+					   value="@x.РУБИКОН.GПкор.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="N@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.QПкор)"
+					   class="charged"
+					   ondrag="ЕСЛИ(n@(i) != 0, n@(i), G@(i))"
+					   value="@x.РУБИКОН.QПкор.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="O@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.GKкор)"
+					   class="charged"
+					   ondrag="ЕСЛИ(o@(i) != 0, o@(i), K@(i))"
+					   value="@x.РУБИКОН.GKкор.Pretty()" />
+			</td>
+			<td row="@H[k++]" class="bR">
+				<input data-id="P@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.Qkкор)"
+					   class="charged"
+					   ondrag="ЕСЛИ(p@(i) != 0, p@(i), L@(i))"
+					   value="@x.РУБИКОН.Qkкор.Pretty()" />
+			</td>
+
+			<td row="@H[k++]">
+				<input data-id="Q@(i)"
+					   data-name="@nameof(x.ПаротрассаКИМ).@nameof(x.ПаротрассаКИМ.tХИ)"
+					   class="editable"
+					   value="@x.ПаротрассаКИМ.tХИ.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="R@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.dQХИП)"
+					   class="editable"
+					   ondrag="ЕСЛИ(r@(i) != '', r@(i), ОКРУГЛ(Q@(i) * M@(i) / 1000, 1))"
+					   value="@x.РУБИКОН.dQХИП.Pretty()" />
+			</td>
+			<td row="@H[k++]" class="bR">
+				<input data-id="S@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.dQХИК)"
+					   class="editable"
+					   ondrag="ЕСЛИ(s@(i) != '', s@(i), ОКРУГЛ(Q@(i) * O@(i) / 1000, 1))"
+					   value="@x.РУБИКОН.dQХИК.Pretty()" />
+			</td>
+
+			<td row="@H[k++]">
+				<input data-id="T@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.QПКОМ)"
+					   class="editable"
+					   ondrag="ЕСЛИ(t@(i) != 0, t@(i), N@(i) - R@(i))"
+					   value="@x.РУБИКОН.QПКОМ.Pretty()" />
+			</td>
+			<td row="@H[k++]">
+				<input data-id="U@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.QККОМ)"
+					   class="editable"
+					   ondrag="ЕСЛИ(u@(i) != 0, u@(i), P@(i) - S@(i))"
+					   value="@x.РУБИКОН.QККОМ.Pretty()" />
+			</td>
+			<td row="@H[k++]" class="bR">
+				<input data-id="V@(i)"
+					   data-name="@nameof(x.РУБИКОН).@nameof(x.РУБИКОН.QПОЛКОМ)"
+					   class="editable"
+					   ondrag="ЕСЛИ(v@(i) != 0, v@(i), T@(i) - U@(i))"
+					   value="@x.РУБИКОН.QПОЛКОМ.Pretty()" />
+			</td>
+
+			@if (i == 1)
+			{
+				<td row="@H[k++]">
+					<input data-id="X@(i)"
+						   class="editable"
+						   ondrag="ОКРУГЛ(M@(i), 0)"
+						   value="0" />
+				</td>
+				<td row="@H[k++]">
+					<input data-id="Y@(i)"
+						   class="editable"
+						   ondrag="ОКРУГЛ(O@(i), 0)"
+						   value="0" />
+				</td>
+				<td row="@H[k++]">
+					<input data-id="Z@(i)"
+						   class="editable"
+						   ondrag="ОКРУГЛ(T@(i), 1)"
+						   value="0" />
+				</td>
+				<td row="@H[k++]">
+					<input data-id="AA@(i)"
+						   class="editable"
+						   ondrag="ОКРУГЛ(U@(i), 1)"
+						   value="0" />
+				</td>
+				<td row="@H[k++]">
+					<input data-id="AB@(i)"
+						   class="editable"
+						   ondrag="ОКРУГЛ(V@(i), 1)"
+						   value="0" />
+				</td>
+			}
+			else
+			{
+				<td row="@H[k++]">
+					<input data-id="X@(i)"
+						   class="editable"
+						   ondrag="ОКРУГЛ(M@(i), 0) + ОКРУГЛ(X@(i - 1), 0)"
+						   value="0" />
+				</td>
+				<td row="@H[k++]">
+					<input data-id="Y@(i)"
+						   class="editable"
+						   ondrag="ОКРУГЛ(O@(i), 0) + ОКРУГЛ(Y@(i - 1), 0)"
+						   value="0" />
+				</td>
+				<td row="@H[k++]">
+					<input data-id="Z@(i)"
+						   class="editable"
+						   ondrag="ОКРУГЛ(T@(i), 1) + ОКРУГЛ(Z@(i - 1), 1)"
+						   value="0" />
+				</td>
+				<td row="@H[k++]">
+					<input data-id="AA@(i)"
+						   class="editable"
+						   ondrag="ОКРУГЛ(U@(i), 1) + ОКРУГЛ(AA@(i - 1), 1)"
+						   value="0" />
+				</td>
+				<td row="@H[k++]">
+					<input data-id="AB@(i)"
+						   class="editable"
+						   ondrag="ОКРУГЛ(V@(i), 1) + ОКРУГЛ(AB@(i - 1), 1)"
+						   value="0" />
+				</td>
+			}
+		</tr>
+
+		}
+	}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="2" class="bR">Суммарное</td>
+			<td>
+				<input data-id="B_1"
+					   class="calculated"
+					   ondrag="СУММ('B')" />
+			</td>
+			<td></td>
+			<td></td>
+			<td>
+				<input data-id="E_1"
+					   class="calculated"
+					   ondrag="СУММ('E')" />
+			</td>
+			<td>
+				<input data-id="F_1"
+					   class="calculated"
+					   ondrag="СУММ('F')" />
+			</td>
+			<td class="bR">
+				<input data-id="G_1"
+					   class="calculated"
+					   ondrag="СУММ('G')" />
+			</td>
+			<td>
+				<input data-id="H_1"
+					   class="calculated"
+					   ondrag="СУММ('H')" />
+			</td>
+			<td></td>
+			<td></td>
+			<td>
+				<input data-id="K_1"
+					   class="calculated"
+					   ondrag="СУММ('K')" />
+			</td>
+			<td class="bR">
+				<input data-id="L_1"
+					   class="calculated"
+					   ondrag="СУММ('L')" />
+			</td>
+			<td>
+				<input data-id="M_1"
+					   class="calculated"
+					   ondrag="СУММ('M')" />
+			</td>
+			<td>
+				<input data-id="N_1"
+					   class="calculated"
+					   ondrag="СУММ('N')" />
+			</td>
+			<td>
+				<input data-id="O_1"
+					   class="calculated"
+					   ondrag="СУММ('O')" />
+			</td>
+			<td class="bR">
+				<input data-id="P_1"
+					   class="calculated"
+					   ondrag="СУММ('P')" />
+			</td>
+			<td>
+				<input data-id="Q_1"
+					   class="calculated"
+					   ondrag="СУММ('Q')" />
+			</td>
+			<td>
+				<input data-id="R_1"
+					   class="calculated"
+					   ondrag="СУММ('R')" />
+			</td>
+			<td class="bR">
+				<input data-id="S_1"
+					   class="calculated"
+					   ondrag="СУММ('S')" />
+			</td>
+			<td>
+				<input data-id="T_1"
+					   class="calculated"
+					   ondrag="СУММ('T')" />
+			</td>
+			<td>
+				<input data-id="U_1"
+					   class="calculated"
+					   ondrag="СУММ('U')" />
+			</td>
+			<td class="bR">
+				<input data-id="V_1"
+					   class="calculated"
+					   ondrag="СУММ('V')" />
+			</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="bR">Среднее</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>
+				<input data-id="E_2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B_1 == 0, 0, E_1 / B_1)" />
+			</td>
+			<td>
+				<input data-id="F_2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B_1 == 0, 0, F_1 / B_1)" />
+			</td>
+			<td class="bR">
+				<input data-id="G_2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B_1 == 0, 0, G_1 / B_1)" />
+			</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>
+				<input data-id="K_2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B_1 == 0, 0, K_1 / B_1)" />
+			</td>
+			<td class="bR">
+				<input data-id="L_2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B_1 == 0, 0, L_1 / B_1)" />
+			</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="bR"></td>
+			<td>
+				<input data-id="Q_2"
+					   class="calculated"
+					   ondrag="ЕСЛИ(B_1 == 0, 0, Q_1 / B_1)" />
+			</td>
+			<td></td>
+			<td class="bR"></td>
+			<td></td>
+			<td></td>
+			<td class="bR"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="bR">Средневзв.</td>
+			<td></td>
+			<td>
+				<input data-id="С_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('C', 'F')" />
+			</td>
+			<td>
+				<input data-id="D_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('D', 'F')" />
+			</td>
+			<td></td>
+			<td></td>
+			<td class="bR"></td>
+			<td></td>
+			<td>
+				<input data-id="I_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('I', 'K')" />
+			</td>
+			<td>
+				<input data-id="J_3"
+					   class="calculated"
+					   ondrag="СредневзвешенноеДавление('J', 'K')" />
+			</td>
+			<td></td>
+			<td class="bR"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="bR"></td>
+			<td></td>
+			<td></td>
+			<td class="bR"></td>
+			<td></td>
+			<td></td>
+			<td class="bR"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tfoot>
+</table>

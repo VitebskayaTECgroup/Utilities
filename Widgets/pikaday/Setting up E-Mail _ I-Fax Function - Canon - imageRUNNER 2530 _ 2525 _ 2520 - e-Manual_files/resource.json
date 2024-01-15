@@ -1,0 +1,332 @@
+﻿var resource = [
+	// --------------------------------------------------------------------------------------------
+	// HEADER
+	// --------------------------------------------------------------------------------------------
+	{
+		id:		"canon_logo",
+		value:	"<img src=\"___frame_path___images/hdr_canon_logo.gif\" title=\"CANON\" />"
+	},{
+		id:		"product_main_name",
+		value:	"imageRUNNER"
+	},{
+		id:		"product_sub_name",
+		value:	"2530 / 2525 / 2520"
+	},{
+		id:		"version",
+		value:	""
+	},{
+		id:		"guide_name",
+		value:	"e-Manual"
+	},{
+		id:		"toc_button",
+		value:	"Contents"
+	},{
+		id:		"home",
+		value:	"Top"
+	},{
+		id:		"contents",
+		value:	"Contents"
+	},{
+		id:		"search",
+		value:	"Search"
+	},{
+		id:		"portal",
+		value:	"<p>Before you read this manual:</p><p>If you find this manual from web search results, please confirm from the following URL that it is the appropriate manual.</p><p><a href=\"http://canon.com/oip-manual\" target=\"_blank\">canon.com/oip-manual</a></p>"
+	},{
+		id:		"local2portal",
+		value:	"<p>A newer version of this manual may be available on our website.</p><p><a href=\"http://canon.com/oip-manual\" target=\"_blank\">canon.com/oip-manual</a></p>"
+	},{
+		id:		"com_address",
+		value:	"<p>If you have any questions or queries regarding this machine, or if you wish to request repairs, please contact your local authorized Canon dealer. You can view contact information for Canon dealers from the support page of the Canon website.</p><p><a href=\"http://www.canon.com/\" target=\"_blank\">http://www.canon.com/</a></p>"
+	},{
+		id:		"gb",
+		value:	"<p>使用说明书</p><p>在使用本产品之前，请务必先仔细阅读本使用说明书。请务必保留备用。请在充分理解内容的基础上，正确使用。</p>"
+	},{
+		id:		"gb_name",
+		value:	"激光打印机" // [彩色数码多功能复印/打印机|彩色数码复合机|彩色数码多功能复合机|数码多功能复印/打印机|数码多功能复合机|数码复合机|多功能传真一体机|数码打印机|激光多功能一体机|激光打印机|彩色激光打印机|彩色激光打印机（数码复合机）|多功能一体机|打印机]
+	},{
+		id:		"gb_place_of_origin",
+		value:	"原产地：中国"
+	},{
+		id:		"gb_importer",
+		value:	"进口商：佳能(中国)有限公司"
+	},{
+		id:		"gb_address",
+		value:	"地址： 100005 北京市东城区金宝街89号金宝大厦2层"
+	},{
+		id:		"gb_revised",
+		value:	"修订日期：2016.6"
+	},{
+		id:		"bar_label_previous",
+		value:	"Previous"
+	},{
+		id:		"bar_label_next",
+		value:	"Next"
+	// --------------------------------------------------------------------------------------------
+	// FOOTER
+	// --------------------------------------------------------------------------------------------
+	},{
+		id:		"copy_right",
+		value:	"Copyright CANON INC. 2018"
+	},{
+		id:		"pub_number",
+		value:	"USRMA-0620-01"
+	},{
+		id:		"pub_number2",
+		value:	"2018-03"
+	// --------------------------------------------------------------------------------------------
+	// MAIN
+	// --------------------------------------------------------------------------------------------
+	},{
+		id:		"open_next_sibling",
+		value:	"Open details"
+	},{
+		id:		"close_next_sibling",
+		value:	"Close details"
+	},{
+		id:		"open_all",
+		value:	"Show all details"
+	},{
+		id:		"close_all",
+		value:	"Hide all details"
+	},{
+		id:		"close",
+		value:	"Close"
+	},{
+		id:		"close_toc_all",
+		value:	"Collapse all"
+	},{
+		id:		"open_toc_all",
+		value:	"Expand all"
+	},{
+		id:		"child_window_close",
+		value:	"Close"
+	// --------------------------------------------------------------------------------------------
+	// SEARCH
+	// --------------------------------------------------------------------------------------------
+	},{
+		id:		"search_found",
+		value:	"item(s)"
+	},{
+		id:		"enter_search_keyword",
+		value:	"Enter keyword(s) here"
+	},{
+		id:		"search_message_wait",
+		value:	"Now searching... Please wait..."
+	},{
+		id:		"search_message_enter_search_keyword",
+		value:	"Enter keyword(s) here"
+	},{
+		id:		"search_message_more",
+		value:	"Show more..."
+	// --------------------------------------------------------------------------------------------
+	// CONFIG
+	// --------------------------------------------------------------------------------------------
+	},{
+		id:		"config_message_font_size",
+		value:	"Font size:"
+	},{
+		id:		"config_message_layout_mode",
+		value:	"Screen layout:"
+	},{
+		id:		"config_message_layout_mode_mobile",
+		value:	"Mobile"
+	},{
+		id:		"config_message_layout_mode_pc",
+		value:	"PC"
+	},{
+		id:		"config_message_layout_mode_caution_1",
+		value:	"NOTE"
+	},{
+		id:		"config_message_layout_mode_caution_2",
+		value:	"PC screen layout may not display properly on some mobile devices."
+	},{
+		id:		"config_message_toc_mode",
+		value:	"Contents display:"
+	},{
+		id:		"config_message_toc_mode_all",
+		value:	"All chapters"
+	},{
+		id:		"config_message_toc_mode_chapter",
+		value:	"Individual chapters"
+	},{
+		id:		"config_message_toc_mode_caution_1",
+		value:	"NOTE"
+	},{
+		id:		"config_message_toc_mode_caution_2",
+		value:		"The contents display on the top page displays \"all chapters\" at all times."
+	},{
+		id:		"config_message_back",
+		value:	"Back"
+	// --------------------------------------------------------------------------------------------
+	// GROUP
+	// --------------------------------------------------------------------------------------------
+	},{
+		id:		"Easy",
+		value:	"Easy Operation"
+	},{
+		id:		"troubleshooting",
+		value:	"Troubleshooting"
+	// --------------------------------------------------------------------------------------------
+	// CATEGORY
+	// --------------------------------------------------------------------------------------------
+	},{
+		id:		"ts_1",
+		value:	"Control Panel"
+	},{
+		id:		"ts_2",
+		value:	"Making a Copy"
+	},{
+		id:		"ts_3",
+		value:	"Printing from a Computer"
+	},{
+		id:		"ts_4",
+		value:	"Printing from a USB Memory Media Device"
+	},{
+		id:		"ts_5",
+		value:	"Sending a Document"
+	},{
+		id:		"ts_6",
+		value:	"Sending a Fax"
+	},{
+		id:		"ts_7",
+		value:	"Scanning from a Computer"
+	},{
+		id:		"ts_8",
+		value:	"Operating the Machine from a Computer"
+	},{
+		id:		"ts_9",
+		value:	"Customizing the Machine Settings"
+	},{
+		id:		"mainte",
+		value:	"Maintenance"
+	},{
+		id:		"trouble",
+		value:	"Troubleshooting"
+	// --------------------------------------------------------------------------------------------
+	// WebManual
+	// --------------------------------------------------------------------------------------------
+	},{
+		id:	"static_toc_html_template_1",
+		value:	"<meta http-equiv=\"Content-Type\" content=\"application/xhtml+xml; charset=UTF-8\" /><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"../styles/frame_toc.css\" /><script type=\"text/javascript\" src=\"../scripts/toc.js\"></script><script type=\"text/javascript\" src=\"../scripts/jquery.js\"></script><ul id=\"id_toc\" class=\"nocontent\"><li toc_id=\"home\" class=\"level_1\" title=\"%s\"><img src=\"../images/toc-icon.png\" class=\"toc-sign-0\" /><a target=\"_parent\" href=\"../frame_htmls/home.html\">%s</a></li%s></ul><div class=\"code nocontent\" id=\"%s\"></div>"
+	},{
+		id:	"static_toc_html_template_2",
+		value:	"><li toc_id=\"%s\" class=\"level_%s\" title=\"%s\">%s<img src=\"../images/toc-icon.png\" class=\"%s-sign-%s\" />%s<a target=\"_parent\" href=\"../contents/%s\">%s</a></li"
+	},{
+		id:	"static_toc_html_template_3",
+		value:	"<a href=\"#\" class=\"sign\" onclick=\"fncToggle(this); return false;\">"
+	},{
+		id:	"static_toc_html_template_4",
+		value:	"</a>"
+	},{
+		id:		"static_toc_html_code",
+		value:	"9700930091962620"
+	// --------------------------------------------------------------------------------------------
+	// PDFManual
+	// --------------------------------------------------------------------------------------------
+	}
+];
+var link_info = [
+	// h1とは異なる文字をリンクタイトルに表示する必要がある場合はresource側に対応するidとvalueを定義する
+	// --------------------------------------------------------------------------------------------
+	// MAIN
+	// --------------------------------------------------------------------------------------------
+	{
+		link_name:"ts_1",
+		link_target:"_self"
+	},{
+		link_name:"ts_2",
+		link_target:"_self"
+	},{
+		link_name:"ts_3",
+		link_target:"_self"
+	},{
+		link_name:"ts_4",
+		link_target:"_self"
+	},{
+		link_name:"ts_5",
+		link_target:"_self"
+	},{
+		link_name:"ts_6",
+		link_target:"_self"
+	},{
+		link_name:"ts_7",
+		link_target:"_self"
+	},{
+		link_name:"ts_8",
+		link_target:"_self"
+	},{
+		link_name:"ts_9",
+		link_target:"_self"
+	},{
+		link_name:"mainte",
+		link_target:"_self"
+	},{
+		link_name:"trouble",
+		link_target:"_self"
+	// --------------------------------------------------------------------------------------------
+	// FOOTER
+	// --------------------------------------------------------------------------------------------
+	},{
+		link_name:"disclaimer",
+		link_target:"_self",
+		link_resource:"disclaimer",
+		link_href:""
+	},{
+		link_name:"notice",
+		link_target:"_self",
+		link_resource:"notice",
+		link_href:""
+	}
+];
+var header = "config,help";
+var constant = [
+	{
+		/* Remove "//" below to specify the language code. Simplified Chinese must be specified as "zh-CN". Traditional Chinese must be specified as "zh-TW". */
+		//lang_code:					"xx-XX",
+		asset_mode:					"web", // [web(default)|local]
+		toc_mode:					"iframe", // [json|iframe(default)] // asset_modeがlocalの場合はiframeを使用しない（ローカルでiframeがセキュリティー上NGなブラウザーがあるため）
+		search_show_around:			50,
+		search_show_result_count:	10,
+		search_option_multibyte:	1,	// [0|1]
+		join_chapters:				1,	// [0|1]
+		ga_tracking_id:				"UA-65621281-1",
+		ga_tracking_domain:			"auto", // ug.oipsrv.net
+		frame_path:					"/assets/manual/frames/v1/en/",
+		template_path:				"/assets/manual/templates/v1ne/en/", // template_typeがneの場合は「/assets/manual/templates/v1ne/en/」それ以外は「/assets/manual/templates/v1/en/」
+		template_type:				"ne" // [ne|v2]
+	}
+];
+var cover = [
+	{
+		cover_name:"Easy",
+		cover_title:"Easy Operation"
+	},{
+		cover_name:"basic",
+		cover_title:"Basic Operations"
+	},{
+		cover_name:"copy",
+		cover_title:"Copying"
+	},{
+		cover_name:"fax",
+		cover_title:"Sending and Faxing"
+	},{
+		cover_name:"prt",
+		cover_title:"Using the Machine as a Printer"
+	},{
+		cover_name:"rui",
+		cover_title:"Using the Remote UI"
+	},{
+		cover_name:"set",
+		cover_title:"System Settings"
+	},{
+		cover_name:"mainte",
+		cover_title:"Maintenance"
+	},{
+		cover_name:"trouble",
+		cover_title:"Troubleshooting"
+	},{
+		cover_name:"others",
+		cover_title:"Appendix"
+	}
+];

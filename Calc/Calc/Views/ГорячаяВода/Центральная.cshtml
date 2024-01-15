@@ -1,0 +1,332 @@
+﻿@{
+	DateTime date = DateTime.TryParse("01." + Request.QueryString.Get("date")?.Replace('_', '.'), out DateTime d)
+		? d
+		: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+	ViewBag.Title = "Центральная";
+	ViewBag.Date = date;
+	Layout = "~/Views/Shared/_ГорячаяВодаLayout.cshtml";
+
+	string[] H = new[] {
+		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+		"AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ",
+		"BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ",
+	};
+	byte k = 1;
+}
+
+<table>
+	<thead>
+		<tr class="numbers">
+			<th rowspan="4" class="bR"></th>
+			<th>A</th>
+			<th row="@H[k++]">B</th>
+			<th row="@H[k++]">C</th>
+			<th row="@H[k++]">D</th>
+			<th row="@H[k++]">E</th>
+			<th row="@H[k++]">F</th>
+			<th row="@H[k++]">G</th>
+			<th row="@H[k++]">H</th>
+			<th row="@H[k++]">I</th>
+			<th row="@H[k++]">J</th>
+			<th row="@H[k++]">K</th>
+			<th row="@H[k++]">L</th>
+			<th row="@H[k++]">M</th>
+			<th row="@H[k++]">N</th>
+			<th row="@H[k++]">O</th>
+			<th row="@H[k++]">P</th>
+			<th row="@H[k++]">Q</th>
+			<th row="@H[k++]">R</th>
+			<th row="@H[k++]">S</th>
+			<th row="@H[k++]">T</th>
+			<th row="@H[k++]">U</th>
+			<th row="@H[k++]">V</th>
+			<th row="@H[k++]">W</th>
+			<th row="@H[k++]">X</th>
+		</tr>
+		<tr>
+			<th rowspan="3" class="bR bB">Дата</th>
+			<th colspan="9" class="bR header">Исходные</th>
+			<th colspan="3" class="bR header"></th>
+			<th colspan="2" class="bR header">Энтальпия</th>
+			<th colspan="3" class="bR header">Поправки</th>
+			<th colspan="6" class="header">Расчётные</th>
+		</tr>
+		@{ k = 1; }
+		<tr>
+			<th row="@H[k++]">Gпрям</th>
+			<th row="@H[k++]">Тпрям</th>
+			<th row="@H[k++]">Gобр</th>
+			<th row="@H[k++]">Тобр</th>
+			<th row="@H[k++]">Тист</th>
+			<th row="@H[k++]">Gподпитки</th>
+			<th row="@H[k++]">Qпрям</th>
+			<th row="@H[k++]">Qобр</th>
+			<th row="@H[k++]" class="bR">Tподп</th>
+			<th row="@H[k++]">Погр_пр</th>
+			<th row="@H[k++]">Погр_обр</th>
+			<th row="@H[k++]" class="bR">Погр_подп</th>
+			<th row="@H[k++]">Энтальпия прямой</th>
+			<th row="@H[k++]" class="bR">Энтальпия обратной</th>
+			<th row="@H[k++]">Поправка к Т прямой</th>
+			<th row="@H[k++]">Поправка к Т обратной</th>
+			<th row="@H[k++]" class="bR">Разность</th>
+			<th row="@H[k++]">Мпр корр центральная</th>
+			<th row="@H[k++]">IT прямой</th>
+			<th row="@H[k++]">Мобр корр центральная</th>
+			<th row="@H[k++]">IT обратной</th>
+			<th row="@H[k++]">М подпитки центральная</th>
+			<th row="@H[k++]" class="bR">xQ</th>
+		</tr>
+		@{ k = 1; }
+		<tr class="metrica">
+			<th row="@H[k++]">Тонн</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">Тонн</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">Тонн</th>
+			<th row="@H[k++]">ГКал</th>
+			<th row="@H[k++]">ГКал</th>
+			<th row="@H[k++]" class="bR">°С</th>
+			<th row="@H[k++]">%</th>
+			<th row="@H[k++]">%</th>
+			<th row="@H[k++]" class="bR">%</th>
+			<th row="@H[k++]"></th>
+			<th row="@H[k++]" class="bR"></th>
+			<th row="@H[k++]"></th>
+			<th row="@H[k++]"></th>
+			<th row="@H[k++]" class="bR"></th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]">°С</th>
+			<th row="@H[k++]">тонн</th>
+			<th row="@H[k++]" class="bR">ГКал</th>
+		</tr>
+	</thead>
+	<tbody>
+	@using (var db = new DatabaseContext())
+	{
+		var query = from c in db.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ
+					from b in db.СведениеБаланса.InnerJoin(x => x.DateRec == c.DateRec)
+					where c.DateRec >= date && c.DateRec < date.AddMonths(1)
+					select new
+					{
+						НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ = c,
+						СведениеБаланса = b,
+					};
+
+		var model = query.ToList();
+
+		int i = 1;
+
+		foreach (var day in model)
+		{
+			k = 1;
+			string date1 = day.СведениеБаланса.DateRec.ToString("dd.MM.yyyy");
+
+			<tr>
+				<td class="numbers">@i</td>
+				<td class="bR date">@date1</td>
+
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input 
+						   data-id="B@(i)"
+						   data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Gпрям"
+						   data-type="number"
+						   class="editable"
+						   value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Gпрям.Pretty()" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="C@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Тпрям"
+						   data-type="number"
+							class="editable"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Тпрям.Pretty(2)" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="D@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Gобр"
+						   data-type="number"
+							class="editable"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Gобр.Pretty()" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="E@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Тобр"
+						   data-type="number"
+							class="editable"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Тобр.Pretty(2)" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="F@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Тист"
+						   data-type="number"
+							class="editable"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Тист.Pretty(2)" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="G@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Gподпитки"
+						   data-type="number"
+							class="editable"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Gподпитки.Pretty()" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="H@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Qпрям"
+							ondrag="ЕСЛИНЕТ(h@(i), (B@(i) * (C@(i) - E@(i)) * 0.001))"
+						   data-type="number"
+							class="editable"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Qпрям.Pretty()" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="I@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Qобр" 
+						   data-type="number"
+							class="editable"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Qобр.Pretty()" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]" class="bR">
+					<input
+							data-id="J@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Tподп"
+						   data-type="number"
+							class="editable"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Tподп.Pretty(2)" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="K@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Погр_пр"
+						   data-type="number"
+							class="editable"
+							value="0.16" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="L@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Погр_обр"
+						   data-type="number"
+							class="editable"
+							value="0.16" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]" class="bR">
+					<input
+							data-id="M@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Погр_подп"
+						   data-type="number"
+							class="editable"
+							value="0.16" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="N@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Энтальпия_прямой"
+						   data-type="number"
+							class="editable"
+							ondrag="ЕСЛИНЕТ(n@(i), ЕСЛИ(B@(i) == 0, 0, ОКРУГЛ(H@(i) / B@(i) * 1000 + F@(i))))"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Энтальпия_прямой.Pretty()" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]" class="bR">
+					<input
+							data-id="O@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Энтальпия_обратной"
+						   data-type="number"
+							class="editable"
+							ondrag="ЕСЛИНЕТ(o@(i), ЕСЛИ(D@(i) == 0, 0, ОКРУГЛ(I@(i) / D@(i) * 1000 + F@(i))))"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Энтальпия_обратной.Pretty()" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="P@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Поправка_к_Тпр"
+						   data-type="number"
+							class="editable"
+							ondrag="ЕСЛИНЕТ(p@(i), (N@(i) - C@(i)))"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Поправка_к_Тпр.Pretty()" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="Q@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Поправка_к_Тобр"
+						   data-type="number"
+							class="editable"
+							ondrag="ЕСЛИНЕТ(q@(i), (O@(i) - E@(i)))"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Поправка_к_Тобр.Pretty()" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]" class="bR">
+					<input
+							data-id="R@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Разность"
+						   data-type="number"
+							class="editable"
+							ondrag="ЕСЛИНЕТ(r@(i), (P@(i) - Q@(i)))"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.Разность.Pretty()" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="S@(i)"
+							data-name="СведениеБаланса.Мпр_корр_центральная"
+						   data-type="number"
+							class="calculated"
+							value="@day.СведениеБаланса.Мпр_корр_центральная.Pretty()" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="T@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.IТпрям"
+						   data-type="number"
+							class="editable"
+							ondrag="ОКРУГЛ(ЕСЛИНЕТ(t@(i), (C@(i) + P@(i))), 2)"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.IТпрям.Pretty(2)" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="U@(i)"
+							data-name="СведениеБаланса.Моб_корр_центральная"
+						   data-type="number"
+							class="calculated"
+							value="@day.СведениеБаланса.Моб_корр_центральная.Pretty()" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="V@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.IТобр"
+						   data-type="number"
+							class="editable"
+							ondrag="ОКРУГЛ(ЕСЛИНЕТ(v@(i), (E@(i) + Q@(i))), 2)"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.IТобр.Pretty(2)" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="W@(i)"
+							data-name="СведениеБаланса.Мподп_центр"
+						   data-type="number"
+							class="calculated"
+							value="@day.СведениеБаланса.Мподп_центр.Pretty()" />
+				</td>
+				<td title="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.DateRec.ToString("dd.MM.yyyy") | @H[k]@i" row="@H[k++]">
+					<input
+							data-id="X@(i)"
+							data-name="НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.xQ"
+						   data-type="number"
+							class="editable"
+							ondrag="ОКРУГЛ(ЕСЛИНЕТ(x@(i), ОКРУГЛ((S@(i) * T@(i) - U@(i) * V@(i) - W@(i) * F@(i)) / 1000)), 2)"
+							value="@day.НОВАЯ_ГОРВЦЕНТРАЛЬНАЯ.xQ.Pretty()" />
+				</td>
+			</tr>
+
+			i++;
+		}
+	}
+	</tbody>
+</table>
