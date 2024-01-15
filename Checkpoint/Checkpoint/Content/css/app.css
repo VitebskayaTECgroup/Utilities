@@ -1,0 +1,295 @@
+/* Сброс */
+
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 12pt;
+    margin: 0;
+}
+
+/* panel */
+
+.panel {
+    position: fixed;
+    top: 0;
+    bottom: 3em;
+    left: 0;
+    width: 18em;
+    border-right: 1px solid #ddd;
+    box-shadow: 1px -4px 8px 0 #ddd;
+    padding: .5em;
+    overflow-y: auto;
+    background: #f3f3f3;
+}
+
+.panel-title {
+    display: block;
+    margin: 0;
+    padding: .6em .5em;
+    font-weight: lighter;
+    font-size: 1.25em;
+    color: #000;
+    text-decoration: none;
+}
+
+.panel-input {
+    padding: .9em .5em 0;
+}
+
+    .panel-input > span {
+        display: block;
+        font-size: .8em;
+        margin-bottom: .4em;
+    }
+
+    .panel-input > select,
+    .panel-input > input,
+    .panel-input > button {
+        padding: .2em .3em;
+        width: 100%;
+        font-size: .9em;
+        border: 1px solid #ccc;
+    }
+
+    .panel-input > label {
+        display: block;
+        padding: .25em .4em;
+        border: 1px solid #ccc;
+        font-size: .9em;
+        background: #fff;
+    }
+
+        .panel-input > label:hover,
+        .panel-input > button:hover {
+            cursor: pointer;
+        }
+
+    .panel-input .ui-widget {
+        font-size: .9em;
+        width: 100%;
+        border: 1px solid #ccc;
+    }
+
+        .panel-input > select,
+        .panel-input .ui-widget.ui-widget-content {
+            border-color: #ccc;
+        }
+
+    .panel-input .ui-widget-header,
+    .panel-input .ui-datepicker th {
+        font-weight: normal;
+    }
+
+    .panel-input .ui-datepicker td:hover a {
+        background: #a3d0ff;
+    }
+
+    .panel-input > select:hover,
+    .panel-input > label:hover {
+        background: #eee;
+    }
+
+    .panel-input > button {
+        width: 100%;
+        padding: .2em .5em;
+        background: #fff;
+    }
+
+.panel-separate {
+    border: 0;
+    margin: 1em 0;
+}
+
+
+/* exit */
+
+.exit {
+    position: fixed;
+    bottom: 0;
+    height: 3em;
+    left: 0;
+    width: 18em;
+    border-right: 1px solid #ddd;
+    box-shadow: 1px 9px 8px 0 #ddd;
+    padding: .5em 1em;
+    text-decoration: none;
+    color: #000;
+    background: #f3f3f3;
+    font-weight: lighter;
+}
+
+    .exit > span {
+        font-size: 1.2em;
+    }
+
+    .exit:hover {
+        background: #eee;
+    }
+
+
+/* view */
+
+.view {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 18.5em;
+    padding: .5em;
+    overflow: hidden;
+}
+
+    .view > div {
+        position: absolute;
+        overflow: auto;
+        max-height: 98.5%;
+        min-width: 99%;
+        /* height: 100%; */
+    }
+
+
+/* table */
+
+.datatable {
+    width: 100%;
+    border-collapse: collapse;
+    /*table-layout: fixed;*/
+    font-size: .9em;
+}
+
+    .datatable thead th {
+        padding: 2px 5px 5px;
+        font-weight: bolder;
+        font-size: .9em;
+        /*text-align: left;*/
+        border-bottom: 1px solid #eee;
+        cursor: default;
+    }
+
+    .datatable thead th:hover {
+        background: #eee;
+    }
+
+    .datatable tbody tr {
+        border-bottom: 1px solid #eee;
+    }
+
+        .datatable tbody tr:hover {
+            background: #a3d0ff;
+            cursor: pointer;
+        }
+
+    .datatable tbody td {
+        padding: 5px;
+    }
+
+    .datatable .sort_up:after {
+        content: " ↑";
+    }
+
+    .datatable .sort_down:after {
+        content: " ↓";
+    }
+
+
+/* dark */
+
+
+.dark {
+    background: #222;
+}
+
+    .dark .panel {
+        background: #333;
+        color: #eee;
+        border-right: 1px solid #000;
+        box-shadow: 1px -4px 8px 0 #151515;
+    }
+
+    .dark .panel-title {
+        color: #fff;
+    }
+
+    .dark .panel-input > select,
+    .dark .panel-input > input,
+    .dark .panel-input > button,
+    .dark .panel-input > label {
+        background: #222;
+        color: #fff;
+        border-color: #000;
+    }
+
+    .dark .ui-widget-content {
+        background: #222;
+        color: #fff;
+    }
+
+    .dark .ui-widget.ui-widget-content {
+        border-color: #000;
+    }
+
+    .dark .ui-widget-header {
+        background: #252525;
+        color: #fff;
+        border-color: #444;
+    }
+
+        .dark .ui-widget-header a {
+            color: #fff;
+        }
+
+    .dark .ui-widget-content .ui-state-default {
+        border-color: #000;
+        background: #333;
+        color: #fff;
+    }
+
+    .dark .ui-widget-content .ui-state-highlight {
+        color: #e1c830;
+    }
+
+    .dark .ui-widget-content .ui-state-active {
+        color: #3d91b6;
+    }
+
+    .dark .panel-input > select:hover,
+    .dark .panel-input > label:hover,
+    .dark .panel-input > button:hover,
+    .dark .ui-state-hover {
+        background: #444;
+    }
+
+    .dark .exit {
+        background: #333;
+        color: #fff;
+        border-right: 1px solid #000;
+        box-shadow: 1px 9px 8px 0 #151515;
+    }
+
+        .dark .exit:hover {
+            background: #444;
+        }
+
+    .dark .view {
+        background: #222;
+        color: #ddd;
+    }
+
+.dark .datatable thead th {
+    border-bottom: 1px solid #888;
+}
+
+    .dark .datatable thead th:hover {
+        background: #333;
+    }
+
+    .dark .datatable tbody tr {
+        border-bottom: 1px solid #333;
+    }
+
+        .dark .datatable tbody tr:hover {
+            background: #333;
+        }

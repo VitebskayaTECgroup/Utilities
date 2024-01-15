@@ -1,0 +1,87 @@
+﻿@model Client.Models.NetworkTable
+
+@{ var r = new Random().Next(); }
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ScanLan | Ip</title>
+    <link rel="stylesheet" href="~/Content/css/network.css?r=@r" />
+</head>
+<body class="@(Request.Cookies.Get("theme")?.Value == "black" ? "dark" : "light")">
+
+    <div class="wall"></div>
+
+    <div class="title">
+        <div>
+            <b>
+                ScanLan | Список оборудования и конечных точек
+            </b>
+            <a href="~/scheme/index">Схема</a>
+            <a href="~/network/logs">Изменения</a>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <div>
+            <a href="~/?mask=10.178.8." class="@(Model.NetworkMask == "10.178.8." ? "active" : "")">VST-8</a>
+            <a href="~/?mask=10.178.9." class="@(Model.NetworkMask == "10.178.9." ? "active" : "")">VST</a>
+            <a href="~/?mask=10.178.97." class="@(Model.NetworkMask == "10.178.97." ? "active" : "")">MANAGE</a>
+            <a href="~/?mask=10.178.99." class="@(Model.NetworkMask == "10.178.99." ? "active" : "")">ASUTP</a>
+            <a href="~/?mask=10.178.100." class="@(Model.NetworkMask == "10.178.100." ? "active" : "")">EDG</a>
+            <a href="~/?mask=192.168.1." class="@(Model.NetworkMask == "192.168.1." ? "active" : "")">BYFLY</a>
+            <a href="~/?mask=10.178.203." class="@(Model.NetworkMask == "10.178.203." ? "active" : "")">ENERGO</a>
+            <a href="~/?mask=10.32.49." class="@(Model.NetworkMask == "10.32.49." ? "active" : "")">ENERGO-2</a>
+            <a href="~/?mask=10.34.0." class="@(Model.NetworkMask == "10.34.0." ? "active" : "")">ASKUE</a>
+        </div>
+    </div>
+
+    <div class="header">
+        <table>
+            <thead>
+                <tr>
+                    <th width="100px">Ip</th>
+                    <th width="60px">Статус</th>
+                    <th width="40px">Изм.</th>
+                    <th width="180px">DNS</th>
+                    <th width="220px">Наименование</th>
+                    <th>Описание</th>
+                    <th width="140px">Логин</th>
+                    <th width="140px">Пароль</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="content">
+        <table>
+            <tbody>
+                @foreach (var endpoint in Model.Endpoints)
+                {
+                    <tr>
+                        <td width="100px">@endpoint.Ip</td>
+                        <td width="60px">
+                            <div class="led @endpoint.Status()" title="@endpoint.MacAddress"></div>
+                        </td>
+                        <td width="40px">
+                            <button onclick="_open('@endpoint.Ip')">&uArr;</button>
+                        </td>
+                        <td width="180px">@endpoint.DnsName</td>
+                        <td width="220px">@endpoint.Name</td>
+                        <td>@endpoint.Description</td>
+                        <td width="140px">@endpoint.Login</td>
+                        <td width="140px">@endpoint.Password</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="overlay" class="overlay hide"></div>
+    <div id="card" class="card hide"></div>
+
+    <script>const host = '@Url.Action(null, "")'</script>
+    <script src="~/Content/js/network.js?r=@r"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+#printer {
+    display: none;
+}
+
+.view .search {
+    margin-bottom: 4px;
+}
+
+.view .search input {
+    width: 98%;
+    padding: 4px;
+}
+
+.view td.fault {
+    color: red;
+}
+
+.view td {
+    border: 1px solid #eee;
+    text-align: center;
+}
+
+.view .left {
+    text-align: left;
+}
+
+.view tr.fault {
+    /*border-bottom: 1px solid red;*/
+    background: #fbd5d5;
+}
+
+.view tr.unseen {
+    color: #636060;
+    background: #e5e5e5;
+    /*border-bottom: 1px solid #333;*/
+}
+
+    #card img {
+        margin: 10px;
+        border: 1px solid #ccc;
+        box-shadow: 1px 1px 6px 0 #ccc;
+    }
+
+    #card table {
+        table-layout: fixed;
+        border-collapse: collapse;
+    }
+
+    #card td {
+        vertical-align: top;
+        padding: 5px;
+    }
+
+    #card th {
+        font-weight: lighter;
+        text-align: left;
+        padding: 5px;
+    }
+
+.card-events {
+    width: 98%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.card-stats {
+    width: 98%;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+    margin-top: 40px;
+}
+
+
+.card-events tbody tr:hover {
+    background: #eee;
+}
+
+.events-separator {
+    border-top: 1px solid #ccc;
+}
+
+.events-hided {
+    color: #fff;
+}
+
+#big-photo {
+    top: 15px;
+    bottom: 15px;
+    overflow: hidden;
+}
+
+    #big-photo > img {
+        height: 100%;
+    }
+
+
+.good {
+    color: #009716;
+}
+
+.bad {
+    color: red;
+}
+
+/* dark */
+
+.dark .view tr.fault {
+    border-bottom: 1px solid #6d1818;
+    background: #3c1919;
+}
+
+.dark .view tr.unseen {
+    color: #666;
+    background: #272727;
+    border-bottom: 1px solid #444;
+}
+
+.dark .view td.fault {
+    color: red;
+}
+
+.dark .view td {
+    border: 1px solid #333;
+}
+
+.dark #card {
+    background: #222;
+    color: #fff;
+}
+
+    .dark #card img {
+        border: 1px solid #000;
+        box-shadow: 1px 1px 6px 0 #000;
+    }
+
+.dark .card-events tbody tr:hover {
+    background: #333;
+}
+
+.dark .events-separator {
+    border-top: 1px solid #ccc;
+}
+
+.dark .events-hided {
+    color: #fff;
+}
+
+
+@media print {
+    #printer {
+        display: block;
+        background: #fff;
+        color: #000;
+        font-size: 11pt;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .app {
+        display: none;
+    }
+}

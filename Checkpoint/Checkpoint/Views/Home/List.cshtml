@@ -1,0 +1,57 @@
+﻿@model List<Owner>
+    
+@if (Model.Count > 0)
+{
+    <table class="datatable">
+        <thead>
+			<tr title="Нажмите для сортировки по столбцу">
+				<th>Группа</th>
+				<th>Подразделение</th>
+				<th sort-type="number">№</th>
+				<th class="left">Ф.И.О.</th>
+				<th>Алкотест</th>
+				<th sort-type="date">Вход</th>
+				<th sort-type="date">Выход</th>
+				<th sort-type="date">Вход</th>
+				<th sort-type="date">Выход</th>
+				<th sort-type="date">Время (табель)</th>
+				<th sort-type="date">Время (факт.)</th>
+			</tr>
+        </thead>
+        <tbody>
+            @foreach (var owner in Model)
+            {
+			<tr id="@owner.Id" class="@(owner.IsFault ? "fault" : (owner.Events.Count > 0 ? "" : "unseen"))" onclick="card(@owner.Id, '@owner.ViewDate.ToString("dd.MM.yyyy")')" title="@(owner.Events.Count > 0 ? "" : "Сотрудник не отмечен на проходной в этот день")">
+				<td>@owner.Group</td>
+				<td>@owner.Department</td>
+				<td>@owner.TableId</td>
+				<td class="left">@owner.Official</td>
+				<td>
+					@if (owner.AlcoholPass == 1)
+					{
+						<span class="good">пройден</span>
+					}
+					else if (owner.AlcoholPass == -1)
+					{
+						<span class="bad">запрет</span>
+					}
+					else
+					{
+						<span>не исп.</span>
+					}
+				</td>
+				<td class="@(owner.IsWorkEnterFault ? "fault" : "")">@owner.WorkEnter.ToTime()</td>
+				<td class="@(owner.IsDinnerLeaveFault ? "fault" : "")">@owner.DinnerLeave.ToTime()</td>
+				<td class="@(owner.IsDinnerReturnFault ? "fault" : "")">@owner.DinnerReturn.ToTime()</td>
+				<td class="@(owner.IsWorkLeaveFault ? "fault" : "")">@owner.WorkLeave.ToTime()</td>
+				<td class="@(owner.IsWorkTimeFault ? "fault" : "")" title="@owner.SummaryText">@owner.Summary</td>
+				<td title="@owner.SummaryTextFact">@owner.SummaryFact</td>
+			</tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="empty">Нет данных для отображения по выбранным условиям</div>
+}

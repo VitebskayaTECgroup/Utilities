@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cardridges", "Cardridges\Cardridges.csproj", "{EF6CC0D6-32D8-4242-9E7A-7CB37C45158F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF6CC0D6-32D8-4242-9E7A-7CB37C45158F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF6CC0D6-32D8-4242-9E7A-7CB37C45158F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF6CC0D6-32D8-4242-9E7A-7CB37C45158F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF6CC0D6-32D8-4242-9E7A-7CB37C45158F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {55B8F64D-F8F6-4FCC-AA93-B88AF4BB1DFB}
+	EndGlobalSection
+EndGlobal

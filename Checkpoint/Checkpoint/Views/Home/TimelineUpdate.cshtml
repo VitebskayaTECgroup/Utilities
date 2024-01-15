@@ -1,0 +1,12 @@
+﻿@model List<Timeline>
+
+@foreach (var e in Model)
+{
+	<tr id="@e.Id" data-type="@e.InitialType">
+		<td>@e.Date.ToString("HH:mm:ss")</td>
+		<td>@(e.Type == "Проход" ? e.Direction : e.Type)</td>
+		<td>@e.Group</td>
+		<td>@e.Department</td>
+		<td>@e.Official</td>
+	</tr>
+}

@@ -1,0 +1,112 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <title>Заявка на замену картриджа</title>
+    <link rel="stylesheet" href="~/Content/index.css?1" />
+</head>
+<body class="@(Request.Cookies.Get("theme")?.Value == "black" ? "dark" : "")">
+    <div id="form" class="form">
+        <h3>Заявка на замену картриджа</h3>
+
+        <i>
+            &emsp;Выберите модель принтера из предложенных.
+            <br />
+            &emsp;Если необходимого принтера в списке нет, укажите его в примечании.
+            <br />
+            &emsp;Как только ваша заявка будет рассмотрена в уАСУТП, на главной странице сайта вам будет показано уведомление.
+            <br />
+            &emsp;Для получения справочной информации можно обратиться по телефону 3-32.
+            <br />
+        </i>
+
+        @using Cardridges.Models
+        @using LinqToDB
+        @using (var db = new DatabaseContext())
+        {
+            <b>Принтер (МФУ)</b>
+            <div>
+                @{
+                    var win = User.Identity.Name;
+                    win = win.Substring(win.IndexOf("\\") + 1).ToLower();
+
+                    <input type="hidden" style="display: none" id="user" value="@win" disabled />
+
+					var printers = (from d in db.Devices.Where(x => x.Type == "PRN")
+									from p in db.Printers.LeftJoin(x => x.Id == d.PrinterId)
+									from w in db.WorkPlaces.LeftJoin(x => x.Id == d.PlaceId)
+									from c in db.Devices.LeftJoin(x => x.Type == "CMP" && x.Id == d.ComputerId)
+									where !d.IsOff && !d.IsDeleted
+									orderby p.Name
+									select new
+									{
+										d.Id,
+										Computer = c.Name ?? "неизв.",
+										p.Name,
+										w.Location,
+										d.Users,
+									}).ToList();
+
+				<select id="id" class="field">
+					@if (printers.Count < 1)
+					{
+						<option value="0">не найден</option>
+					}
+					else if (printers.Count == 1)
+					{
+						<option value="@printers[0].Id">@printers[0].Name</option>
+					}
+					else
+					{
+						<option value="0">не выбран</option>
+
+						if ("crow esmal void".Contains(win))
+						{
+							foreach (var printer in printers.OrderBy(x => x.Computer))
+							{
+								<option value="@printer.Id">@printer.Computer [@(string.IsNullOrEmpty(printer.Name) ? "неизвестный" : printer.Name)] @printer.Location</option>
+							}
+						}
+						else
+						{
+							foreach (var printer in printers)
+							{
+								var users = (printer.Users ?? "").Split(';');
+
+								if (users.Contains(win))
+								{
+									<option value="@printer.Id">@printer.Name</option>
+								}
+							}
+						}
+					}
+				</select>
+
+				if ("crow esmal void".Contains(win))
+					{
+						<a href="" id="link">Карточка выбранного принтера</a>
+						<script>
+							document.getElementById('id').onchange = function () {
+								document.getElementById('link').setAttribute('href', 'http://www.vst.vitebsk.energo.net/devin/devices/##device' + document.getElementById('id').value)
+							}
+						</script>
+					}
+				}
+            </div>
+
+            <b>Примечание (необязательное)</b>
+            <div>
+                <textarea id="comment" class="field"></textarea>
+            </div>
+
+            <div class="buttons">
+                <button onclick="send('@Url.Action("create", "home")')">Оставить заявку</button>
+                <button onclick="back()">Закрыть</button>
+            </div>
+        }
+    </div>
+
+    <script src="~/Content/index.js?1"></script>
+</body>
+</html>

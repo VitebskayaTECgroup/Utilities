@@ -1,0 +1,23 @@
+﻿@model List<Timeline>
+
+@if (Model.Count > 0)
+{
+	<table class="datatable">
+		<thead>
+			<tr>
+				<th sort-type="date" width="80px">Время</th>
+				<th width="200px">Событие</th>
+				<th width="150px">Группа</th>
+				<th width="180px">Подразделение</th>
+				<th>Пользователь</th>
+			</tr>
+		</thead>
+		<tbody>
+			@Html.Partial("TimelineUpdate", Model)
+		</tbody>
+	</table>
+}
+else
+{
+	<div class="empty">Нет данных для отображения по выбранным условиям</div>
+}

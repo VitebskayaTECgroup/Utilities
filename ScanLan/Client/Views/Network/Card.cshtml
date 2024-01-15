@@ -1,0 +1,67 @@
+﻿@model Endpoint
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="2">@Model.Ip</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td width="200px">Последний пинг</td>
+            <td>@Model.LastUpdate</td>
+        </tr>
+        <tr>
+            <td>DNS имя</td>
+            <td>@Model.DnsName</td>
+        </tr>
+        <tr>
+            <td>MAC адрес</td>
+            <td>@Model.MacAddress</td>
+        </tr>
+        <tr>
+            <td>Наименование</td>
+            <td>
+                <textarea name="Name">@Model.Name</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Описание</td>
+            <td>
+                <textarea name="Description">@Model.Description</textarea>
+
+            </td>
+        </tr>
+        <tr>
+            <td>Логин</td>
+            <td>
+                <textarea name="Login">@Model.Login</textarea>
+
+            </td>
+        </tr>
+        <tr>
+            <td>Пароль</td>
+            <td>
+                <textarea name="Password">@Model.Password</textarea>
+            </td>
+        </tr>
+        @if (Model.Switch != null)
+        {
+            <tr>
+                <td>Расположение</td>
+                <td>
+                    <div>Коммутатор: <b title="Наименование: @Model.Switch.Name Модель: @Model.Switch.Model">@Model.Switch.Ip</b></div>
+                    <div>Порт: <b>@Model.Port</b></div>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2">
+                <button onclick="_submit('@Model.Ip')">Сохранить</button>
+                <button onclick="_close()">Закрыть</button>
+            </td>
+        </tr>
+    </tfoot>
+</table>

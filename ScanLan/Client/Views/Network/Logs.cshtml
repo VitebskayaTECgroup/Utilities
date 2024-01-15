@@ -1,0 +1,81 @@
+﻿@model List<NetworkLog>
+
+@{ var r = new Random().Next(); }
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ScanLan | Ip Logs</title>
+    <link rel="stylesheet" href="~/Content/css/network.css?r=@r" />
+</head>
+<body class="@(Request.Cookies.Get("theme")?.Value == "black" ? "dark" : "light")">
+
+    <div class="wall"></div>
+
+    <div class="title">
+        <div>
+            <b>
+                ScanLan | Изменения в списках оборудования и конечных точек
+            </b>
+            <a href="~/network/table">Список</a>
+        </div>
+    </div>
+
+    <div class="header" style="top: 100px;">
+        <table>
+            <thead>
+                <tr>
+                    <th width="200px">Дата</th>
+                    <th width="120px">IP</th>
+                    <th width="100px">Автор</th>
+                    <th>Изменения</th>
+                    <th width="40px"></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="content" style="top: 140px;">
+        <table>
+            <tbody>
+                @foreach (var log in Model)
+                {
+                    <tr>
+                        <td width="200px">@log.Date</td>
+                        <td width="120px">@log.GetIp()</td>
+                        <td width="100px">@log.Username</td>
+                        <td>
+                            @foreach (var change in log.GetChanges())
+                            {
+                                <div>@change</div>
+                            }
+                        </td>
+                        <td width="40px">
+                            <button onclick="removeLog('@log.Date.ToString("dd.MM.yyyy HH:mm:ss.fff")')">&Chi;</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function removeLog(date) {
+
+            let body = new FormData()
+            body.append('date', date)
+
+            fetch('@Url.Action("removeLog", "network")', { method: 'POST', body })
+                .then(res => res.text())
+                .then(text => {
+                    if (text == 'success') {
+                        location.reload()
+                    } else {
+                        alert(text.replace('error', ''))
+                    }
+                })
+        }
+    </script>
+</body>
+</html>

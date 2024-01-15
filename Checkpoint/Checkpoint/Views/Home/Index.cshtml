@@ -1,0 +1,242 @@
+﻿@{ 
+    var r = new Random().Next();
+}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <title>Проходная</title>
+    <link rel="shortcut icon" href="~/Content/images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="~/Content/css/app.css?r=@r" />
+    <link rel="stylesheet" href="~/Content/css/checkpoint.css?r=@r" />
+    <link rel="stylesheet" href="~/Content/lib/jquery-ui/jquery-ui.min.css" />
+</head>
+
+<body class="@(Request.Cookies["theme"]?.Value == "dark" ? "dark" : "light")">
+	@using (var db = new DatabaseContext())
+	{
+		// Очистка куков
+		if (Request.Cookies.Get("checkpoint-updated") == null)
+		{
+			var expires = DateTime.Now.AddDays(-1);
+
+			foreach (var cookie in Request.Cookies.AllKeys)
+			{
+				if (cookie.Contains("checkpoint"))
+				{
+					Request.Cookies.Get(cookie).Expires = expires;
+				}
+			}
+
+			Request.Cookies.Add(new HttpCookie("checkpoint-updated")
+			{
+				Expires = DateTime.Now.AddMonths(6)
+			});
+		}
+
+		// запрос на его аутентификацию в базе данных проходной
+		var oper = db.Authentication(User.Identity.Name);
+
+		// если пользователя нет в списке операторов, завершаем работу
+		if (oper == null)
+		{
+			<div class="panel">
+				<div class="panel-title">Проходная</div>
+				<b>Неавторизованный пользователь</b>
+			</div>
+			<div class="view">
+				<div>Просмотр данных заблокирован</div>
+			</div>
+			<a class="exit" href="http://www.vst.vitebsk.energo.net/site/">
+				<span>Выход</span>
+			</a>
+			return;
+		}
+
+		// список цехов и подразделений филиала
+		var departments = db.OWNER_DEPS
+			.Select(x => new
+			{
+				x.OD_ID,
+				x.OD_NAME,
+			})
+			.ToList();
+
+		// список зарегистрированных групп пользователей
+		var groups = db.ACCESS_GROUPS
+			.ToList();
+
+		var types = db.EVENT_DESC
+			.Select(x => new
+			{
+				Id = x.ED_CODE,
+				Name = x.ED_NAME,
+			})
+			.ToList();
+
+		// параметры фильтрации, установленные ранее
+		var departmentId = oper.IsAdmin
+			? int.TryParse(Request.Cookies.Get("checkpoint-department")?.Value, out int i) ? i : oper.DepartmentId
+			: oper.DepartmentId;
+
+		var groupId = int.TryParse(Request.Cookies.Get("checkpoint-group")?.Value, out i) ? i : 2;
+		var typeId = int.TryParse(Request.Cookies.Get("checkpoint-type")?.Value, out i) ? i : 0;
+		var onlyBad = (Request.Cookies.Get("checkpoint-onlyBad")?.Value ?? "false") == "true";
+		var onlyUnseen = (Request.Cookies.Get("checkpoint-onlyUnseen")?.Value ?? "false") == "true";
+		var onlyRefused = (Request.Cookies.Get("checkpoint-onlyRefused")?.Value ?? "false") == "true";
+		var mode = Request.Cookies.Get("checkpoint-mode")?.Value ?? "list";
+
+		<div class="app">
+			<div class="panel">
+				<div class="panel-title">Проходная</div>
+
+				<div id="filter-view">
+
+					<div class="panel-input">
+						<span>Просматриваемая дата</span>
+						<div id="date"></div>
+					</div>
+
+					<div class="panel-input">
+						<span>Вид просмотра</span>
+						<select id="mode" onchange="setFilter(this.value);load()">
+							<option value="list">Список сотрудников</option>
+							<option value="timeline" @(Request.Cookies.Get("checkpoint-mode")?.Value == "timeline" ? "selected" : "")>Лента событий</option>
+						</select>
+					</div>
+
+					<div id="mode-list" style="display: @(mode == "list" ? "" : "none")">
+						<hr class="panel-separate" />
+
+						<div class="panel-input">
+							<span>Группа</span>
+							<select id="group" onchange="load()">
+								<option value="0">Все группы</option>
+								@foreach (var group in groups)
+								{
+									<option value="@group.AGR_ID" @(group.AGR_ID == groupId ? "selected" : "")>@group.AGR_NAME</option>
+								}
+							</select>
+						</div>
+
+						<div class="panel-input">
+							<span>Подразделение</span>
+							<select id="department" onchange="load()" @(oper.IsAdmin ? "" : "disabled")>
+								<option value="0">Все подразделения</option>
+								@foreach (var dep in departments)
+								{
+									<option value="@dep.OD_ID" @(dep.OD_ID == departmentId ? "selected" : "")>@dep.OD_NAME</option>
+								}
+							</select>
+						</div>
+
+						<div class="panel-input">
+							<span>Фильтр</span>
+							<label>
+								<input type="checkbox" id="onlyBad" @(onlyBad ? "checked" : "") onchange="load()" />
+								Только с нарушениями
+							</label>
+							<label>
+								<input type="checkbox" id="onlyUnseen" @(onlyUnseen ? "checked" : "") onchange="load()" />
+								Только не прошедшие
+							</label>
+							<label>
+								<input type="checkbox" id="onlyRefused" @(onlyRefused ? "checked" : "") onchange="load()" />
+								Только с отказами от прохода
+							</label>
+						</div>
+
+						<div class="panel-input">
+							<button onclick="print()">Печать в Excel</button>
+						</div>
+					</div>
+
+					<div id="mode-timeline" style="display: @(mode == "timeline" ? "" : "none")">
+						<hr class="panel-separate" />
+
+						<div class="panel-input">
+							<span>Тип событий</span>
+							<select id="type" onchange="load()">
+								<option value="0">Все типы</option>
+								@foreach (var type in types)
+								{
+									<option value="@type.Id" @(type.Id == typeId ? "selected" : "")>@type.Name</option>
+								}
+							</select>
+						</div>
+
+						<div class="panel-input">
+							<button onclick="updateTimeline()">Обновить</button>
+						</div>
+
+					</div>
+
+					<hr class="panel-separate" />
+				</div>
+
+				<div id="filter-card" style="display: none">
+
+					<div class="panel-input">
+						<span>Дата начала просмотра</span>
+						<div id="date-card"></div>
+					</div>
+
+					<hr class="panel-separate" />
+
+					<div class="panel-input">
+						<span>Просматриваемый период времени</span>
+						<select id="mode-card" onchange="events()">
+							<option value="day">События за день</option>
+							<option value="week">События за неделю</option>
+							<option value="month">События за месяц</option>
+						</select>
+					</div>
+
+					<hr class="panel-separate" />
+
+					<div class="panel-input">
+						<button onclick="printExcel()">Печать в Excel</button>
+						<button onclick="changeCardView(false)">Закрыть</button>
+					</div>
+
+					<hr class="panel-separate" />
+
+					<div class="panel-input" id="big-photo-button" style="display:none">
+						<button onclick="closeBigPhoto()">Закрыть фотографию</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="view">
+				<div id="card"></div>
+				<div id="view">
+					<div class="search">
+						<input id="search" placeholder="Поиск..." onkeyup="searchKeyPress(this)" />
+					</div>
+					<div id="view-content"></div>
+				</div>
+				<div id="big-photo" style="display: none">
+					<img onclick="closeBigPhoto()" />
+				</div>
+			</div>
+
+			<a class="exit" href="http://www.vst.vitebsk.energo.net/site/">
+				<span>Выход</span>
+			</a>
+		</div>
+
+		<script>var host = '@Url.Action("", "")';</script>
+		<script src="~/Content/lib/jquery/jquery-1.12.4.min.js"></script>
+		<script src="~/Content/lib/jquery-ui/jquery-ui.min.js"></script>
+		<script src="~/Content/js/checkpoint.js?r=@r"></script>
+		if (oper.IsCRUD)
+		{
+			<script src="~/Content/js/fix.js?r=@r"></script>
+		}
+	}
+</body>
+
+</html>

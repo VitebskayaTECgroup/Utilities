@@ -1,0 +1,59 @@
+﻿@model string
+
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <title>Заявка на замену картриджа</title>
+    <link rel="stylesheet" href="~/Content/index.css?1" />
+</head>
+<body class="@(Request.Cookies.Get("theme")?.Value == "black" ? "dark" : "")">
+       <a href="http://www.vst.vitebsk.energo.net/site/" style="font-size: .9em; margin: 10px 0;">Вернуться на главную</a>
+    @{
+        using (var db = new DatabaseContext())
+        {
+            var requests = db.UsersRequests
+                .Where(x => x.Win == Model && x.Status != "Скрыта")
+                .OrderBy(x => x.Date)
+                .ToList();
+
+            var query = from d in db.Devices.Where(x => x.Type == "PRN")
+                        from p in db.Printers.LeftJoin(x => x.Id == d.PrinterId)
+                        select new
+                        {
+                            d.Id,
+                            p.Name
+                        };
+
+            var printers = query.ToDictionary(x => x.Id, x => x.Name);
+
+            string s;
+
+            <table class="list">
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Статус</th>
+                        <th>Принтер</th>
+                        <th>Примечание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var req in requests)
+                    {
+                        <tr>
+                            <td>@req.Date.ToString("d MMMM yyyy HH:mm")</td>
+                            <td><b>@req.Status</b></td>
+                            <td>@(printers.TryGetValue(req.DeviceId, out s) ? s : "")</td>
+                            <td>@req.Comment</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+
+    <script src="~/Content/index.js?1"></script>
+</body>
+</html>

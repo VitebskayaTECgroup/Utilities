@@ -1,0 +1,47 @@
+﻿@model Cache
+@{ var r = new Random().Next(); }
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ScanLan | Scheme</title>
+    <link rel="stylesheet" href="~/Content/css/scheme.css?r=@r" />
+</head>
+
+<body class="@(Request.Cookies.Get("theme")?.Value == "black" ? "dark" : "light")">
+
+    <div class="title">
+        <div>
+            <b>ScanLan | Вычисляемая схема сети</b>
+            <span>
+                <input type="search" placeholder="Поиск по схеме..." />
+            </span>
+        </div>
+    </div>
+
+    <div class="view">
+        <svg viewBox="0 0 1920 1080">
+            @foreach (var link in Model.Links)
+            {
+                var begin = Model.Switches.FirstOrDefault(x => x.Mac == link.Begin.Mac);
+                var end = Model.Switches.FirstOrDefault(x => x.Mac == link.End.Mac);
+
+                <line class="@begin.Mac @end.Mac" x1="@(begin.X + 80)" y1="@(begin.Y + 40)" x2="@(end.X + 80)" y2="@(end.Y + 40)" stroke="black" />
+            }
+            @foreach (var sw in Model.Switches)
+            {
+                <g class="@sw.Mac" onclick="alert('@sw.Mac')">
+                    <rect x="@sw.X" y="@sw.Y" width="160" height="80" rx="2" ry="2" />
+                    <text x="@(sw.X + 5)" y="@(sw.Y + 20)">@sw.Ip</text>
+                </g>
+            }
+        </svg>
+    </div>
+
+    <script>const host = '@Url.Action("", "")'</script>
+    <script src="~/Content/js/scheme.js?r=@r"></script>
+</body>
+
+</html>

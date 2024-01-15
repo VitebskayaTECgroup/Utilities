@@ -1,0 +1,90 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <title>Список заявок</title>
+    <link rel="stylesheet" href="~/Content/index.css?1" />
+</head>
+<body class="@(Request.Cookies.Get("theme")?.Value == "black" ? "dark" : "")">
+	@{
+		Dictionary<string, string> users;
+
+		using (var db = new SiteContext())
+		{
+			users = db.Users.ToDictionary(x => x.UName, x => x.DisplayName);
+		}
+
+		using (var db = new DatabaseContext())
+		{
+			var requests = db.UsersRequests
+				.Where(x => x.Status != "Скрыта")
+				.OrderBy(x => x.Date)
+				.ToList();
+
+			var query = from d in db.Devices.Where(x => x.Type == "PRN")
+						from p in db.Printers.LeftJoin(x => x.Id == d.PrinterId)
+						select new
+						{
+							d.Id,
+							p.Name
+						};
+
+			var printers = query.ToDictionary(x => x.Id, x => x.Name);
+
+			string s;
+
+			<div><a href="http://www.vst.vitebsk.energo.net/site/" style="font-size: .9em; margin: 10px 0;">Вернуться на главную</a></div>
+			<table class="list">
+				<thead>
+					<tr>
+						<th width="160px">Дата</th>
+						<th width="240px">Кто оставил</th>
+						<th>Принтер</th>
+						<th>Примечание</th>
+						<th>Статус</th>
+						<th width="100px">Карточка</th>
+						<th width="220px">Действия</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var req in requests)
+					{
+						<tr>
+							<td>@req.Date.ToString("d MMMM yyyy HH:mm")</td>
+							<td>@(users.TryGetValue(req.Win, out s) ? s : "")</td>
+							<td>@(printers.TryGetValue(req.DeviceId, out s) ? s : "")</td>
+							<td>@req.Comment</td>
+							<td title="@req.ReviewUser"><b>@req.Status</b></td>
+							<td>
+								<button onclick="location='/devin/devices/##device@(req.DeviceId)'">Карточка</button>
+							</td>
+							<td>
+								@if (req.Status == "Ожидает")
+								{
+									<button onclick="review('@Url.Action("review", "home", new { Id = req.Id })')">Отметить как "В обработке"</button>
+								}
+								else if (req.Status == "В обработке")
+								{
+									<button onclick="review('@Url.Action("finish", "home", new { Id = req.Id })')">Отметить как "Выполнена"</button>
+								}
+								else if (req.Status == "Выполнена")
+								{
+									<button onclick="review('@Url.Action("hide", "home", new { Id = req.Id })')">Удалить из просмотра</button>
+								}
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
+	}
+
+	<script src="~/Content/index.js?1"></script>
+	<script>
+		setTimeout(function () {
+			location.reload()
+		}, 60000)
+	</script>
+</body>
+</html>

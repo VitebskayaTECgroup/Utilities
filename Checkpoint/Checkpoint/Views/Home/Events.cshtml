@@ -1,0 +1,227 @@
+﻿@model int
+
+@using (var db = new DatabaseContext())
+{
+	var date = DateTime.TryParse(Request.QueryString.Get("date"), out DateTime d) ? d : DateTime.Today;
+	var mode = Request.QueryString.Get("mode");
+	var next = date.AddDays(1).AddSeconds(-1);
+	var prev = mode == "month"
+		? date.AddMonths(-1).AddDays(1)
+		: mode == "week"
+			? date.AddDays(-6)
+			: date;
+
+	var dbEvents = db.EVENTS
+		.Where(x => new[] { 1, 2, 1001, 1002 }.Contains(x.EV_ADDR))
+		//.Where(x => x.EV_TYPE == 1)
+		.Where(x => x.EV_OW_ID == Model && x.EV_TSTAMP <= next && x.EV_TSTAMP > prev)
+		.OrderBy(x => x.EV_TSTAMP)
+		.Select(x => new
+		{
+			x.EV_ID,
+			Type = Event.FromType(x.EV_ADDR, x.EV_TYPE),
+			x.EV_ADDR,
+			x.EV_TYPE,
+			x.EV_TSTAMP
+		})
+		.ToList();
+
+	<div style="display: none;">
+		@foreach (var dbe in dbEvents)
+		{
+			<div>
+				<i>@dbe.EV_ID</i>
+				<b>@dbe.Type</b>
+				<i>@dbe.EV_TYPE</i>
+				<b>@dbe.EV_TSTAMP</b>
+			</div>
+		}
+	</div>
+
+	var events = dbEvents
+		.GroupBy(x => x.EV_TSTAMP.Date)
+		.Select(x => new
+		{
+			Date = x.Key,
+			Events = x
+				.Select(y => new
+				{
+					Id = y.EV_ID,
+					Time = y.EV_TSTAMP.TimeOfDay,
+					Type = y.Type,
+					y.EV_ADDR,
+					y.EV_TYPE,
+				})
+				.ToList()
+		})
+		.ToList();
+
+	if (events.Count > 0)
+	{
+		var allWorkTime = TimeSpan.Zero;
+
+		<div class="card-events">
+			<table class="datatable">
+				<thead>
+					<tr>
+						<th width="100px">Дата</th>
+						<th width="140px">Время на работе</th>
+						<th>Событие</th>
+						<th width="120px">Время события</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var day in events)
+					{
+						var lastEnterTime = TimeSpan.Zero;
+						var workTime = TimeSpan.Zero;
+
+						foreach (var ev in day.Events)
+						{
+							if (!ev.Type.Contains("Алко"))
+							{
+								if (ev.Type.Contains("Выход"))
+								{
+									workTime += ev.Time - lastEnterTime;
+								}
+
+								lastEnterTime = ev.Time;
+							}
+						}
+
+						if (day.Events.Last().Type.Contains("Вход") && day.Date.Date != DateTime.Today)
+						{
+							workTime += TimeSpan.FromDays(1) - lastEnterTime;
+						}
+
+						allWorkTime += workTime;
+
+						<tr class="events-separator" date="@day.Date.ToString("dd.MM.yyyy")">
+							<td rowspan="@day.Events.Count">@day.Date.ToString("dd.MM.yyyy")</td>
+							<td rowspan="@day.Events.Count">@workTime.ToTime(true)</td>
+							<td>
+								@if (day.Events[0].EV_TYPE == 5)
+								{
+									@: Отказ от прохода
+								}
+								else
+								{
+									@day.Events[0].Type
+								}
+							</td>
+							<td id="@day.Events[0].Id">@day.Events[0].Time.ToString()</td>
+						</tr>
+
+						if (day.Events.Count > 1)
+						{
+							for (int i = 1; i < day.Events.Count; i++)
+							{
+								<tr date="@day.Date.ToString("dd.MM.yyyy")">
+									<td>
+										@if (day.Events[i].EV_TYPE == 5)
+										{
+											@: Отказ от прохода
+										}
+										else
+										{
+											@day.Events[i].Type
+										}
+									</td>
+									<td id="@day.Events[i].Id">@day.Events[i].Time.ToString()</td>
+								</tr>
+							}
+						}
+					}
+				</tbody>
+			</table>
+		</div>
+		<div class="card-stats">
+			<table class="datatable">
+				@if (!(mode == "day" && date.Date == DateTime.Today))
+				{
+					<tr>
+						<th>Время на работе за выбранный период</th>
+						<td>@allWorkTime.ToTime(true)</td>
+					</tr>
+				}
+				@if (mode != "day")
+				{
+					if (events.Count > 1)
+					{
+						<tr>
+							<th>Среднее время на работе за день</th>
+							<td>@TimeSpan.FromSeconds(allWorkTime.TotalSeconds / (events.Count - 1)).ToTime(true)</td>
+						</tr>
+					}
+					else
+					{
+						<tr>
+							<th>Среднее время на работе за день</th>
+							<td>@TimeSpan.FromSeconds(allWorkTime.TotalSeconds).ToTime(true)</td>
+						</tr>
+					}
+				}
+				@if (mode == "day")
+				{
+					var day = events.FirstOrDefault();
+
+					var owner = new Owner
+					{
+						Events = events.First().Events
+							.Select(x => new Event
+							{
+								Date = day.Date.Date.Add(x.Time),
+								Type = x.EV_ADDR,
+								Code = 0,
+							})
+							.ToList(),
+						ViewDate = events.First().Date
+					};
+
+					@*<tr>
+						<td>События</td>
+						<td>
+							@foreach (var ev in owner.Events)
+							{
+								<div>@Event.FromType(ev.Type).Contains("Вход") @ev.Date.TimeOfDay</div>
+							}
+						</td>
+					</tr>*@
+
+					owner.Process(new WorkBoundaries(owner.ViewDate));
+
+					@*<tr>
+						<td>Секторы</td>
+						<td>
+							@foreach (var sector in owner.Sectors)
+							{
+								<div>
+									<span>@sector.Enter</span>
+									<b> --- </b>
+									<span>@sector.Leave</span>
+									<b> | </b>
+									<span>@sector.WorkEnter</span>
+									<b> --- </b>
+									<span>@sector.WorkLeave</span>
+									<b> | </b>
+									<span>@sector.WorkTime(day.Date)</span>
+								</div>
+							}
+						</td>
+					</tr>*@
+
+					<tr>
+						<td>Рабочее время (табель)</td>
+						<td>
+							@owner.WorkTime.ToTime(true)
+						</td>
+					</tr>
+				}
+			</table>
+		</div>
+	}
+	else
+	{
+		<div>Нет данных для отображения</div>
+	}
+}

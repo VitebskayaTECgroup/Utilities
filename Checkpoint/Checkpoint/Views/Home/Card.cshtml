@@ -1,0 +1,64 @@
+﻿@model int
+
+@using (var db = new DatabaseContext())
+{
+    var date = Request.QueryString.Get("date");
+
+    var query = from ow in db.OWNERS
+                from od in db.OWNER_DEPS.LeftJoin(x => x.OD_ID == ow.OW_DEP)
+                from oj in db.OWNER_JOBS.LeftJoin(x => x.OJ_ID == ow.OW_JOB)
+                from ca in db.OWNER_CARDS.LeftJoin(x => x.OC_OW_ID == ow.OW_ID && x.OC_RETDATE == null)
+                from ag in db.ACCESS_GROUPS.LeftJoin(x => x.AGR_ID == ca.OC_ACCESS_GROUP)
+                where ow.OW_ID == Model
+                select new
+                {
+                    ow.OW_ID,
+                    ow.OW_TABNUM,
+                    ow.OW_LNAME,
+                    ow.OW_FNAME,
+                    ow.OW_MNAME,
+                    od.OD_NAME,
+                    oj.OJ_NAME,
+                    ag.AGR_NAME,
+                    Src = (ow.OW_LNAME + ' ' + ow.OW_FNAME + ' ' + ow.OW_MNAME).ToLower() + ".jpg",
+                };
+
+    var owner = query.FirstOrDefault();
+
+    if (owner != null)
+    {
+        <table class="card-table">
+            <tr>
+                <td>
+                    <img src="http://www.vst.vitebsk.energo.net/big_photos/@owner.Src" width="160" height="214" id="@owner.OW_ID" onclick="showBigPhoto(this)" title="Нажмите для изменения размера фото" />
+                </td>
+                <td>
+                    <table class="datatable">
+                        <tr>
+                            <th>Ф.И.О.</th>
+                            <td>@owner.OW_LNAME @owner.OW_FNAME @owner.OW_MNAME</td>
+                        </tr>
+                        <tr>
+                            <th>Группа</th>
+                            <td>@owner.AGR_NAME</td>
+                        </tr>
+                        <tr>
+                            <th>Подразделение</th>
+                            <td>@owner.OD_NAME</td>
+                        </tr>
+                        <tr>
+                            <th>Табельный номер</th>
+                            <td>@owner.OW_TABNUM</td>
+                        </tr>
+                        <tr>
+                            <th>Должность</th>
+                            <td>@owner.OJ_NAME</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div id="events"></div>
+    }
+}

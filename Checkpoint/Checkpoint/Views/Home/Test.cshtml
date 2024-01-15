@@ -1,0 +1,36 @@
+﻿@using (var db = new DatabaseContext())
+{
+	var model = db.EVENTS
+		.Where(x => x.EV_TSTAMP >= DateTime.Today)
+		.ToList();
+
+	<table>
+		<thead>
+            <tr>
+                <td>x.EV_ID</td>
+                <td>x.EV_OW_ID</td>
+                <td>x.EV_TYPE</td>
+                <td>x.EV_CA_VALUE</td>
+                <td>x.EV_TSTAMP</td>
+                <td>x.EV_ADDR</td>
+                <td>x.EV_FLAGS</td>
+                <td>x.EV_SECTION_PIN</td>
+            </tr>
+		</thead>
+		<tbody>
+			@foreach (var x in model)
+			{
+            <tr>
+                <td>@x.EV_ID</td>
+                <td>@x.EV_OW_ID</td>
+                <td>@x.EV_TYPE</td>
+                <td>@x.EV_CA_VALUE</td>
+                <td>@x.EV_TSTAMP</td>
+                <td>@x.EV_ADDR</td>
+                <td>@x.EV_FLAGS</td>
+                <td>@x.EV_SECTION_PIN</td>
+            </tr>
+			}
+		</tbody>
+</table>
+}
