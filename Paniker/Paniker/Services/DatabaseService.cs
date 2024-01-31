@@ -58,6 +58,10 @@ namespace Paniker.Services
 				{
 					Task.Run(() => Send("Logger жив", token), token);
 				}
+				else 
+				{
+					Task.Run(() => Send("Logger запущен", token), token);
+				}
 				
 				LastEcho = DateTime.Now;
 			}
